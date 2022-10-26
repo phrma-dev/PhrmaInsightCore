@@ -1,0 +1,900 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Meta -->
+    <meta name="description" content="PhRMA Insight">
+    <!-- Icon -->
+    <link rel="icon" href="~/assets/img/icons/favicon-16x16.png" type="image/x-icon" />
+    <title>PhRMA | Insight</title>
+    <!-- vendor css -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+    <link href="../azia/lib/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../azia/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="../azia/lib/typicons.font/typicons.css" rel="stylesheet">
+    <link href="../azia/lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+    <link href="../azia/lib/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../azia/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="../azia/lib/typicons.font/typicons.css" rel="stylesheet">
+    <link href="../azia/lib/line-awesome/css/line-awesome.min.css" rel="stylesheet">
+    <link href="../azia/lib/quill/quill.snow.css" rel="stylesheet">
+    <link href="../azia/lib/quill/quill.bubble.css" rel="stylesheet">
+    <!-- Full Calendar-->
+    <link href="../azia/lib/fullcalendar/fullcalendar.min.css" rel="stylesheet">
+    <!-- select with search css -->
+    <link href="../azia/lib/select2/css/select2.min.css" rel="stylesheet">
+    <link href="../azia/lib/ion-rangeslider/css/ion.rangeSlider.css" rel="stylesheet">
+    <link href="../azia/lib/ion-rangeslider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <link href="../azia/lib/amazeui-datetimepicker/css/amazeui.datetimepicker.css" rel="stylesheet">
+    <link href="../azia/lib/jquery-simple-datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet">
+    <link href="../azia/lib/pickerjs/picker.min.css" rel="stylesheet">
+    <link href="~/css/sweetmodal.css" rel="stylesheet" />
+    <!-- azia CSS -->
+    <link rel="stylesheet" href="../azia/css/azia.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <style>
+        .folder-side-hide {
+            display: none;
+        }
+		.la-user-highlighted {
+		    background-color: lightgreen;
+        }
+		#Add-File:hover {
+		  
+            background-color: darkblue;
+            border-radius: 0px 13px !important;
+            transition-duration: 1s !important;
+
+        }
+		.File-Body-tr > td, #File-Table > thead > tr > th {
+			font-size: 13px;
+            padding: 10px;
+		}
+		#File-Table > thead > tr > th {
+			border-bottom: 1px solid lightgray;
+		}
+		.File-Body-tr > td:not(.no-border-right) {
+		    border: 1px solid lightgray;
+        }
+		.File-Body-tr > td.no-border-right {
+            border-top: 1px solid lightgray;
+            border-bottom: 1px solid lightgray;
+		    border-right: 1px solid white;
+            width: 20px !important;
+        }
+		#Metadata {
+			transition-duration: 0.5s;
+			height: calc(100vh - 65px);
+		}
+		.Member-Select-Option:hover, .selected-option {
+		    background-color: #f4f5f8;
+        }
+		.manila-folder {
+		    color: #f1d592;
+        }
+        .manila-folder-active {
+		    color: green !important;
+        }
+
+        .absCenter {
+            position: absolute;
+            top: 45%;
+            left: 47%;
+        }
+
+        .spinner {
+            margin: 100px auto 0;
+            width: 70px;
+            text-align: center;
+        }
+
+            .spinner > div {
+                width: 18px;
+                height: 18px;
+                background-color: #333;
+                border-radius: 100%;
+                display: inline-block;
+                -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+                animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+            }
+
+            .spinner .bounce1 {
+                -webkit-animation-delay: -0.32s;
+                animation-delay: -0.32s;
+            }
+
+            .spinner .bounce2 {
+                -webkit-animation-delay: -0.16s;
+                animation-delay: -0.16s;
+            }
+
+        @@-webkit-keyframes sk-bouncedelay {
+            0%, 80%, 100% {
+                -webkit-transform: scale(0)
+            }
+
+            40% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+		@@keyframes sk-bouncedelay {
+			0%, 80%, 100% {
+				-webkit-transform: scale(0);
+				transform: scale(0);
+			}
+
+			40% {
+				-webkit-transform: scale(1.0);
+				transform: scale(1.0);
+			}
+		}
+	</style>
+    <style>
+
+        .widget-container {
+            min-width: 450px;
+            max-width: 450px;
+        }
+
+        div.widget {
+            font-family: 'Roboto', sans-serif;
+            position: relative;
+            width: auto;
+            min-width: 390px;
+            border-radius: 9px;
+            padding: 15px;
+            padding-right: 30px;
+        }
+
+        div.left-panel {
+        }
+
+        div.date {
+            font-size: 14px;
+            font-weight: bold;
+            color: rgba(0,0,0,0.5);
+        }
+
+		div.city {
+			font-size: 21px;
+			font-weight: bold;
+			text-transform: uppercase;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			color: rgba(0,0,0,0.7);
+		}
+
+		div.temp {
+			font-size: 77px;
+			color: rgba(0,0,0,0.9);
+			font-weight: 100;
+			line-height: 1;
+		}
+
+        div.panel {
+            display: inline-block;
+        }
+
+        div.right-panel {
+            position: absolute;
+            float: right;
+            top: 0;
+            margin-top: 35px;
+            padding-left: 25px;
+        }
+    </style>
+    <style>
+        li[aria-disabled='true'] {
+            display: none;
+        }
+
+        #hover-blue {
+            transition-duration: 1s;
+            margin: auto;
+        }
+
+        .rowChanged input.changed {
+            color: darkblue !important;
+        }
+
+        .select2-selection__clear {
+            margin-right: 7px;
+        }
+
+        @@import url("https://fonts.googleapis.com/css?family=Mukta:700");
+
+        * {
+            box-sizing: border-box;
+        }
+
+            *::before, *::after {
+                box-sizing: border-box;
+            }
+
+        button {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            outline: none;
+            border: 0;
+            vertical-align: middle;
+            text-decoration: none;
+            background: transparent;
+            padding: 0;
+            font-size: inherit;
+            font-family: inherit;
+        }
+
+
+
+            button.learn-more .circle {
+                transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+                position: relative;
+                display: block;
+                margin: 0;
+                width: 33px;
+                height: 33px;
+                background: #282936;
+                border-radius: 50%;
+            }
+
+                button.learn-more .circle .icon {
+                    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    margin: auto;
+                    background: #fff;
+                }
+
+
+
+        .la-save:hover {
+            transition-duration: 1s;
+            transform: scale(1.2);
+        }
+    </style>
+    <style>
+        .white {
+            color: white !important;
+        }
+
+        #div {
+            font-size: 18px;
+            font-family: 'Raleway', sans-serif;
+            transition: .6s;
+            overflow: hidden;
+        }
+
+        div:focus {
+            outline: 0;
+        }
+
+        #div:before {
+            content: '';
+            display: block;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            width: 60px;
+            height: 100%;
+            left: 0;
+            top: 0;
+            opacity: .5;
+            -webkit-filter: blur(30px);
+            filter: blur(30px);
+            -webkit-transform: translateX(-100px) skewX(-15deg);
+            transform: translateX(-100px) skewX(-15deg);
+        }
+
+        #div:after {
+            content: '';
+            display: block;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            width: 30px;
+            height: 100%;
+            left: 30px;
+            top: 0;
+            color: white;
+            opacity: 0;
+            -webkit-filter: blur(5px);
+            filter: blur(5px);
+            -webkit-transform: translateX(-100px) skewX(-15deg);
+            transform: translateX(-100px) skewX(-15deg);
+        }
+
+        #div:hover {
+            background: #20639B;
+            color: white;
+            cursor: pointer;
+        }
+
+            #div:hover:before {
+                color: white;
+                -webkit-transform: translateX(300px) skewX(-15deg);
+                transform: translateX(300px) skewX(-15deg);
+                opacity: 0.6;
+                transition: .7s;
+            }
+
+            #div:hover:after {
+                -webkit-transform: translateX(300px) skewX(-15deg);
+                transform: translateX(300px) skewX(-15deg);
+                opacity: 1;
+                transition: .7s;
+            }
+
+        .tbl-header::-webkit-scrollbar {
+            visibility: hidden !important;
+        }
+    </style>
+    <style>
+
+        html {
+            font-size: 16px;
+        }
+
+        svg {
+            width: 100%;
+        }
+
+        /* .graph-container {
+          position: relative;
+          overflow: hidden;
+          animation: container;
+          animation-delay: .5s;
+          animation-duration: 2s;
+          animation-iteration-count: 1;
+        } */
+
+        .graph-a,
+        .graph-b,
+        .graph-c {
+            fill: #20639B;
+        }
+
+        .whitey {
+            fill: white !important;
+        }
+
+        .graph-a {
+            transform: translateZ(0) translateY(10px);
+            opacity: .125;
+            animation: layerA;
+            animation-delay: .5s;
+            animation-duration: 1s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+            opacity: 0;
+        }
+
+        .graph-b {
+            transform: translateZ(0) translateY(10px);
+            animation: layerB;
+            animation-delay: 1s;
+            animation-duration: 1s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+            opacity: 0;
+        }
+
+        .graph-c {
+            transform: translateZ(0) translateY(10px);
+            animation: layerC;
+            animation-delay: .75s;
+            animation-duration: 1s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+            opacity: 0;
+        }
+
+        @@keyframes container {
+            0% {
+                width: 0;
+            }
+
+            68% {
+                width: 68%;
+            }
+
+            80% {
+                width: 80%;
+            }
+
+            92% {
+                width: 92%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        @@keyframes layerC {
+            0% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(10px);
+            }
+        }
+
+        @@keyframes layerB {
+            0% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+
+            10% {
+                transform: translateY(10%)
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: .5;
+                transform: translateY(10px);
+            }
+        }
+
+        @@keyframes layerA {
+            0% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+
+            10% {
+                transform: translateY(10%)
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: .25;
+                transform: translateY(10px);
+            }
+        }
+    </style>
+    <style>
+        tbody#ViewsByCompanyTable > tr:hover {
+            background-color: #f4f5f8;
+            cursor: pointer;
+        }
+
+        tbody#user-table > tr:hover {
+            background-color: #f4f5f8;
+            cursor: pointer;
+        }
+
+        #MostDownloaded > .az-list-item:hover {
+            background-color: #f4f5f8;
+        }
+
+        .zoom {
+            cursor: pointer;
+        }
+
+        .deleteItem:hover {
+            opacity: 1;
+        }
+    </style>
+    <script src="../azia/lib/jquery/jquery.min.js"></script>
+    <script src="../azia/lib/chart.js/Chart.bundle.min.js"></script>
+    <script src="../azia/lib/chart.js/Chart.min.js"></script>
+    <script>
+        window["timeframe"] = "year";
+        window["company"] = "";
+		window["employee"] = "";
+		window["section"] = "";
+		window["subsection"] = "";
+        function selectCompany(companyString, employeeString, sectionString, subSectionString) {
+
+            window["company"] = (companyString != "" && companyString != null) ? companyString : window["company"];
+			window["employee"] = (employeeString != "" && employeeString != null) ? employeeString : window["employee"];
+			window["section"] = (sectionString != "" && sectionString != null) ? sectionString : window["section"];
+            window["subsection"] = (subSectionString != "" && subSectionString != null) ? subSectionString : window["subsection"];
+
+            $('.chartjs-wrapper-demo').html(`<canvas id="chartArea1"></canvas>`);
+            var query = "";
+            var beginDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            query = `?begindate=` + beginDate.toString() + `&enddate=` + endDate.toString() + `&company=` + window["company"] + '&phrma=' + $('#phrma').val().toString() + '&employee=' + window["employee"] + '&section=' + window["section"] + '&subsection=' + window["subsection"];
+
+            var distinctUsers = [];
+
+            var URL = "../Connect/GetTopCompaniesByDistinctUsers" + query
+            $.get({
+                url: URL,
+                success: function (data) {
+                    distinctUsers = data;
+                }
+            });
+
+            $('#user-table').html("");
+
+            var SpecificUserURL = '../Connect/GetSpecificEmployees' + query;
+            $.get({
+                url: SpecificUserURL,
+                success: function (data) {
+                    $('#user-table').html("");
+                    var html = "";
+                    var total = 0;
+                    $.each(data, function (z) {
+                        total += parseInt(data[z]["count"]);
+                    });
+                    var letters = ["A", "B", "C", "D", "E", "F"];
+                    $.each(data, function (m) {
+                        var pct = ((parseFloat(data[m]["count"]) / total) * 100).toFixed(1);
+                        var colorNumber = parseInt(Math.random(1) * 10000000000).toString().substring(0, 6);
+                        var letterPosition = Math.round((Math.random() * 10) / 2, 0);
+                        var letter = letters[Math.round((Math.random(5) * 10) / 2, 0)];
+                        var selectedColor = colorNumber.replace(colorNumber[letterPosition], letter);
+                        html += `<tr onclick="window['employee'] = '` + data[m]["email"].replace('#ext#@@phrma.onmicrosoft.com', '') + `'; selectCompany('','` + data[m]["email"].replace('#ext#@@phrma.onmicrosoft.com', '') + `','','')">`;
+                        html += `<td><div style="height: 12px !important; width: 12px; background-color: #` + selectedColor + `"></div></td>`;
+                        html += `<td style="text-align: left;"><strong style="padding-left: 10px; font-size: 13px;">` + data[m]["name"] + `</strong></td>`;
+                        html += `<td style="text-align: left;"><strong style="font-size: 13px;">` + data[m]["company"] + `</strong></td>`;
+                        html += `<td style="text-align: center;"><strong style="font-size: 13px;">` + data[m]["count"].toLocaleString() + `</strong></td>`;
+                        html += `<td style="text-align: center; font-size: 13px;">` + pct + `%</td>`;
+                        html += `</tr>`;
+                    });
+                    $('#user-table').html(html);
+                }
+            });
+
+            $('#MostDownloaded').html("");
+            var downloadQuery = '../Connect/GetTopDownloads' + query;
+            $.get({
+                url: downloadQuery,
+                success: function (data) {
+                    var html = "";
+                    $.each(data, function (k) {
+                        var fileType = data[k]["url"].toString().indexOf(".pdf") != -1 ? "pdf" : "pptx";
+                        html += `<div class="az-list-item" style="justify-content: left !important;">`;
+                        fileType == "pdf" ? html += `<div clas="col-1" style="width: 30px;"><i style="font-size: 18px; padding-left: 4px;" class="far fa-file-pdf"></i></div>` : html += `<div  style="width: 30px;"><img src="https://cdn.worldvectorlogo.com/logos/powerpoint-2.svg" style="height: 20px; width: 20px;" /></div>`;
+
+                        try {
+                            html += `<div class="col-11" style="text-align: left !important; padding-left: 10px;"><h7>` + data[k]["url"].toString().split('&file=')[1].split('&')[0].replace('.pptx', '').replace('.pdf', '') + `</h7></div>`;
+                        } catch (e) {
+                            html += `<div class="col-11" style="text-align: left !important; padding-left: 10px;"><h7>` + data[k]["url"].toString().split('/')[data[k]["url"].toString().split('/').length - 1].replace('.pptx', '').replace('.pdf', '') + `</h7></div>`;
+                        }
+
+                        html += `</div>`;
+                    });
+                    $('#MostDownloaded').html(html);
+                }
+            });
+
+			var subsectionQuery = '../Connect/GetSubSectionStatistics' + query;
+			$.get({
+				url: subsectionQuery,
+				success: function (data) {
+					var totalCount = 0;
+                    var labelsArray = [];
+					var dataArray = [];
+                    var colors = ["#6f42c1", "#007bff", "#00cccc", "#d13194", "#2c8709", "#e89829", "#c20819", "#c54597", '#1044b2', '#82e094'];
+                    $.each(data, function (q) {
+                        var subSectionCount = data[q]["subSectionCount"]
+                        totalCount += subSectionCount;
+                        labelsArray.push(data[q]["subSection"]);
+                        dataArray.push(subSectionCount);
+                     
+                    });
+					$('#SubSectionStats').html("");
+                    var html = ``;
+                    $.each(data, function (k) {
+                        html +=
+                           `<div class="az-traffic-detail-item" style="cursor: pointer;" subsection="` + data[k]['subSection'] + `" onclick="window['subsection'] = '` + data[k]['subSection'] + `'; selectCompany('','','','` + data[k]['subSection'] + `');">
+                                <div style="font-size: 0.8rem;">
+                                    <span>` + data[k]["subSection"] + `</span>
+                                    <span style="font-size: 0.8rem;"> ` + data[k].subSectionCount.toLocaleString() + `<span> (` + ((data[k].subSectionCount / totalCount) * 100).toString().substring(0, 4) + `%)</span></span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: ` + ((data[k].subSectionCount / totalCount) * 100) + `%; background-color: ` + colors[k] + ` !important;"></div>
+                                </div><!-- progress -->
+                            </div>`;
+                    });
+
+                    $('#SubSectionStats').append(html);
+				}
+			});
+
+            var urlWithQuery = '../Connect/GetSiteCategoryStatistics' + query;
+            $.get({
+                url: urlWithQuery,
+                success: function (data) {
+
+                    $('#sectionStats').html("");
+                    var totalCount = 0;
+                    var labelsArray = [];
+                    var dataArray = [];
+                    var colorsPieChartArray = [];
+                    var colors = ["#6f42c1", "#007bff", "#00cccc", "#d13194", "#2c8709", "#e89829", "#c20819", "#c54597", '#1044b2', '#82e094'];
+                    $.each(data, function (q) {
+                        var sectionCount = data[q]["sectionCount"]
+                        totalCount += sectionCount;
+                        labelsArray.push(data[q]["section"]);
+                        dataArray.push(sectionCount);
+                        colorsPieChartArray.push(colors[q]);
+                    });
+
+                    var html = ``;
+                    $.each(data, function (k) {
+                        html +=
+                            `<div class="az-traffic-detail-item" style="cursor: pointer;" section="` + data[k]['section'] + `" onclick="window['section'] = '` + data[k]['section'] + `'; selectCompany('','','` + data[k]['section'] + `','');">
+                                                            <div style="font-size: 0.8rem;">
+                                                                <span>` + data[k]["section"] + `</span>
+                                                                <span style="font-size: 0.8rem;"> ` + data[k].sectionCount.toLocaleString() + `<span> (` + ((data[k].sectionCount / totalCount) * 100).toString().substring(0, 4) + `%)</span></span>
+                                                            </div>
+                                                            <div class="progress">
+                                                                <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: ` + ((data[k].sectionCount / totalCount) * 100) + `%; background-color: ` + colors[k] + ` !important;"></div>
+                                                            </div><!-- progress -->
+                                                         </div>`;
+                    });
+
+                    $('#sectionStats').append(html);
+                    $('#donutchart').html(`<canvas id="chartDonut"></canvas>`);
+
+                    var datapie = {
+                        labels: labelsArray,
+                        datasets: [{
+                            data: dataArray,
+                            backgroundColor: colorsPieChartArray,
+                            borderColor: 'white',
+                            borderWidth: 2
+                        }]
+                    };
+
+                    var optionpie = {
+                        maintainAspectRatio: false,
+                        responsive: true,
+                        legend: {
+                            display: false,
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        },
+                        plugins: {
+                            labels: [
+                                {
+                                    render: function (args) {
+                                        if (args.percentage > 14.9) {
+                                            return args.label;
+                                        }
+                                    },
+                                    fontColor: 'black',
+                                    position: 'outside',
+                                    arc: true
+                                },
+                                {
+                                    render: function (args) {
+                                        if (args.percentage > 10) {
+                                            return args.percentage + '%';
+                                        }
+                                    },
+                                    fontColor: 'white',
+                                    position: 'inside',
+                                    precision: 0
+                                }
+                            ]
+                        },
+                        grid: {
+                            hoverable: true,
+                            clickable: true
+                        }
+                    };
+                    // For a doughnut chart
+                    //var ctxpie = document.getElementById('chartDonut');
+                    var ctxpie = $('#donutchart').find('canvas#chartDonut');
+                    var myPieChart6 = new Chart(ctxpie, {
+                        type: 'doughnut',
+                        data: datapie,
+                        options: optionpie
+
+                    });
+                }
+            });
+
+            $('#ViewsByCompanyTable').html("");
+            setTimeout(function () {
+                var companiesQueryURL = "../Connect/GetTopCompaniesByViews" + query;
+                $.get({
+                    url: companiesQueryURL,
+                    success: function (data) {
+                        var html = "";
+                        var total = 0;
+
+                        $.each(data, function (k) {
+                            total += parseFloat(data[k]["count"]);
+                        });
+                        $('#TotalPageViews').text(total.toLocaleString());
+                        var totalDistinctUsers = 0;
+                        $.each(distinctUsers, function (z) {
+                            totalDistinctUsers += parseInt(distinctUsers[z]["count"]);
+                        });
+                        $('#DistinctTotalUsers').text(totalDistinctUsers);
+                        $.each(data, function (q) {
+
+                            var dUsers = distinctUsers.filter(function (a) {
+                                return a.company == data[q]["company"].toString() ? a : null;
+                            });
+                            var pct = ((parseFloat(data[q]["count"]) / total) * 100).toFixed(1);
+                            var letters = ["A", "B", "C", "D", "E", "F"];
+                            var colorNumber = parseInt(Math.random(1) * 10000000000).toString().substring(0, 6);
+                            var letterPosition = Math.round((Math.random() * 10) / 2, 0);
+                            var letter = letters[Math.round((Math.random(5) * 10) / 2, 0)];
+                            var selectedColor = colorNumber.replace(colorNumber[letterPosition], letter);
+                            html +=
+                                `<tr onclick="window['company'] = '` + data[q]["company"] + `'; eval(selectCompany('` + data[q]["company"].toString() + `','','',''))">
+                                                                <td><div style="height: 15px !important; width: 15px; background-color: #`+ selectedColor + `"></div></td>
+                                                                <td><strong>` + data[q]["company"] + `</strong></td>` +
+                                `<td><strong>` + dUsers[0]["count"] + `</strong></td>` +
+                                `<td></td>` +
+                                `<td><strong>` + data[q]["count"].toLocaleString() + `</strong></td>` +
+                                `<td></td>` +
+                                `<td>` + pct + `%</td>
+                                                                 <td></td>
+                                                            </tr>`;
+                        });
+                        $('#ViewsByCompanyTable').html(html);
+                    }
+                });
+
+                var siteViewCountQuery = '../Connect/GetSiteViewCount' + query + '&timeframe=' + window["timeframe"];
+                $.get({
+                    url: siteViewCountQuery,
+                    success: function (data) {
+						console.log(data);
+                        var months = ["", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+                        var dataJS = [];
+                        var labelsJS = [];
+                        if (window["timeframe"] == "week") {
+                            $.each(data, function (k) {
+                                var dayDate = data[k]["day"].substring(5, 7) + "/" + data[k]["day"].substring(8, 10) + "/" + data[k]["day"].substring(2, 4);
+                                dataJS.push(data[k]["count"]);
+                                labelsJS.push(dayDate);
+                            });
+                        } else if (window["timeframe"] == "day") {
+                            $.each(data, function (k) {
+                                var hour = parseInt(data[k]["hour"]) > 12 ? (parseInt(data[k]["hour"]) - 12).toString() + " PM" : parseInt(data[k]["hour"]) == 12 ? "12 PM" : parseInt(data[k]["hour"]) == 0 ? "12 AM" : parseInt(data[k]["hour"]).toString() + " AM";
+                                dataJS.push(data[k]["count"]);
+                                labelsJS.push(hour);
+                            });
+                        } else {
+                            $.each(data, function (k) {
+                                dataJS.push(data[k]["count"]);
+                                labelsJS.push(months[parseInt(data[k]["month"])]);
+                            });
+                        }
+                        setTimeout(function () {
+                            var ctx9 = document.getElementById('chartArea1');
+                            new Chart(ctx9, {
+                                type: 'line',
+                                data: {
+                                    labels: labelsJS,
+                                    datasets: [{
+                                        data: dataJS,
+                                        borderColor: '#007bff',
+                                        borderWidth: 1,
+                                        backgroundColor: 'rgba(54, 162, 235,0.2)',
+                                        lineTension: 0,
+                                        pointRadius: 4,
+                                        pointBackgroundColor: 'rgb(54, 162, 235)',
+                                        pointHoverRadius: 7,
+                                        fill: true
+                                    }]
+                                },
+                                options: {
+                                    maintainAspectRatio: false,
+                                    legend: {
+                                        display: false,
+                                        labels: {
+                                            display: false
+                                        }
+                                    },
+                                    scales: {
+                                        yAxes: [{
+                                            position: 'left',
+                                            id: 'y-axis-1',
+                                            gridLines: {
+                                                display: false
+                                            },
+                                            ticks: {
+                                                beginAtZero: true,
+                                                fontSize: 10
+
+                                            },
+                                            display: true
+                                        }]
+                                    }
+                                }
+                            });
+
+                        }, 700);
+                    }
+                });
+
+                $('.peity-line').peity('line');
+                // Bar charts
+                $('.peity-bar').peity('bar');
+                // Bar charts
+                $('.peity-donut').peity('donut');
+            }, 1000);
+        };
+    </script>
+</head>
+<body>
+    @RenderBody()
+    <script src="../azia/lib/jquery/jquery.min.js"></script>
+    <script src="../azia/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../azia/lib/ionicons/ionicons.js"></script>
+    <script src="../azia/lib/jquery.flot/jquery.flot.js"></script>
+    <script src="../azia/lib/jquery.flot/jquery.flot.resize.js"></script>
+    <script src="../azia/lib/jquery.flot/jquery.flot.pie.js"></script>
+    <script src="../azia/lib/chart.js/Chart.bundle.min.js"></script>
+    <script src="../azia/lib/peity/jquery.peity.min.js"></script>
+    <script src="../azia/lib/quill/quill.min.js"></script>
+    <script src="../azia/js/azia.js"></script>
+    <script src="../azia/js/chart.flot.sampledata.js"></script>
+    <script src="../azia/js/dashboard.sampledata.js"></script>
+    <script src="../azia/lib/select2/js/select2.min.js"></script>
+    <script src="../azia/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+    <script src="../azia/lib/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="../azia/lib/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+    <script src="../azia/lib/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
+    <script src="https://emn178.github.io/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+    <script src="../azia/lib/moment/min/moment.min.js"></script>
+    <script src="../azia/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+    <script src="../azia/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../azia/lib/ionicons/ionicons.js"></script>
+	<script src="../azia/lib/fullcalendar/fullcalendar.min.js"></script>
+    <script>
+
+
+        $.get({
+            url: '../Layout/UserPhoto',
+            success: function (data) {
+                $('.az-img-user > img').attr('src', data);
+            }
+        });
+        $.get({
+            url: '../Layout/UserName',
+            success: function (data) {
+                var first_name = data.split(',')[1] != undefined ? data.split(',')[1] : data;
+                var last_name = data.split(',')[1] != undefined ? data.split(',')[0] : "";
+                $('#Logged_In_User').text(first_name + ' ' + last_name);
+                $('.az-dashboard-title').text("Hi " + first_name + ", welcome back!");
+            }
+        });
+
+        $('#departmentSelect').select2({
+            placeholder: 'Choose one',
+            dropdownAutoWidth: true,
+            allowClear: true
+        });
+
+        $('.div1').hover(function () {
+            $('.graph-a, .graph-b, .graph-c').addClass('whitey');
+        });
+        $('.div1').mouseleave(function () {
+            $('.graph-a, .graph-b, .graph-c').removeClass('whitey');
+        });
+
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

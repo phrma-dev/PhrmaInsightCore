@@ -1,0 +1,2343 @@
+﻿@{ Layout = "_LayoutVisitors";}
+<div class="container-fluid hidephrma" style="margin-top: 10px; margin-bottom: 25px;">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb breadcrumb-style1 mg-b-0">
+			<li class="breadcrumb-item"><a href="../Kastle/Visitors">Add Visitors</a></li>
+			<li class="breadcrumb-item"><a href="../Kastle/MyVisitorLog">My Visitors</a></li>
+			@if (User.Identity.Name.ToLower() == "kdudley@phrma.org" || User.Identity.Name.ToLower() == "klittlefield@phrma.org" || User.Identity.Name.ToLower() == "mpassman@phrma.org" || User.Identity.Name.ToLower() == "dhollins@phrma.org")
+			{
+				<li class="breadcrumb-item"><a href="../Kastle/Admin">Admin</a></li>
+				<li class="breadcrumb-item"><a href="../Kastle/MyRecurringMeetings">Recurring Meetings</a></li>
+			}
+		</ol>
+	</nav>
+</div>
+<h2 style="text-align: center;">Update Meeting Details</h2>
+<div class="container" style="margin-top: 25px; border: 1px solid #cdd4e0; padding: 20px; overflow: hidden;">
+
+	<div class="" style="background-color: #afc3d461;
+    width: 150%;
+    position: relative;
+    left: -20px;
+    padding-left: 20px;
+    font-weight: bolder;
+    font-size: 20px;">
+		Visit Details
+	</div>
+	<div class="row row-sm">
+		<div class="col">
+			<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Meeting Date<span class="tx-danger"> *</span></label>
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<div class="input-group-text">
+						<i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+					</div>
+				</div>
+				<input type="text" value="@ViewBag.NiceMeetingDate" id="datetimepicker3" class="form-control errorz">
+
+			</div>
+			<span id="meetingdate-required" style="color: red; font-size: 13px; display: none;">This is required</span>
+			<span id="meetingdate-after-now" style="color: red; font-size: 13px; display: none;">Meeting cannot be in the past</span>
+			<span id="meetingdate-in-one-year" style="color: red; font-size: 13px; display: none;">Meeting must be within 1 year</span>
+		</div>
+		<div class="col">
+			<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Meeting Time<span class="tx-danger"> *</span></label>
+			<div class="row" style="position: relative; left: 15px; top: -25px;">
+				<div style="margin-right: 1px;">
+					<div id="ampm-div" style="font-size: 18px; font-weight: bold; text-align: center; background-color: none; color: black;">
+						<select id="hourpicker" style="border: none; position: relative; top: 30px; -webkit-appearance: none; border-bottom: 0.2px solid blue;">
+							<option value="01">1</option>
+							<option value="02">2</option>
+							<option value="03">3</option>
+							<option value="04">4</option>
+							<option value="05">5</option>
+							<option value="06">6</option>
+							<option value="07">7</option>
+							<option value="08">8</option>
+							<option value="09">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
+					</div>
+				</div>
+				<div style="position: relative; margin-right: 5px;">
+					<select style="border: none; position: relative; top: 30px;  -webkit-appearance: none;  -webkit-appearance: none;">
+						<option>:</option>
+					</select>
+				</div>
+				<div style="position: relative; margin-right: 5px;">
+					<div id="ampm-div" style="font-size: 18px; text-align: center; background-color: none; color: black;">
+						<select id="minutepicker" style="border: none; position: relative; top: 30px; -webkit-appearance: none; border-bottom: 0.2px solid blue;">
+							<option value="00">00</option>
+							<option value="15">15</option>
+							<option value="30">30</option>
+							<option value="45">45</option>
+						</select>
+					</div>
+				</div>
+				<div style="position: relative;">
+					<div style="font-size: 18px; font-weight: bold; text-align: center; background-color: none; color: black; margin-right: 5px;">
+						<select id="ampmpicker" style="border: none; position: relative; top: 30px; -webkit-appearance: none;">
+							<option value="AM">AM</option>
+							<option value="PM">PM</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><!-- row -->
+	<div class="row row-sm">
+		<div class="col-12">
+			<label class="form-label" style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;">Subject<span class="tx-danger"> *</span></label>
+			<input type="text" class="form-control" placeholder="Enter Your Meeting Subject" id="subject" value="@ViewBag.Subject">
+			<span id="subject-required" style="color: red; font-size: 13px; display: none;">This is required</span>
+		</div><!-- col -->
+	</div>
+	<div class="mg-t-25" style="background-color: #afc3d461;
+    width: 150%;
+    position: relative;
+    left: -20px;
+    padding-left: 20px;
+    font-weight: bolder;
+    font-size: 20px;">
+		PhRMA Contact Information
+	</div>
+	<div class="row row-sm mg-t-10">
+		<div class="col">
+			<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Host Name<span class="tx-danger"> *</span></label>
+			<select class="form-control select2" id="host" placeholder="Select Host Name" style="width: 100%; font-size: 0.9em;">
+				<option label="Choose one"></option>
+			</select>
+			<span id="host-required" style="color: red; font-size: 13px; display: none;">This is required</span>
+		</div>
+		<div class="col">
+			<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Notify</label>
+			<select class="form-control select2" id="notify" placeholder="Select Notify Name" style="width: 100%; font-size: 0.9em;">
+				<option label="Choose one"></option>
+			</select>
+			<span id="" style="color: gray; font-size: 11px;">Not Required: Only select if you want an email for each visitor's arrival</span>
+		</div>
+		<div class="col-3">
+			<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organized By:</label>
+			<input disabled class="disabled form-control" placeholder="@ViewBag.Organizer" style="width: 100%; font-size: 0.9em;">
+		</div>
+
+	</div>
+	<div class="mg-t-25" style="background-color: #afc3d461;
+        width: 150%;
+        position: relative;
+        left: -20px;
+        padding-left: 20px;
+        font-weight: bolder;
+        font-size: 20px;">
+		Add a Guest
+	</div>
+	@if (User.Identity.Name.ToLower() == "kdudley@phrma.org")
+	{
+		<div class="row row-sm mg-t-20">
+			<div class="col-3">
+				<input id="file" type="file" style="cursor: pointer;" />
+				<p style="font-size: 10px; margin-top: 10px;">Template: <i class="fa fa-paperclip" style="cursor: pointer; margin-left: 10px;" onclick="window.open('../../VisitorTemplate.xlsx')"></i></p>
+			</div>
+
+		</div>
+	}
+	<div id="users">
+		<div class="row row-sm mg-t-15 singleuser active">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>        <div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+		<div class="row row-sm mg-t-15 singleuser" style="display: none;">
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">First Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="firstname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Last Name<span class="tx-danger"> *</span></label>
+				<input type="text" class="form-control" id="lastname" placeholder="" value="">
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Email</label>
+				<input type="email" class="form-control" id="visitoremail" placeholder="" value="">
+			</div>
+			<div class="col" style="margin-right: 10px;">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Organization</label>
+				<input type="text" class="form-control" id="visitororganization" placeholder="" value="">
+			</div>
+		</div>
+	</div>
+	<div class="row row-sm mg-t-20">
+		<div class="col">
+			<button class="btn btn-primary" id="add_user">Add Row</button>
+		</div>
+	</div>
+
+	<div class="d-flex flex-row flex-row-reverse  mg-b-20 mg-t-60-f">
+		<button class="btn btn-success" id="submitForm">Update Meeting</button>
+	</div>
+</div>
+
+
+<script>
+
+</script>
+<script src="../azia/lib/jquery/jquery.min.js"></script>
+<script src="../azia/lib/jquery/jquery.min.js"></script>
+<script src="../azia/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+<script src="../azia/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../azia/lib/ionicons/ionicons.js"></script>
+<script src="../azia/lib/jquery.maskedinput/jquery.maskedinput.js"></script>
+<script src="../azia/lib/spectrum-colorpicker/spectrum.js"></script>
+<script src="../azia/lib/select2/js/select2.min.js"></script>
+<script src="../azia/lib/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+<script src="../azia/lib/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+<script src="../azia/lib/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
+<script src="../azia/lib/pickerjs/picker.min.js"></script>
+<script>
+	(function ($) {
+		var Defaults = $.fn.select2.amd.require('select2/defaults');
+
+		$.extend(Defaults.defaults, {
+			searchInputPlaceholder: ''
+		});
+
+		var SearchDropdown = $.fn.select2.amd.require('select2/dropdown/search');
+
+		var _renderSearchDropdown = SearchDropdown.prototype.render;
+
+		SearchDropdown.prototype.render = function (decorated) {
+
+			// invoke parent method
+			var $rendered = _renderSearchDropdown.apply(this, Array.prototype.slice.apply(arguments));
+
+			this.$search.attr('placeholder', this.options.get('searchInputPlaceholder'));
+
+			return $rendered;
+		};
+
+	})(window.jQuery);
+</script>
+<script>
+        $(document).ready(function () {
+
+
+            new Picker(document.querySelector('#datetimepicker3'), {
+                headers: true,
+                format: 'MMMM DD, YYYY',
+                text: {
+                    title: 'Pick a Date and Time',
+                    year: 'Year',
+                    month: 'Month',
+                    day: 'Day'
+                }
+            });
+            $('#host').on('select2:close', function (e) {
+                var isBlank = $('#host').val() == "" ? true : false;;
+                if (isBlank) {
+                    $('#select2-host-container').css('border', '1px solid #dc3545');
+                    $('#host-required').show();
+                } else if (!isBlank) {
+                    $('#select2-host-container').css('border', '1px solid green');
+                    $('#host-required').hide();
+                }
+            });
+            $('#subject').change(function (e) {
+                var isBlank = $('#subject').val() == "" ? true : false;;
+                if (isBlank) {
+                    $('#subject').css('border', '1px solid #dc3545');
+                    $('#subject-required').show();
+                } else if (!isBlank) {
+                    $('#subject').css('border', '1px solid green');
+                    $('#subject-required').hide();
+                }
+            });
+
+
+                $('#datetimepicker3, #hourpicker, #minutepicker, #ampmpicker').change(function (e) {
+                var monthname = $('#datetimepicker3').val().split(" ")[0];
+                var month = monthname == "January" ? "01"
+                    : monthname == "February" ? "02"
+                        : monthname == "March" ? "03"
+                            : monthname == "April" ? "04"
+                                : monthname == "May" ? "05"
+                                    : monthname == "June" ? "06"
+                                        : monthname == "July" ? "07"
+                                            : monthname == "August" ? "08"
+                                                : monthname == "September" ? "09"
+                                                    : monthname == "October" ? "10"
+                                                        : monthname == "November" ? "11"
+                                                            : monthname == "December" ? "12" : null;
+                var day = $('#datetimepicker3').val().split(" ")[1].split(",")[0];
+                var hour = $('#ampmpicker').val() == "PM" && parseInt($('#hourpicker').val()) < 12 ? (parseInt($('#hourpicker').val()) + 12).toString() : $('#ampmpicker').val() == "AM" && $('#hourpicker').val() == "12"  ? "00" : $('#hourpicker').val();
+                var meetingDateTime = $('#datetimepicker3').val().split(" ")[2] + month + day + "T" + hour + $('#minutepicker').val().toString() + "00";
+                var now_newdate = new Date();
+                var now_year = now_newdate.getFullYear().toString();
+                var now_month = (now_newdate.getMonth() + 1).toString().length == 1 ? "0" + (now_newdate.getMonth() + 1).toString() : (now_newdate.getMonth() + 1).toString();
+                var now_day = (now_newdate.getDate()).toString().length == 1 ? "0" + (now_newdate.getDate()).toString() : (now_newdate.getDate()).toString();
+                var now_hour = now_newdate.getHours().toString().length == 1 ? "0" + now_newdate.getHours().toString() : now_newdate.getHours().toString();
+                var now_minute = now_newdate.getMinutes().toString().length == 1 ? "0" + now_newdate.getMinutes().toString() : now_newdate.getMinutes().toString();
+                var now_seconds = "00";
+                var now = now_year + now_month + now_day + "T" + now_hour + now_minute + now_seconds;
+                var year_from_now = (now_newdate.getFullYear() + 1).toString() + now_month + now_day + "T" + now_hour + now_minute + now_seconds;
+
+
+
+
+                var isBlank = $('#datetimepicker3').val() == "" ? true : false;;
+                if (isBlank) {
+                    $('#meetingdate-required').show();
+                    $('#datetimepicker3').css('border', '1px solid #dc3545');
+                    $('#datetimepicker3').addClass('errorz');
+                } else if (!isBlank) {
+                    $('#datetimepicker').css('border', '1px solid green');
+                    $('#meetingdate-required').hide();
+                    $('#meetingdate-after-now').hide();
+                    $('#meetingdate-in-one-year').hide();
+                    $('#datetimepicker3').removeClass('errorz');
+                    if (now <= meetingDateTime && meetingDateTime <= year_from_now) {
+                        $('#datetimepicker3').css('border', '1px solid green');
+                        $('#datetimepicker3').removeClass('errorz');
+                    } else if (meetingDateTime > year_from_now) {
+                        $('#meetingdate-in-one-year').show();
+                        $('#datetimepicker3').css('border', '1px solid #dc3545');
+                        $('#datetimepicker3').addClass('errorz');
+                    } else if (now > meetingDateTime) {
+                        $('#datetimepicker3').css('border', '1px solid #dc3545');
+                        $('#meetingdate-after-now').show();
+                        $('#datetimepicker3').addClass('errorz');
+                    }
+
+                }
+            });
+
+
+            $('#submitForm').click(function () {
+
+                var monthname = $('#datetimepicker3').val().split(" ")[0];
+                var month = monthname == "January" ? "01"
+                    : monthname == "February" ? "02"
+                    : monthname == "March" ? "03"
+                    : monthname == "April" ? "04"
+                    : monthname == "May" ? "05"
+                    : monthname == "June" ? "06"
+                    : monthname == "July" ? "07"
+                    : monthname == "August" ? "08"
+                    : monthname == "September" ? "09"
+                    : monthname == "October" ? "10"
+                    : monthname == "November" ? "11"
+                                                            : monthname == "December" ? "12" : null;
+                var day = $('#datetimepicker3').val().split(" ")[1].split(",")[0];
+
+                var hour = $('#ampmpicker').val() == "PM" && parseInt($('#hourpicker').val()) < 12 ? (parseInt($('#hourpicker').val()) + 12).toString() : $('#ampmpicker').val() == "AM" && $('#hourpicker').val() == "12"  ? "00" : $('#hourpicker').val();
+                var meetingDateTime = $('#datetimepicker3').val().split(" ")[2] + month + day + "T" + hour + $('#minutepicker').val().toString() + "00";
+                var endTime = $('#datetimepicker3').val().split(" ")[2] + month + $('#datetimepicker3').val().split(" ")[1].split(",")[0] + "T235959";
+
+
+
+            });
+
+            $.get({
+                url: '../Kastle/GetUsers',
+                success: function (data) {
+                    var html = "";
+                    $.each(data, function (k) {
+                        html += `<option value="` + data[k]["useR_PRINCIPAL_NAME"]  +`">` + data[k]["giveN_NAME"] + " " + data[k]["surname"] + `</td>`;
+                    });
+                    $('#host').append(html);
+                    $('#notify').append(html);
+
+                    $('#host').select2({
+                        dropdownAutoWidth: true,
+                        allowClear: true,
+                        placeholder: 'Select Host Name',
+                    });
+
+                    $('#notify').select2({
+                        dropdownAutoWidth: true,
+                        allowClear: true,
+                        placeholder: "Select Notify Name"
+                    });
+
+                    $('#notify').val("@ViewBag.Notify").trigger('change');
+                    $('#host').val('@ViewBag.Host').trigger('change');
+                    $('#hourpicker').find('option[value=@ViewBag.Time.Split(":")[0].ToString()]').attr('selected', 'selected');
+                    $('#minutepicker').find('option[value=@ViewBag.Time.Split(":")[1].Split(" ")[0].ToString()]').attr('selected', 'selected');;
+                    $('#ampmpicker').find('option[value=@ViewBag.Time.Split(":")[1].Split(" ")[1].ToString()]').attr('selected', 'selected');
+
+                }
+            });
+            $('#host').on('select2:close', function (e) {
+                var isBlank = $('#host').val() == "" ? true : false;;
+                if (isBlank) {
+                    $('#select2-host-container').css('border', '1px solid #dc3545');
+                    $('#host-required').show();
+                } else if (!isBlank) {
+                    $('#select2-host-container').css('border', '1px solid green');
+                    $('#host-required').hide();
+                }
+            });
+            $('#subject').change(function (e) {
+                var isBlank = $('#subject').val() == "" ? true : false;;
+                if (isBlank) {
+                    $('#subject').css('border', '1px solid #dc3545');
+                    $('#subject-required').show();
+                } else if (!isBlank) {
+                    $('#subject').css('border', '1px solid green');
+                    $('#subject-required').hide();
+                }
+            });
+            $('#datetimepicker3, #hourpicker, #minutepicker, #ampmpicker').change(function () {
+                if ($('#host').val() != "" && $('#subject').val() != "" && $('#datetimepicker3').hasClass('errorz') == false) {
+                    $('#submitForm').show();
+                } else {
+                    $('#submitForm').hide()
+                }
+            });
+            $('#host').on('select2:close', function () {
+                if ($('#host').val() != "" && $('#subject').val() != "" && $('#datetimepicker3').hasClass('errorz') == false) {
+                    $('#submitForm').show();
+                } else {
+                    $('#submitForm').hide()
+                }
+            });
+            $('#subject').change(function () {
+                if ($('#host').val() != "" && $('#subject').val() != "" && $('#datetimepicker3').hasClass('errorz') == false) {
+                    $('#submitForm').show();
+                } else {
+                    $('#submitForm').hide()
+                }
+            });
+            $('#add_user').click(function () {
+                $('.singleuser.active').last().next().show().addClass('active');
+            });
+
+            $('.az-header-menu > .nav').hide();
+        });
+</script>
+<script src="../assets/js/plugins/sweetalert2.js"></script>
+<script id="evalScript">
+
+
+        $(document).ready(function () {
+            $('#submitForm').click(function () {
+                    var monthname = $('#datetimepicker3').val().split(" ")[0];
+                    var month = monthname == "January" ? "01"
+                    : monthname == "February" ? "02"
+                    : monthname == "March" ? "03"
+                    : monthname == "April" ? "04"
+                    : monthname == "May" ? "05"
+                    : monthname == "June" ? "06"
+                    : monthname == "July" ? "07"
+                    : monthname == "August" ? "08"
+                    : monthname == "September" ? "09"
+                    : monthname == "October" ? "10"
+                    : monthname == "November" ? "11"
+                    : monthname == "December" ? "12" : null;
+                    var day = $('#datetimepicker3').val().split(" ")[1].split(",")[0];
+
+                    var hour = $('#ampmpicker').val() == "PM" && parseInt($('#hourpicker').val()) < 12 ? (parseInt($('#hourpicker').val()) + 12).toString() : $('#ampmpicker').val() == "AM" && $('#hourpicker').val() == "12"  ? "00" : $('#hourpicker').val();
+
+                    var meetingDateTime = $('#datetimepicker3').val().split(" ")[2] + month + day + "T" + hour + $('#minutepicker').val().toString() + "00";
+                    var endTime = $('#datetimepicker3').val().split(" ")[2] + month + $('#datetimepicker3').val().split(" ")[1].split(",")[0] + "T235959";
+                    var singleusers = $('#users').find('.singleuser.active');
+                    $.each(singleusers, function (k) {
+                    if (singleusers.eq(k).find('#firstname').val().toString() != "" && singleusers.eq(k).find('#lastname').val().toString() != "") {
+                    setTimeout(function () {
+                    var vEmail = singleusers.eq(k).find('#visitoremail').val().toString() != "" ? singleusers.eq(k).find('#visitoremail').val().toString() : "no-email@phrma.org";
+                    $.ajax({
+                        url: '../Kastle/NewRecurringMeeting',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        type: 'POST',
+                        data: JSON.stringify({
+                            "GroupId": "@ViewBag.GroupId",
+                            "MeetingDate": meetingDateTime,
+                            "Subject": $('#subject').val().toString(),
+                            "Host": $('#host').val().toString(),
+                            "NotifyEmail": $('#notify').val().toString(),
+                            "VisitorFirstName": singleusers.eq(k).find('#firstname').val().toString(),
+                            "VisitorLastName": singleusers.eq(k).find('#lastname').val().toString(),
+                            "VisitorEmail": vEmail,
+                            "ImpexiumGroup": "None",
+                            "ImpexiumGroupCode": "None",
+                            "RecurringId": "@ViewBag.RecurringId",
+                            "RecurringInterval": "@ViewBag.RecurringInterval",
+                            "VisitorOrganization": singleusers.eq(k).find('#visitororganization').val().toString(),
+                            "EndDate": endTime,
+                            "NiceMeetingDate": $('#datetimepicker3').val().toString(),
+                            "NiceMeetingTime": $('#hourpicker').val().toString() + ":" + $('#minutepicker').val().toString() + " " + $('#ampmpicker').val().toString()
+                        })
+                    });
+                    }, 200);
+                    }
+
+                    });
+
+
+                    $.ajax({
+                    url: '../Kastle/UpdateRecurringMeeting',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: JSON.stringify({
+                    "GroupId": "@ViewBag.GroupId",
+                    "MeetingDate": meetingDateTime,
+                    "Subject": $('#subject').val().toString(),
+                    "Host": $('#host').val().toString(),
+                    "NotifyEmail": $('#notify').val().toString(),
+                    "EndDate": endTime,
+                    "NiceMeetingDate": $('#datetimepicker3').val().toString(),
+                    "NiceMeetingTime": $('#hourpicker').val().toString() + ":" + $('#minutepicker').val().toString() + " " + $('#ampmpicker').val().toString()
+
+                    })
+                    });
+
+                    Swal.fire({
+                    title: 'Meeting Updated!',
+                    type: 'success',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+
+                    }).then((result) => {
+                    if (result.value) {
+                    setTimeout(function () {
+                    window.location.href = "../Kastle/MyRecurringMeetings";
+                    },1500);
+
+                    }
+                    });
+
+
+
+            });
+
+        });
+
+</script>
+<script>
+	$(document).ready(function () {
+
+		document.getElementById('file').onchange = function () {
+			var file = this.files[0];
+
+			var reader = new FileReader();
+			reader.onload = function (progressEvent) {
+				// Entire file
+				console.log(this.result);
+
+				// By lines
+				var lines = this.result.split('\n');
+				var data = [];
+				for (var line = 1; line < lines.length; line++) {
+
+					var dataItem = [];
+					var tabs = lines[line].split('\t');
+					if (tabs != "") {
+						for (var tab = 0; tab < tabs.length; tab++) {
+							for (var i = 0; i < tabs[tab].split('\t').length; i++) {
+								dataItem.push(tabs[tab].split('\t')[i].split('\r')[0]);
+							}
+						}
+						if (dataItem[0] != "") {
+							data.push(dataItem);
+						}
+					}
+
+
+				}
+
+				var singleusers = $('#users').find('.singleuser');
+
+				$.each(data, function (q) {
+					singleusers.eq(q).addClass('active').show().find('#firstname').val(data[q][0]);
+					singleusers.eq(q).find('#lastname').val(data[q][1]);
+					singleusers.eq(q).find('#visitoremail').val(data[q][2]);
+					singleusers.eq(q).find('#visitororganization').val(data[q][3]);
+
+				});
+
+			};
+			reader.readAsText(file);
+		};
+
+	});
+</script>

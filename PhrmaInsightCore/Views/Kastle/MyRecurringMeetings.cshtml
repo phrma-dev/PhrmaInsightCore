@@ -1,0 +1,284 @@
+﻿@{ Layout = "_LayoutVisitors";}
+<div id="phrmaload" style="position: fixed; height: 100%; width: 100%; top: 50%; left: 50%;">
+	<div class="spinner-border text-primary" role="status">
+		<span class="sr-only">Loading...</span>
+	</div>
+	<label style="color:  black; position: relative; top: 30px; left: -43px;">Loading...</label>
+</div>
+<div class="container-fluid hidephrma" style="margin-top: 10px; margin-bottom: 25px; display: none;">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb breadcrumb-style1 mg-b-0">
+			<li class="breadcrumb-item"><a href="../Kastle/Visitors">Add Visitors</a></li>
+			<li class="breadcrumb-item"><a href="../Kastle/MyVisitorLog">My Visitors</a></li>
+			@if (User.Identity.Name.ToLower() == "kdudley@phrma.org" || User.Identity.Name.ToLower() == "klittlefield@phrma.org" || User.Identity.Name.ToLower() == "mpassman@phrma.org" || User.Identity.Name.ToLower() == "dhollins@phrma.org")
+			{
+				<li class="breadcrumb-item"><a href="../Kastle/Admin">Admin</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Recurring Meetings</li>
+			}
+		</ol>
+	</nav>
+</div>
+<h2 style="text-align: center; display: none;" class="hidephrma">Recurring Meetings</h2>
+<div style="display: none;" class="row row-sm hidephrma justify-content-center">
+	<div class="btn-group-justified">
+		<select id="select" style="display: none;" class="hidephrma">
+			<option label="Filter Meetings"></option>
+		</select>
+	</div>
+</div>
+<p class="hidephrma container" style="display: none; text-align: center; color: red; font-size: 12px; position: relative; top: 17px;">Note: Large Groups may take a few minutes to appear. Recurring Meetings are auto-created 7 days prior to the Meeting Date</p>
+<div class="container-fluid hidephrma" style="margin-top: 25px; display: none;">
+	<div class="col-xl-10 offset-xl-1 col-xs-12">
+		<table class="table">
+			<tr>
+				<th>&nbsp;</th>
+				<th>Meeting Date</th>
+				<th style="text-align: center;">Interval</th>
+				<th>Subject</th>
+				<th>Host</th>
+				<th>Visitor/Group</th>
+				<th>Releasing in</th>
+			</tr>
+			<tbody id="tbody">
+				<tr></tr>
+			</tbody>
+		</table>
+
+	</div>
+</div>
+<script>
+
+</script>
+<script src="../azia/lib/jquery/jquery.min.js"></script>
+<script src="../azia/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+<script src="../azia/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../azia/lib/ionicons/ionicons.js"></script>
+<script src="../azia/lib/jquery.maskedinput/jquery.maskedinput.js"></script>
+<script src="../azia/lib/spectrum-colorpicker/spectrum.js"></script>
+<script src="../azia/lib/select2/js/select2.min.js"></script>
+<script src="../azia/lib/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+<script src="../azia/lib/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+<script src="../azia/lib/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
+<script src="../azia/lib/pickerjs/picker.min.js"></script>
+<script>
+	(function ($) {
+		var Defaults = $.fn.select2.amd.require('select2/defaults');
+
+		$.extend(Defaults.defaults, {
+			searchInputPlaceholder: ''
+		});
+
+		var SearchDropdown = $.fn.select2.amd.require('select2/dropdown/search');
+
+		var _renderSearchDropdown = SearchDropdown.prototype.render;
+
+		SearchDropdown.prototype.render = function (decorated) {
+
+			// invoke parent method
+			var $rendered = _renderSearchDropdown.apply(this, Array.prototype.slice.apply(arguments));
+
+			this.$search.attr('placeholder', this.options.get('searchInputPlaceholder'));
+
+			return $rendered;
+		};
+
+	})(window.jQuery);
+</script>
+<script src="../assets/js/plugins/sweetalert2.js"></script>
+<script>
+	$(document).ready(function () {
+		setTimeout(function () {
+			$('#phrmaload').hide();
+			$('.hidephrma').show();
+			$('.az-header-menu > .nav').hide();
+
+		}, 1500);
+
+		// End Get Visitor Groups
+		setTimeout(function () {
+			$.get({
+				url: '../Kastle/GetRecurringMeetings',
+				success: function (data) {
+					var html = "";
+					var distinctMeetingDates = [];
+					var blue = "rgba(86, 207, 247, 0.05)";
+					var red = "rgba(222, 18, 18, 0.05)";
+					var colors = [blue, red];
+					var colorNum = 0;
+					var yyyy = new Date().getFullYear();
+					var mm = new Date().getMonth();
+					var dd = new Date().getDate();
+					var date = new Date(yyyy, mm, dd);
+					$.each(data, function (k) {
+						var meetingDate = new Date(data[k]["meetingDate"].toString().substring(0, 4), parseInt(data[k]["meetingDate"].toString().substring(4, 6)) - 1, data[k]["meetingDate"].toString().substring(6, 8));
+						var daysLeft = Math.round(((meetingDate - date) / 86400000), 1) - 7;
+						var timeRemaining = daysLeft > 0 ? daysLeft + " day(s)" : "5 Mins";
+
+						var EditAndDelete = `<i style="cursor: pointer;" id="` + data[k]["groupId"] + `" class="fas fa-pen-fancy" title="Edit Meeting"></i><i title="Delete Meeting" id="` + data[k]["groupId"] + `" class="fa fa-times groupid" style="cursor: pointer; color: red; margin-left: 10px;"></i>`;
+						var eAd = k == 0 ? EditAndDelete : data[k]["groupId"] == data[k - 1]["groupId"] ? "" : EditAndDelete;
+						var htmlHeadLine = "";
+
+						colorNum = k == 0 ? 0 : data[k]["groupId"] == data[k - 1]["groupId"] ? colorNum : colorNum == 0 ? 1 : 0;
+
+						htmlHeadLine += `<tr class="headLine" groupId="` + data[k]["groupId"] + `" style="cursor: pointer; border-bottom: 1px solid #cdd4e0; background-color: ` + colors[colorNum] + `; font-weight: bold;" id="` + data[k]["niceMeetingDate"] + data[k]["niceMeetingTime"] + `">`;
+						htmlHeadLine += `<td style="font-size: 0.9em; width: 65px !important; max-width: 65px !important; min-width: 65px !important;">` + eAd + `</td>`;
+						htmlHeadLine += `<td style="font-size: 0.9em; width: 200px !important; max-width: 200px !important; min-width: 200px !important;" meetingdate="` + data[k]["meetingDate"] + `">` + data[k]["niceMeetingDate"] + " " + data[k]["niceMeetingTime"] + `</td>`;
+						htmlHeadLine += `<td style="text-align: center; font-size: 0.9em; width: 60px !important; max-width: 60px !important; min-width: 60px !important;">` + data[k]["recurringInterval"] + ` days</td>`;
+						htmlHeadLine += `<td style="font-size: 0.9em; width: 310px !important; max-width: 310px !important; min-width: 310px !important;">` + data[k]["subject"] + `</td>`;
+						htmlHeadLine += `<td style="font-size: 0.9em; width: 120px !important; max-width: 120px !important; min-width: 120px !important;">` + data[k]["host"] + `</td>`;
+						htmlHeadLine += `<td style="font-size: 0.9em; width: 200px !important; max-width: 200px !important; min-width: 200px !important;"></td>`;
+						htmlHeadLine += `<td style="text-align: center; font-size: 0.9em; width: 60px !important; max-width: 60px !important; min-width: 60px !important;"><span class="badge badge-primary">` + timeRemaining + `</span></td>`;
+						htmlHeadLine += `</tr>`;
+
+						html += k == 0 ? htmlHeadLine : data[k]["groupId"] == data[k - 1]["groupId"] ? "" : htmlHeadLine;
+
+						html += `<tr style="display: none;" groupId="` + data[k]["groupId"] + `" id="` + data[k]["niceMeetingDate"] + data[k]["niceMeetingTime"] + `">`;
+						html += `<td style="border-top: none; font-size: 0.9em; width: 65px !important; max-width: 65px !important; min-width: 65px !important;"></td>`;
+						html += `<td style="border-left: 1px solid #cdd4e0; font-size: 0.9em; width: 200px !important; max-width: 200px !important; min-width: 200px !important;" meetingdate="` + data[k]["meetingDate"] + `">` + data[k]["niceMeetingDate"] + " " + data[k]["niceMeetingTime"] + `</td>`;
+						html += `<td style="text-align: center; font-size: 0.9em; width: 60px !important; max-width: 60px !important; min-width: 60px !important;">` + data[k]["recurringInterval"] + ` days</td>`;
+						html += `<td style="font-size: 0.9em; width: 310px !important; max-width: 310px !important; min-width: 310px !important;">` + data[k]["subject"] + `</td>`;
+						html += `<td style="font-size: 0.9em; width: 120px !important; max-width: 120px !important; min-width: 120px !important;">` + data[k]["host"] + `</td>`;
+						var VisitorOrGroup = data[k]["visitorFirstName"] != "" ? data[k]["visitorFirstName"] + " " + data[k]["visitorLastName"] : data[k]["impexiumGroup"];
+						html += `<td style="font-size: 0.9em; width: 200px !important; max-width: 200px !important; min-width: 200px !important;"><i title="Delete Visitor" class="fa fa-times delId" id="id` + data[k]["id"] + `" style="margin-right: 10px; color: red; cursor: pointer;"></i>` + VisitorOrGroup + `</td>`;
+						html += `<td style="text-align: center; font-size: 0.9em; width: 60px !important; max-width: 60px !important; min-width: 60px !important;"><span class="badge badge-primary">` + timeRemaining + `</span></td>`;
+						html += `</tr>`;
+						var time = data[k]["niceMeetingTime"];
+						if (k == 0) {
+							distinctMeetingDates.push([data[k]["niceMeetingDate"] + time, data[k]["niceMeetingDate"] + " " + time]);
+						} else if ((data[k]["niceMeetingDate"] + " " + time) != (data[k - 1]["niceMeetingDate"] + " " + data[k - 1]["niceMeetingTime"])) {
+							distinctMeetingDates.push([data[k]["niceMeetingDate"] + time, data[k]["niceMeetingDate"] + " " + time]);
+						}
+					});
+
+					$.each(distinctMeetingDates, function (x) {
+						var html = `<option value="` + distinctMeetingDates[x][0] + `">` + distinctMeetingDates[x][1] + `</option>`;
+						$('select').append(html);
+					});
+
+					$('#select').change(function (e) {
+						$.each($('tr'), function (q) {
+							if ($('tr').eq(q).attr('id') == $('select').val() || q == 0 || $('#select').val() == "") {
+								$('tr').eq(q).show();
+							} else if (q != 0) {
+								$('tr').eq(q).hide();
+							}
+						});
+					});
+					$('#tbody').append(html);
+					setTimeout(function () {
+						$('.delId').click(function () {
+							var deleteUserId = $(this).attr('id').replace('id', '');
+							Swal.fire({
+								title: 'Delete this visitor?',
+								text: "Caution: Clicking delete will erase this user from the meeting.",
+								type: 'warning',
+								showCancelButton: true,
+								confirmButtonColor: '#3085d6',
+								cancelButtonColor: '#d33',
+								confirmButtonText: 'Delete'
+
+							}).then((result) => {
+								if (result.value) {
+									var thisoneurl = '../Kastle/DeleteVisitorRecurringMeeting?id=' + deleteUserId;
+									$.get({
+										url: thisoneurl,
+										success: function () {
+											Swal("Deleted!");
+											var id = "i[id=" + "id" + deleteUserId + "]";
+											$(id).parent().parent().remove();
+										}
+									});
+								}
+							});
+							// End Swal
+						});
+						// End Click
+					}, 900);
+					// End Timeout
+				}
+				// End Success
+			});
+			// End Get Visitors
+
+
+
+			setTimeout(function () {
+				$('.groupid').click(function () {
+					var id = $(this).attr('id');
+					Swal.fire({
+						title: 'Delete this meeting?',
+						text: "Caution: Clicking delete will erase this meeting.",
+						type: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Delete'
+
+					}).then((result) => {
+						if (result.value) {
+							var thisoneurl = '../Kastle/DeleteRecurringMeeting?groupid=' + id;
+							$.get({
+								url: thisoneurl,
+								success: function () {
+									window.location.href = "../Kastle/MyRecurringMeetings";
+								}
+
+							});
+						}
+					});
+				});
+				$(".tbl-content").scroll(function () {
+					$(".tbl-header").scrollTop($(".tbl-content").scrollTop());
+					$(".tbl-header").scrollLeft($(".tbl-content").scrollLeft());
+				});
+
+				$('.fa-pen-fancy').click(function () {
+					var id = $(this).attr('id');
+					var url = "../Kastle/EditRecurringMeeting?groupid=" + id;
+					window.location.href = url;
+				});
+				$('.headLine').click(function () {
+					var groupid = $(this).attr('groupId')
+					var eval = `tr[groupId=` + groupid + `]`;
+					$(eval).toggle();
+					$(this).show();
+				});
+			}, 2500);
+		}, 2000);
+		//End Timeout
+	});
+	// End Document Ready
+</script>
+<script id="minusScript">
+	$('.fa-minus').click(function () {
+		var justid = "#child-" + $(this).attr('id');
+		$(justid).remove();
+		$(this).prev().show();
+		$(this).hide();
+	});
+
+
+
+
+
+
+</script>
+<script>
+	setInterval(function () {
+		$('.fa-minus').click(function () {
+			var justid = "#child-" + $(this).attr('id');
+			$(justid).remove();
+			$(this).prev().show();
+			$(this).hide();
+		});
+		$('.fa-plus').click(function () {
+			var id = "tr#" + $(this).attr('id');
+			var justid = $(this).attr('id');
+			$(this).hide();
+			$(this).next().show();
+		});
+	}, 1000);
+
+</script>
+
+

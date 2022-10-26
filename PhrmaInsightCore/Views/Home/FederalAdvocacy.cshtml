@@ -1,0 +1,675 @@
+﻿@using Newtonsoft.Json;
+@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="~/assets/img/icons/favicon-16x16.png" type="image/x-icon" />
+    <title>PhRMA | Insight </title>
+    <link href="~/css/StateStyle.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/popper.js@1.14.6/dist/umd/popper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+    <script src="https://microsoft.github.io/PowerBI-JavaScript/demo/node_modules/powerbi-client/dist/powerbi.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="~/assets/js/plugins/bootstrap-selectpicker.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <style>
+        .spinner {
+            margin: 100px auto 0;
+            width: 70px;
+            text-align: center;
+        }
+
+        svg:hover {
+            cursor: pointer;
+        }
+
+        .spinner > div {
+            width: 18px;
+            height: 18px;
+            background-color: #333;
+            border-radius: 100%;
+            display: inline-block;
+            -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+            animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+        }
+
+        .spinner .bounce1 {
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+
+        .spinner .bounce2 {
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+
+        @@-webkit-keyframes sk-bouncedelay {
+            0%, 80%, 100% {
+                -webkit-transform: scale(0)
+            }
+
+            40% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+        @@keyframes sk-bouncedelay {
+            0%, 80%, 100% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+            }
+
+            40% {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+            }
+        }
+    </style>
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px;
+            transition: 2s all;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            width: 10px;
+            background: gray;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: white;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: gray;
+            width: 10px;
+        }
+
+        .hovering {
+            background: gray;
+        }
+
+
+
+        /* Handle on hover */
+
+
+        body {
+            display: grid;
+            grid-template-columns: 0.4fr 1fr 1fr;
+            grid-template-areas: "select select select" "image Notes Articles" "persondata SharePointDocument TrackedLegislation" "Spacer ThirdPartyEfforts Meetings" "Spacer VotersForCures AnotherSpacer";
+            justify-content: center;
+            padding: 5px;
+            grid-gap: 20px;
+            display: none;
+        }
+
+        #VotersForCures {
+            grid-area: VotersForCures;
+            font-size: 0.9rem;
+        }
+
+        #ThirdPartyEfforts {
+            grid-area: ThirdPartyEfforts;
+            font-size: 0.9rem;
+        }
+
+        #persondata {
+            grid-area: persondata;
+            font-size: 0.9rem;
+            grid-template-areas: "seal state";
+        }
+
+        #houseImg {
+            grid-area: seal;
+        }
+
+        #stateImg {
+            grid-area: state;
+        }
+
+        .SharePointDocument, .Article, .Meeting, .Legislation {
+            font-size: 0.9rem;
+        }
+
+        #content {
+            max-height: 180px;
+            min-height: 180px;
+            overflow-y: scroll;
+        }
+
+        #tl {
+            grid-area: TrackedLegislation;
+            justify-content: center;
+        }
+
+        #ac {
+            grid-area: Articles;
+            justify-content: center;
+        }
+
+        #dc {
+            grid-area: SharePointDocument;
+            justify-content: center;
+        }
+
+        #mt {
+            grid-area: Meetings;
+        }
+
+        #nt {
+            grid-area: Notes;
+        }
+
+        #tp {
+            grid-area: ThirdPartyEfforts;
+        }
+
+        #vc {
+            grid-area: VotersForCures;
+        }
+
+        #meeting-details {
+            display: none;
+            z-index: 99999;
+            grid-column: 2/4;
+            background-color: white;
+            grid-row: 3/5;
+        }
+
+
+
+        #selectedImg {
+            grid-area: image;
+        }
+
+        .republicanImg, .democratImg {
+            display: none;
+        }
+
+        #partyImg {
+            grid-area: image;
+            z-index: 500;
+            position: relative;
+            height: 75px;
+            width: 75px;
+            top: 155px;
+            left: 105px;
+        }
+
+        .bootstrap-select {
+            grid-area: select;
+        }
+
+
+        .dropImg {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+
+
+        .fa-plus, .fa-arrow-right, .fa-paperclip {
+            margin-right: 10px;
+            font-size: 0.7em;
+        }
+
+        .fa-save {
+            cursor: pointer;
+        }
+
+        .fa-minus {
+            margin-right: 10px;
+            font-size: 0.7em;
+            display: none;
+        }
+
+        .fa-plus:hover {
+            cursor: pointer;
+        }
+
+        .fa-minus:hover {
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        section {
+            border-right: 1px solid lightgray;
+            padding: 10px;
+            max-height: 220px;
+            box-shadow: 2px 2px 5px #c8c8c8;
+        }
+
+        .absCenter {
+            position: fixed;
+            left: 50%;
+            top: 20%;
+        }
+    </style>
+
+</head>
+<body style="display: grid !important;">
+    <div class="absCenter" style="">
+        <div class="loaderPill">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </div>
+    <select id="senate_rep_select" data-live-search="true" title="Select Member">
+        @foreach (var house_rep in ViewBag.HouseReps)
+        {
+            <option style="font-size: 0.8em;" state="@house_rep.StateId" value="@house_rep.FirstName @house_rep.LastName" data-content='<img class="dropImg" src="@house_rep.Image"/>@house_rep.FirstName  @house_rep.LastName'></option>
+        }
+    </select>
+    <img id="selectedImg" src="~/assets/img/defaultavatar.png" />
+    <img id="partyImg" class="republicanImg" src="~/img/republicanwithtriangle.png" />
+    <img id="partyImg" class="democratImg" src="~/img/democratwithtriangle.png" />
+    <div id="persondata">
+
+    </div>
+    <section id="dc">
+        <div id="content">
+            <div id="SharePointDocumentHeader">
+                <h6>Dear Colleagues</h6>
+            </div>
+        </div>
+    </section>
+    <section id="ac">
+        <div id="content">
+            <div id="ArticleDocumentHeader">
+                <h6>Articles</h6>
+            </div>
+        </div>
+    </section>
+    <section id="mt">
+        <div id="content">
+            <div id="MeetingsHeader">
+                <h6>PhRMA Meetings</h6>
+            </div>
+        </div>
+    </section>
+    <section id="tl">
+        <div id="content">
+            <div id="LegislationHeader">
+                <h6>Tracked Legislation</h6>
+            </div>
+        </div>
+    </section>
+    <section id="vc">
+        <div id="content">
+            <div id="VotersForCures">
+                <h6>Voters for Cures</h6>
+            </div>
+        </div>
+    </section>
+    <section id="tp">
+        <div id="content">
+            <div id="ThirdPartyEfforts">
+                <h6>Third Party Efforts</h6>
+            </div>
+        </div>
+    </section>
+    <section id="nt">
+        <div id="content" style="overflow-x: hidden;">
+            <div id="Notes">
+                <h6>Notes</h6>
+            </div>
+            <textarea style="height: 150px; width: 90%; overflow-y: scroll;"></textarea>
+        </div>
+    </section>
+    <section id="meeting-details">
+        <div id="content">
+            <div id="">
+                <h6>Meeting Information</h6>
+            </div>
+        </div>
+    </section>
+    <script>
+        $(document).ready(function () {
+            $.get({
+                url: 'https://phrma.azurewebsites.net/Home/SenatorsGET',
+                success: function(data){
+                    var senatorsList = data;
+                    var sen_prepend_string = "";
+                    $.each(senatorsList, function (x) {
+                        sen_prepend_string += `<option style="font-size: 0.8em;" state="`+ senatorsList[x]["stateId"] + `" value="` + senatorsList[x]["firstName"] + " " + senatorsList[x]["lastName"] + `" data-content='<img class="dropImg" src="`+ senatorsList[x]["image"]  + `"/>`+  senatorsList[x]["firstName"] + " " + senatorsList[x]["lastName"] + `'></option>`;
+                    });
+
+                    $('#senate_rep_select').prepend(sen_prepend_string);
+                    setTimeout(function () {
+                        $('#senate_rep_select').selectpicker();
+                         $('.bootstrap-select').on('changed.bs.select', function (e, clickedIndex, newValue, oldValue) {
+                             window["Update_Grid"]();
+                             var src = $('button').find('.filter-option-inner-inner img').attr('src');
+                             $('#selectedImg').attr('src', src);
+                             $('#selectedImg').show();
+                         });
+
+                        $('body').fadeIn(500);
+                        $('select').selectpicker();
+                    }, 2000);
+                }
+            });
+
+            var congressMembers = [];
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.propublica.org/congress/v1/116/senate/members.json',
+                beforeSend: function (request) {
+                    request.setRequestHeader("X-API-Key", "T2VUk50x0hSVpeJN9fLBj5xcwm55DQXweVQtTF9W");
+                },
+                success: function (data) {
+                    var iterateList = data["results"][0]["members"];
+                    $.each(iterateList, function (a) {
+                        var obj = new Object();
+                        obj.name = iterateList[a]["first_name"] + " " + iterateList[a]["last_name"];
+                        obj.id = iterateList[a]["id"];
+                        obj.party = iterateList[a]["party"];
+                        obj.office = iterateList[a]["office"];
+                        obj.state = iterateList[a]["state"];
+                        obj.congressType = "senate";
+                        congressMembers.push(obj);
+
+                        $('.absCenter').hide();
+                    });
+                }
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.propublica.org/congress/v1/116/house/members.json',
+                beforeSend: function (request) {
+                    request.setRequestHeader("X-API-Key", "T2VUk50x0hSVpeJN9fLBj5xcwm55DQXweVQtTF9W");
+                },
+                success: function (data) {
+                    var iterateList = data["results"][0]["members"];
+                    $.each(iterateList, function (a) {
+                        var obj = new Object();
+                        obj.name = iterateList[a]["first_name"] + " " + iterateList[a]["last_name"];
+                        obj.id = iterateList[a]["id"];
+                        obj.party = iterateList[a]["party"];
+                        obj.office = iterateList[a]["office"];
+                        obj.state = iterateList[a]["state"];
+                        obj.congressType = "house";
+                        congressMembers.push(obj);
+                    });
+                }
+            });
+
+            var meetingsData = JSON.parse(JSON.stringify(@Html.Raw(JsonConvert.SerializeObject(ViewBag.Meetings))));
+            var data = JSON.parse(JSON.stringify(@Html.Raw(JsonConvert.SerializeObject(ViewBag.Result))));
+            console.log(@Html.Raw(JsonConvert.SerializeObject(ViewBag.Result)));
+            console.log(meetingsData);
+            console.log(data);
+
+            window["Update_Grid"] = function () {
+                $('#dc, #ac, #mt, #tl, #tp, #vc').html("");
+                $('#dc').append(`
+                     <div id="SharePointDocumentHeader">
+                        <h6>Dear Colleagues</h6>
+                     </div>
+                     <div id="content"></div>`
+                );
+                $('#ac').append(`
+                     <div id="ArticleDocumentHeader">
+                        <h6>Articles</h6>
+                     </div>
+                     <div id="content"></div>`
+                );
+                $('#mt').append(`
+                     <div id="MeetingsHeader">
+                        <h6>PhRMA Meetings</h6>
+                     </div>
+                     <div id="content"></div>`
+                );
+                $('#tl').append(`
+                     <div id="LegislationHeader">
+                        <h6>Tracked Legislation</h6>
+                     </div>
+                     <div id="content"></div>`
+                );
+                $('#tp').append(`
+                     <div id="ThirdPartyEffortsHeader">
+                        <h6>Third Party Efforts</h6>
+                     </div>
+                     <div id="content"></div>`
+                );
+                $('#vc').append(`
+                     <div id="VotersForCuresHeader">
+                        <h6>VotersForCures</h6>
+                     </div>
+                     <div id="content"></div>`
+                );
+
+                var selectedMember = congressMembers.filter(function (a) {
+                    return a["name"] == $('#senate_rep_select').val().toString();
+                });
+
+                if (selectedMember[0]["party"].toString() == "R") {
+                    $('.republicanImg').show();
+                    $('.democratImg').hide();
+                } else if (selectedMember[0]["party"].toString() == "D") {
+                    $('.republicanImg').hide();
+                    $('.democratImg').show();
+                }
+
+                var member_notes = JSON.parse(JSON.stringify(@Html.Raw(JsonConvert.SerializeObject(ViewBag.MemberNotes))));
+                console.log(member_notes);
+
+                var note;
+                var thisNote;
+                try {
+                    note = member_notes.filter(function (k) {
+                        return k["MemberId"] == selectedMember[0]["id"].toString();
+                    });
+
+                    thisNote = note[0]["Note"];
+                } catch (e) {
+                    thisNote = "";
+                }
+
+                $('#nt #content').html("");
+                $('#nt #content').append(`
+                    <div class="row" style="margin-left: 15px;">
+                        <h6 style="float: left;">Notes</h6>
+                        <i id="SaveNote" onclick="eval($('#SaveNoteExecute')[0].innerText);" style="float: right; margin-left: 15px;" title="Save Note" class="fa fa-save" memberid="`+ selectedMember[0]["id"].toString() + `"></i>
+                    </div>
+                    <textarea style="margin-top: 15px; width: 90%; float: none; color: gray;" placeholder="Type Note Here">` + thisNote + `</textarea>
+                
+                `);
+
+                $('#persondata').html("");
+                $('#persondata').prepend(`
+                     <p>` + selectedMember[0]["name"]  + `</p>
+                `);
+
+
+
+                if (selectedMember[0]["congressType"].toString() == "senate") {
+                    $('#persondata').append(`
+                        <img id="houseImg" class="senateImg" src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Seal_of_the_United_States_Senate.svg" style="height: 100px;" />
+                        <div id="stateImg" class="pull-right states-` + selectedMember[0]["state"].toString() + `"></div>
+                     `);
+                } else if (selectedMember[0]["congressType"].toString() == "house") {
+                     $('#persondata').append(`
+                          <img id="houseImg" class="houseImg" src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Seal_of_the_United_States_House_of_Representatives.svg" style="height: 100px;" />
+                          <div id="stateImg" class="pull-right states-` + selectedMember[0]["state"].toString() + `"></div>
+                     `);
+                }
+                var getURL = "https://api.propublica.org/congress/v1/members/" + selectedMember[0]["id"].toString() + "/bills/cosponsored.json";
+                var sponsoredBills = [];
+                $.ajax({
+                    type: 'GET',
+                    url: getURL,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("X-API-Key", "T2VUk50x0hSVpeJN9fLBj5xcwm55DQXweVQtTF9W");
+                    },
+                    success: function (data) {
+                        var iterateList = data["results"][0]["bills"];
+                        $.each(iterateList, function (a) {
+                            var obj = new Object();
+                            obj.name = iterateList[a]["number"] + " " + iterateList[a]["short_title"];
+                            obj.url = iterateList[a]["govtrack_url"];
+                            sponsoredBills.push(obj);
+                        });
+
+                        $.each(sponsoredBills, function (a) {
+                            $('#tl #content').append(
+                                `<div class="Article">` +
+                                    `<i class="fa fa-scroll s"></i></i><a href="#" onclick="window.open('` + sponsoredBills[a]["url"] + `')">` + sponsoredBills[a]["name"].substring(0,55) + ` ...</a>` +
+                                `</div>`
+                            );
+                        });
+                    }
+                });
+
+
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i]["Document_Type"] == "Dear Colleagues" && data[i]["Members"].indexOf($('#senate_rep_select').val().toString()) != -1) {
+                        var AppendString = "";
+                        for (var k = 0; k < data[i]["Members"].length; k++) {
+                            AppendString += `<li>` + data[i]["Members"][k] + `</li>`;
+                        }
+                        $('#dc #content').append(
+                            `<div class="SharePointDocument">` +
+                            `<i class="fa fa-plus fa-toggle-plus-minus"></i><i class="fa fa-minus fa-toggle-plus-minus"></i><a href="#" onclick="window.open('` + data[i]["Web_Url"] + `')">` + data[i]["Document_Name"].split(".")[0] + `</a>` +
+                            `<ul style="display: none;">` +
+                            AppendString
+                            + `</ul>
+                            </div>`
+                        );
+                    }
+                    else if (data[i]["Document_Type"] == "Article" && (data[i]["State"] == $('#senate_rep_select').find(`option[value="` + $('#senate_rep_select').val().toString() + `"]`).attr('state') || data[i]["Members"].indexOf($('#senate_rep_select').val().toString()) != -1)) {
+                        $('#ac #content').append(
+                            `<div class="Article">` +
+                            `<i class="fa fa-arrow-right s"></i></i><a href="#" onclick="window.open('` + data[i]["Web_Url"] + `')">` + data[i]["Document_Name"].split(".")[0] + `</a>` +
+                            `</div>`
+                        );
+                    }
+                    else if (data[i]["Document_Type"] == "Voters for Cures" && (data[i]["State"] == $('#senate_rep_select').find(`option[value="` + $('#senate_rep_select').val().toString() + `"]`).attr('state') || data[i]["Members"].indexOf($('#senate_rep_select').val().toString()) != -1)) {
+                        $('#vc #content').append(
+                            `<div class="VotersForCures">` +
+                            `<i class="fa fa-arrow-right s"></i></i><a href="#" onclick="window.open('` + data[i]["Web_Url"] + `')">` + data[i]["Document_Name"].split(".")[0] + `</a>` +
+                            `</div>`
+                        );
+                    }
+
+                    else if (data[i]["Document_Type"] == "Third Party Efforts" && (data[i]["State"] == $('#senate_rep_select').find(`option[value="` + $('#senate_rep_select').val().toString() + `"]`).attr('state') || data[i]["Members"].indexOf($('#senate_rep_select').val().toString()) != -1)) {
+                        $('#tp #content').append(
+                            `<div class="VotersForCures">` +
+                            `<i class="fa fa-arrow-right s"></i></i><a href="#" onclick="window.open('` + data[i]["Web_Url"] + `')">` + data[i]["Document_Name"].split(".")[0] + `</a>` +
+                            `</div>`
+                        );
+                    }
+                }
+
+                var meetingsDocuments = data.filter(function (a) {
+                    return a["Members"].indexOf($('#senate_rep_select').val().toString()) != -1 && a["Document_Type"] == "Meetings";
+                });
+
+                var thisMeetingData = meetingsData.filter(function (a) {
+                    return a["MemberName"] == $('#senate_rep_select').val().toString();
+                });
+
+                function formatDate(date) {
+                    var d = new Date(date),
+                        month = '' + (d.getMonth() + 1),
+                        day = '' + d.getDate(),
+                        year = d.getFullYear();
+
+                    if (month.length < 2) month = '0' + month;
+                    if (day.length < 2) day = '0' + day;
+
+                    return [year, month, day].join('-');
+                }
+
+                for (var t = 0; t < thisMeetingData.length; t++) {
+                    var appendString = "";
+
+                    var thisMeetingDocuments = meetingsDocuments.filter(function (a) {
+                        return formatDate(a["DateOfMeeting"]) == meetingsData[t]["Date"].toString().substring(0, 10);
+                    });
+
+                    for (var z = 0; z < thisMeetingDocuments.length; z++) {
+                        appendString += `<li><i class="fa fa-paperclip s"></i></i><a href="#" onclick="window.open('` +  thisMeetingDocuments[z]["Web_Url"] + `')">` +  thisMeetingDocuments[z]["Document_Name"] + `</a></li>`;
+                    }
+
+                    var phrma_attendees = thisMeetingData[t]["Phrma_Attendees"].split('!');
+                    var attendees_string = `<ul style="display: none;">`;
+                    for (var q = 0; q < phrma_attendees.length; q++) {
+                        if (phrma_attendees[q].toString() != "") {
+                            attendees_string += `<li>` + phrma_attendees[q].toString() + `</li>`;
+                        }
+                    }
+
+                    var board_attendees = thisMeetingData[t]["Board_Attendees"].split('!');
+
+
+                    for (var p = 0; p < board_attendees.length; p++) {
+                       attendees_string += `<li>` + board_attendees[p].toString() + `</li>`;
+                    }
+
+                    attendees_string += "</ul>";
+
+                    $('#mt #content').append(
+                        `<div class="Meeting">` +
+                            `<a href="#">` + thisMeetingData[t]["Topic"] + ` - ` + thisMeetingData[t]["Date"].toString().substring(0, 10) + `</a>` +
+                        `<ul style="display: none;" id="id` + thisMeetingData[t]["Date"].toString().substring(0, 10) + `">` + appendString + `</ul>` +
+                           attendees_string +
+                        `</div>`
+                    );
+                }
+
+                $('.fa-plus').click(function () {
+                    $(this).next().show().css('display', 'inline');
+                    $(this).siblings('ul').show();
+                    $(this).hide();
+                });
+
+                $('.Meeting a').click(function () {
+                    $(this).siblings('ul').toggle();
+                });
+                 $('.Meeting a').dblclick(function () {
+                    $('#meeting-details').slideDown(500);
+                });
+
+                $('#meeting-details').mouseleave(function () {
+                    $('#meeting-details').slideUp(500);
+                });
+
+
+                $('.fa-minus').click(function () {
+                    $(this).prev().toggle();
+                    $(this).siblings('ul').hide();
+                    $(this).hide();
+                });
+               
+
+            }
+        });
+    </script>
+    <script id="SaveNoteExecute" type="text/html">
+        $.ajax({ contentType: "application/json", type: "POST", data: JSON.stringify({ "Id": "9999999", "MemberId": $("#SaveNote").attr("memberid"), "Note": $("textarea").val().toString(), "User": "none" }), url: "https://phrma.azurewebsites.net/Home/MemberNotes", success: function(result){ Swal.fire({title: '<h1 style="color: white;">Note Saved!</h1>', type: 'success', background: 'rgba(54, 70, 93, 0.99)'}) }});
+    </script>
+
+</body>
+</html>
+

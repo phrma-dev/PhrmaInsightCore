@@ -1,0 +1,577 @@
+@{
+  ViewData["Title"] = "Home Page";
+}
+@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+   <script src="/assets/js/core/jquery.min.js"></script>
+   <script src="/assets/js/core/popper.min.js"></script>
+  -->
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/popper.js@1.14.6/dist/umd/popper.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+  <script src="https://microsoft.github.io/PowerBI-JavaScript/demo/node_modules/powerbi-client/dist/powerbi.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+  <link href="/assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+  <link href="/assets/css/jquery-ui.css" rel="stylesheet" />
+  <link href="~/css/flipclock.css" rel="stylesheet" />
+
+  <style>
+    .weatherwidget-io-frame {
+      background-color: transparent !important;
+    }
+
+    .clock {
+      zoom: 0.45;
+      -moz-transform: scale(0.45);
+    }
+
+    path {
+      fill: white;
+      stroke: black !important;
+      stroke-width: 1px !important;
+    }
+
+    #Region_1 {
+      fill: turquoise;
+    }
+
+    #Region_2 {
+      fill: red;
+    }
+
+    #Region_3 {
+      fill: orange;
+    }
+
+    #Region_4 {
+      fill: purple;
+    }
+
+    #Region_5 {
+      fill: green;
+    }
+
+    #Region_6 {
+      fill: blue;
+    }
+
+    #Region_7 {
+      fill: darkred;
+    }
+
+    #Region_8 {
+      fill: darkblue;
+    }
+
+    #Region_9 {
+      fill: darkorange;
+    }
+
+    #Region_10 {
+      fill: lightgreen;
+    }
+
+    #Region_11 {
+      fill: orangered;
+    }
+
+    #Region_12 {
+      fill: pink;
+    }
+
+    .navbar-brand {
+      top: 0px;
+    }
+
+    .selectpicker {
+      top: 0px;
+    }
+
+    #draggable:hover {
+      cursor: pointer;
+    }
+
+    thead {
+      display: table-header-group;
+    }
+
+    .noWrapText {
+      white-space: nowrap;
+      max-height: 50px;
+    }
+
+    #reportContainer {
+      width: 90vw;
+      max-height: 90vh;
+      height: 50.63vw;
+    }
+
+    iframe {
+      background-color: white;
+      border: 0 !important;
+    }
+
+    #other, #summary {
+      display: none;
+    }
+  </style>
+  <style>
+
+    @@media print {
+    }
+
+    @@page {
+      size: landscape;
+    }
+
+    @@keyframes resized {
+      0% {
+        border-right: 3px solid black;
+        border-left: 3px solid black;
+      }
+
+      50% {
+        border-right: 4px solid black;
+        border-left: 4px solid black;
+      }
+
+      100% {
+        border-right: 3px solid black;
+        border-left: 3px solid black;
+      }
+    }
+
+    .resize {
+      cursor: ew-resize;
+      animation: resized 1s linear infinite;
+    }
+
+    #printView {
+      background-color: white;
+      max-width: 10in;
+    }
+
+    .toRemove {
+      background-color: rgba(255, 0, 221, 0.219) !important;
+      transition-duration: 2s;
+    }
+
+    .trow {
+      border: 0px solid white !important;
+    }
+
+    #table2 {
+      font-size: .5rem;
+      max-width: 10in;
+    }
+
+    .trowhover {
+      background-color: lightgray !important;
+    }
+
+    .finance, .impexium, .azure {
+      transition-duration: 1s;
+      top: 0px;
+    }
+
+      .finance:hover, .impexium:hover, .azure:hover {
+        position: relative;
+        top: -20px;
+        cursor: pointer;
+      }
+
+    .goUp {
+      position: relative;
+      top: -20px !important;
+      cursor: pointer;
+      transition-duration: 2s;
+    }
+  </style>
+  <style>
+    @@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .absCenter {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    .loaderPill {
+      text-align: center;
+    }
+
+    .loaderPill-anim {
+      height: 160px;
+    }
+
+    .loaderPill-anim-bounce {
+      -webkit-animation: loaderPillBounce 1800ms linear infinite;
+      animation: loaderPillBounce 1800ms linear infinite;
+    }
+
+    .loaderPill-anim-flop {
+      -webkit-transform-origin: 50% 50%;
+      transform-origin: 50% 50%;
+      -webkit-animation: loaderPillFlop 1800ms linear infinite;
+      animation: loaderPillFlop 1800ms linear infinite;
+    }
+
+    .loaderPill-pill {
+      display: inline-block;
+      box-sizing: border-box;
+      width: 80px;
+      height: 30px;
+      border-radius: 15px;
+      border: 1px solid #237db5;
+      background-image: linear-gradient(to right, #237db5 50%, #ffffff 50%);
+    }
+
+    .loaderPill-floor {
+      display: block;
+      text-align: center;
+    }
+
+    .loaderPill-floor-shadow {
+      display: inline-block;
+      width: 70px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: rgba(35, 125, 181, 0.26);
+      -webkit-transform: translateY(-15px);
+      transform: translateY(-15px);
+      -webkit-animation: loaderPillScale 1800ms linear infinite;
+      animation: loaderPillScale 1800ms linear infinite;
+    }
+
+    .loaderPill-text {
+      font-weight: bold;
+      color: #237db5;
+      text-transform: uppercase;
+    }
+
+    @@-webkit-keyframes loaderPillBounce {
+      0% {
+        -webkit-transform: translateY(123px);
+        transform: translateY(123px);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      25% {
+        -webkit-transform: translateY(40px);
+        transform: translateY(40px);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+      }
+
+      50% {
+        -webkit-transform: translateY(120px);
+        transform: translateY(120px);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      75% {
+        -webkit-transform: translateY(20px);
+        transform: translateY(20px);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+      }
+
+      100% {
+        -webkit-transform: translateY(120px);
+        transform: translateY(120px);
+      }
+    }
+
+    @@keyframes loaderPillBounce {
+      0% {
+        -webkit-transform: translateY(123px);
+        transform: translateY(123px);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      25% {
+        -webkit-transform: translateY(40px);
+        transform: translateY(40px);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+      }
+
+      50% {
+        -webkit-transform: translateY(120px);
+        transform: translateY(120px);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      75% {
+        -webkit-transform: translateY(20px);
+        transform: translateY(20px);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+      }
+
+      100% {
+        -webkit-transform: translateY(120px);
+        transform: translateY(120px);
+      }
+    }
+
+    @@-webkit-keyframes loaderPillFlop {
+      0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+      }
+
+      25% {
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+      }
+
+      50% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+
+      75% {
+        -webkit-transform: rotate(450deg);
+        transform: rotate(450deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(720deg);
+        transform: rotate(720deg);
+      }
+    }
+
+    @@keyframes loaderPillFlop {
+      0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+      }
+
+      25% {
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+      }
+
+      50% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+
+      75% {
+        -webkit-transform: rotate(450deg);
+        transform: rotate(450deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(720deg);
+        transform: rotate(720deg);
+      }
+    }
+
+    @@-webkit-keyframes loaderPillScale {
+      0% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      25% {
+        -webkit-transform: translateY(-15px) scale(0.7, 1);
+        transform: translateY(-15px) scale(0.7, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+      }
+
+      50% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      75% {
+        -webkit-transform: translateY(-15px) scale(0.6, 1);
+        transform: translateY(-15px) scale(0.6, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+      }
+
+      100% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+      }
+    }
+
+    @@keyframes loaderPillScale {
+      0% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      25% {
+        -webkit-transform: translateY(-15px) scale(0.7, 1);
+        transform: translateY(-15px) scale(0.7, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+      }
+
+      50% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      75% {
+        -webkit-transform: translateY(-15px) scale(0.6, 1);
+        transform: translateY(-15px) scale(0.6, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+      }
+
+      100% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+      }
+    }
+  </style>
+  <style>
+    .content {
+      background-image: url('../img/phrmatoplogo.svg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      margin-top: 20px;
+    }
+
+    .fixed-top {
+      background-color: white !important;
+    }
+
+    .navbar.navbar-transparent {
+      background-color: white !important;
+      box-shadow: 2px 2px #beb6b6;
+    }
+
+    .logo {
+      background-color: white !important;
+      color: darkgray !important;
+    }
+
+    .main-panel > .content {
+      padding: 50px 0px;
+    }
+
+    .sidebar .logo {
+      padding: 10px 0px;
+    }
+
+    .navbar-nav:first-child {
+      left: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="absCenter">
+    <div class="loaderPill-text">Authorizing...</div>
+  </div>
+  <div id="pbi" class="container-fluid" style="display: none; position: relative; top: -40px; left: -5px;">
+    <div class="" id="reportContainer"></div>
+  </div>
+
+   
+  <script src="../assets/js/core/jquery.min.js"></script>
+  <script src="../assets/js/core/popper.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+  <script src="https://microsoft.github.io/PowerBI-JavaScript/demo/node_modules/powerbi-client/dist/powerbi.js"></script>
+  <script id="runPowerBI">
+        $(document).ready(function () {
+           var accessToken =
+                  `@try
+                    {
+                        @ViewBag.AccessToken;
+                    }
+                    catch (Exception)
+                    {}`;
+
+
+          setTimeout(function () {
+            localStorage.setItem('accesstoken', accessToken.toString());
+
+             var i = 0;
+                setInterval(function () {
+  
+                if (localStorage.getItem('accesstoken') == null)
+                {
+                    console.log("Waiting for Access Token..." + i);
+                    i++;
+                }
+                if (localStorage.getItem('accesstoken') != null)
+                {
+                    window.location.href = "../Home/Main";
+                    window.location = '../Home/Main';
+                }
+
+                },3000);
+          },2000);
+         
+                
+               
+
+            var isIE10 = false;
+
+            if (navigator.userAgent.indexOf("MSIE 10") > -1) {
+                // this is internet explorer 10
+                isIE10 = true;
+                window.location = 'https://phrma.azurewebsites.net/Home/Main';
+            }
+
+            var isIE = (navigator.userAgent.indexOf("MSIE") != -1);
+
+            if (isIE) {
+                if (!isIE10) {
+                    window.location = '../Home/Main';
+                }
+            }
+
+
+    });
+
+  </script>
+
+    @*<script>window.location.href = "../Finance/Dashboard"</script>*@
+
+</body>
+</html>
+

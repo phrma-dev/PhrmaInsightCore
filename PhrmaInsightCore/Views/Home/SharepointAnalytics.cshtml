@@ -1,0 +1,968 @@
+﻿@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+
+
+        .inner {
+            height: 3px;
+            width: 250px;
+            background-color: #875F9A;
+            border-radius: 10px;
+            transition-duration: 5s;
+            animation: expand 5s infinite;
+            opacity: 0.5;
+        }
+
+        .inner2 {
+          height: 3px;
+          width: 250px;
+          background-color: #875F9A;
+          border-radius: 10px;
+          transition-duration: 5s;
+          animation: expand2 5s infinite;
+          transform: rotateZ(180deg);
+          transform-origin: left;
+          position: relative;
+          left: 250px;
+          opacity: 0.5;
+        }
+
+        .outer {
+          height: 5px;
+          width: 250px;
+          border-radius: 10px;
+        }
+
+        @@keyframes expand {
+          0% {
+            width: 0px;
+          }
+          50% {
+            width: 250px;
+          }
+          51% {
+            width: 0px;
+          }
+
+
+          100% {
+            width: 0px;
+          }
+        }
+
+        @@keyframes expand2 {
+          0% {
+            width: 0px;
+          }
+          50% {
+            width: 0px;
+          }
+
+          100% {
+            width: 250px;
+          }
+        }
+    </style>
+    <link rel="icon" href="~/assets/img/icons/favicon-16x16.png" type="image/x-icon" />
+    <title>PhRMA | Insight </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/popper.js@1.14.6/dist/umd/popper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+    <script src="https://microsoft.github.io/PowerBI-JavaScript/demo/node_modules/powerbi-client/dist/powerbi.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- CSS Files -->
+    <link href="/assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+    <link href="/assets/css/jquery-ui.css" rel="stylesheet" />
+    <link href="~/css/flipclock.css" rel="stylesheet" />
+    <link href="~/css/Main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link href="~/css/sweetmodal.css" rel="stylesheet" />
+    <style>
+        .spinner {
+  margin: 100px auto 0;
+  width: 70px;
+  text-align: center;
+}
+
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: #333;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
+    </style>
+    <style>
+
+        .disabled:hover {
+            cursor: not-allowed;
+        }
+
+        .filter-option {
+            background-color: white !important;
+            color: black;
+        }
+
+        .bootstrap-select {
+            margin-left: 45px !important;
+        }
+
+
+        .fa:hover {
+            cursor: pointer;
+        }
+
+        path:hover {
+            fill: lightgreen;
+        }
+
+        #stepCount {
+            transition-duration: 1.5s;
+        }
+
+        #reportSelect > option {
+            font-size: 0.9em !important;
+        }
+
+        #reportSelect > optgroup {
+            font-size: 0.9em !important;
+        }
+
+        optgroup > option {
+            font-size: 0.9em !important;
+        }
+
+        .fc-list-view {
+            border-width: 0px;
+            border-style: none;
+            max-height: 250px;
+        }
+
+        .fc-header-toolbar {
+            display: none;
+        }
+
+
+    </style>
+</head>
+<body class="sidebar-mini" style="max-height: 1200px;">
+    <div style="display: none; width: 300px; border-radius: 5px; position: fixed; z-index: 99999999; top: -200px; left: 30%; transition-duration: .5s; box-shadow: 2px 4px 4px 1px grey;" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header" style="background-color: white;padding: 5px;border-bottom:  1px solid lightgray;">
+            <i class="fa fa-square" style="color: Highlight;"></i>
+
+            <small>Note</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" onclick="$('.toast').css('top', '50px'); $('.toast').fadeOut(400);">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="toast-body" style="padding:  10px;z-index: 9999999999; background-color: white;">
+            <small> Use the filters from left to right --></small>
+        </div>
+    </div>
+    <div class="wrapper ">
+        <div class="sidebar" data-color="azure" data-background-color="black" data-image="../assets/img/sidebar-4.jpg">
+            <!--
+                Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+                Tip 2: you can also add an image using data-image tag
+            -->
+            <div class="logo">
+                <a href="#" class="simple-text logo-mini ">
+
+                    <img style="height: 30px; width: 30px;" src="~/img/phrmainsightlogo.jpg" />
+                </a>
+                <a class="simple-text logo-normal">
+                    <img style="position: relative; height: 40px; left: 5%; z-index: 999999;" src="~/img/phrmatoplogonav.svg" />
+                </a>
+            </div>
+            <div class="sidebar-wrapper">
+                <div class="user">
+                    <div class="photo">
+                        @try
+                        {
+                            <img src="@ViewBag.Image" />
+                        }
+                        catch (Exception)
+                        {
+                            <img src="../assets/img/faces/genericuser.png" />
+                        }
+                    </div>
+                    <div class="user-info">
+                        <a data-toggle="collapse" href="#collapseExample" class="username">
+                            <span>
+
+                                @try
+                                {
+                                    @String.Concat(ViewBag.Name.Split(",")[1].ToString(), ' ', ViewBag.Name.Split(",")[0].ToString());
+                                }
+                                catch (Exception)
+                                {
+                                    @ViewBag.Name
+                                }
+
+                                @*<b class="caret"></b>*@
+                            </span>
+                        </a>
+                        @*<div class="collapse" id="collapseExample">
+                                <ul class="nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <span class="sidebar-mini"> MP </span>
+                                            <span class="sidebar-normal"> My Profile </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <span class="sidebar-mini"> EP </span>
+                                            <span class="sidebar-normal"> Edit Profile </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <span class="sidebar-mini"> S </span>
+                                            <span class="sidebar-normal"> Settings </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>*@
+                    </div>
+                </div>
+                <ul class="nav">
+                    <li class="nav-item active" id="dashboard">
+                        <a class="nav-link" href="https://phrma.azurewebsites.net">
+                            <i class="material-icons">dashboard</i>
+                            <p> Dashboard </p>
+                        </a>
+                    </li>
+
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top" style="max-height: 70px !important;">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <div class="navbar-minimize">
+                        </div>
+                        <div class="navbar-brand" href="#" onclick="">
+                            <select id="reportSelect" style="border: 0px solid white !important; cursor: pointer;">
+                                <option value="ReportSectiona601e08cc335c226e211">PhRMA Connect</option>
+                                <option value="ReportSection4382a2a621860c584a20">PhRMA Inside</option>
+                            </select>
+                            <div class="outer" style="display: none;">
+                                <div class="inner"></div>
+                                <div class="inner2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                    </button>
+
+
+
+                    <div class="navbar-collapse collapse justify-content-end">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <div class="clock" style="margin:2em;"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a style="height: 90px; width: 340px;" class="weatherwidget-io" href="@ViewBag.WeatherUrl" data-label_1="@ViewBag.OfficeLocation" data-label_2="" data-icons="Climacons Animated" data-mode="Current" data-days="3" data-theme="original" data-basecolor="rgba(31, 86, 124, 0)" data-textcolor="#343232">@ViewBag.OfficeLocation</a>
+                            </li>
+                            <li class="nav-item" id="exportToExcel" style="visibility: hidden;">
+                                <a class="nav-link" href="/Home/Download" data-toggle="tooltip" data-placement="bottom" title="Export to Excel" onclick="mainLoader();">
+                                    <img style="height: 20px; width: 20px;" src="~/img/excelicon.svg" />
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown" style="visibility: hidden;">
+                                <a class="nav-link" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Year">
+                                    <i class="material-icons">notifications</i>
+                                    <span class="notification">1</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="#" onclick="notifyalert();">New User Walkthrough</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="#pablo" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Profile">
+                                    <i class="material-icons">person</i>
+                                    <p class="d-lg-none d-md-block">
+                                        Account
+                                    </p>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <a class="dropdown-item" href="#">Settings</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="../../Account/SignOut">Log out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+
+
+                <div id="pbi" class="container-fluid" style="position: relative; top: -40px; left: -5px;">
+                    <div class="" id="reportContainer"></div>
+                </div>
+
+           
+            </div>
+        </div>
+    </div>
+
+    <div class="absCenter" style="display: none;">
+        <div class="loaderPill">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--   Core JS Files   -->
+    <script src="../assets/js/core/jquery.min.js"></script>
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <!-- Plugin for the momentJs  -->
+    <script src="../assets/js/plugins/moment.min.js"></script>
+    <!--  Plugin for Sweet Alert -->
+    <script src="../assets/js/plugins/sweetalert2.js"></script>
+    <!-- Forms Validations Plugin -->
+    <script src="../assets/js/plugins/jquery.validate.min.js"></script>
+    <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+    <script src="../assets/js/plugins/jquery.bootstrap-wizard.js"></script>
+    <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+    <script src="../assets/js/plugins/bootstrap-selectpicker.js"></script>
+    <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+    <script src="../assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+    <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+    <script src="../assets/js/plugins/jquery.dataTables.min.js"></script>
+    <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+    <script src="../assets/js/plugins/bootstrap-tagsinput.js"></script>
+    <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+    <script src="../assets/js/plugins/jasny-bootstrap.min.js"></script>
+    <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+    <script src="../assets/js/plugins/nouislider.min.js"></script>
+    <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+    <!-- Library for adding dinamically elements -->
+    <script src="../assets/js/plugins/arrive.min.js"></script>
+    <!-- Chartist JS -->
+    <script src="../assets/js/plugins/chartist.min.js"></script>
+    <!--  Notifications Plugin    -->
+    <script src="~/js/bootstrap-notify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/umd/util.js"></script>
+    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="../assets/js/material-dashboard.js?v=2.1.0" type="text/javascript"></script>
+    <!-- Material Dashboard DEMO methods, don't include it in your project! -->
+    <script src="../assets/demo/demo.js"></script>
+    @*<script src="https://fullcalendar.io/releases/core/4.0.1/main.min.js"></script>
+    <script src="https://fullcalendar.io/releases/list/4.0.1/main.min.js"></script>*@
+    <script src="https://momentjs.com/downloads/moment-timezone.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $().ready(function () {
+                $sidebar = $('.sidebar');
+
+                $sidebar_img_container = $sidebar.find('.sidebar-background');
+
+                $full_page = $('.full-page');
+
+                $sidebar_responsive = $('body > .navbar-collapse');
+
+                window_width = $(window).width();
+
+                fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+                if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
+                    if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+                        $('.fixed-plugin .dropdown').addClass('open');
+                    }
+
+                }
+
+                $('.fixed-plugin a').click(function (event) {
+                    // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the section active
+                    if ($(this).hasClass('switch-trigger')) {
+                        if (event.stopPropagation) {
+                            event.stopPropagation();
+                        } else if (window.event) {
+                            window.event.cancelBubble = true;
+                        }
+                    }
+                });
+
+                $('.fixed-plugin .active-color span').click(function () {
+                    $full_page_background = $('.full-page-background');
+
+                    $(this).siblings().removeClass('active');
+                    $(this).addClass('active');
+
+                    var new_color = $(this).data('color');
+
+                    if ($sidebar.length != 0) {
+                        $sidebar.attr('data-color', new_color);
+                    }
+
+                    if ($full_page.length != 0) {
+                        $full_page.attr('filter-color', new_color);
+                    }
+
+                    if ($sidebar_responsive.length != 0) {
+                        $sidebar_responsive.attr('data-color', new_color);
+                    }
+                });
+
+                $('.fixed-plugin .background-color .badge').click(function () {
+                    $(this).siblings().removeClass('active');
+                    $(this).addClass('active');
+
+                    var new_color = $(this).data('background-color');
+
+                    if ($sidebar.length != 0) {
+                        $sidebar.attr('data-background-color', new_color);
+                    }
+                });
+
+                $('.fixed-plugin .img-holder').click(function () {
+                    $full_page_background = $('.full-page-background');
+
+                    $(this).parent('li').siblings().removeClass('active');
+                    $(this).parent('li').addClass('active');
+
+
+                    var new_image = $(this).find("img").attr('src');
+
+                    if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+                        $sidebar_img_container.fadeOut('fast', function () {
+                            $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+                            $sidebar_img_container.fadeIn('fast');
+                        });
+                    }
+
+                    if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+                        var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+                        $full_page_background.fadeOut('fast', function () {
+                            $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+                            $full_page_background.fadeIn('fast');
+                        });
+                    }
+
+                    if ($('.switch-sidebar-image input:checked').length == 0) {
+                        var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
+                        var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+                        $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+                        $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+                    }
+
+                    if ($sidebar_responsive.length != 0) {
+                        $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
+                    }
+                });
+
+                $('.switch-sidebar-image input').change(function () {
+                    $full_page_background = $('.full-page-background');
+
+                    $input = $(this);
+
+                    if ($input.is(':checked')) {
+                        if ($sidebar_img_container.length != 0) {
+                            $sidebar_img_container.fadeIn('fast');
+                            $sidebar.attr('data-image', '#');
+                        }
+
+                        if ($full_page_background.length != 0) {
+                            $full_page_background.fadeIn('fast');
+                            $full_page.attr('data-image', '#');
+                        }
+
+                        background_image = true;
+                    } else {
+                        if ($sidebar_img_container.length != 0) {
+                            $sidebar.removeAttr('data-image');
+                            $sidebar_img_container.fadeOut('fast');
+                        }
+
+                        if ($full_page_background.length != 0) {
+                            $full_page.removeAttr('data-image', '#');
+                            $full_page_background.fadeOut('fast');
+                        }
+
+                        background_image = false;
+                    }
+                });
+
+                $('.switch-sidebar-mini input').change(function () {
+                    $body = $('body');
+
+                    $input = $(this);
+
+                    if (md.misc.sidebar_mini_active == true) {
+                        $('body').removeClass('sidebar-mini');
+                        md.misc.sidebar_mini_active = false;
+
+                        $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+                    } else {
+
+                        $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+
+                        setTimeout(function () {
+                            $('body').addClass('sidebar-mini');
+
+                            md.misc.sidebar_mini_active = true;
+                        }, 300);
+                    }
+
+                    // we simulate the window Resize so the charts will get updated in realtime.
+                    var simulateWindowResize = setInterval(function () {
+                        window.dispatchEvent(new Event('resize'));
+                    }, 180);
+
+                    // we stop the simulation of Window Resize after the animations are completed
+                    setTimeout(function () {
+                        clearInterval(simulateWindowResize);
+                    }, 1000);
+
+                });
+            });
+        });
+    </script>
+    <script src="~/assets/js/core/bootstrap-notify.js"></script>
+    <script src="~/js/excelexportjs.js"></script>
+    <script type="text/html" id="exportToExcelScript">
+        var $btnDLtoExcel = $('#exportToExcel');
+        $btnDLtoExcel.on('click', function () {
+        $("#tableData").excelexportjs({
+        containerid: "tableData"
+        , datatype: 'table'
+        });
+
+        });
+
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251023-1']);
+        _gaq.push(['_setDomainName', 'jqueryscript.net']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+    <script src="/assets/js/core/jquery-ui.js"></script>
+    <script>
+
+        $("#sortable").sortable({
+            revert: false
+
+        });
+        $("#draggable").draggable({
+            connectToSortable: "#sortable",
+            revert: "invalid"
+        });
+
+
+        $('.card-stats').hover(function () {
+            $(this).css("top", "-30px");
+        });
+
+        $('.card-stats').mouseleave(function () {
+            $(this).css("top", "0px");
+        });
+    </script>
+    <script id="appendHover">
+        $('#draggable').hover(function () {
+            $(this).toggleClass('goUp');
+        });
+    </script>
+    <script>
+        function mainLoader() {
+            $('.content').fadeTo(100, 0.01);
+            $('.absCenter').fadeToggle(1500);
+            setTimeout(() => {
+                $('.absCenter').fadeToggle(2000);
+                $('.content').fadeTo(2000, 1);
+            }, 2000);
+        }
+        mainLoader();
+
+        function FAndA() {
+            $('#finAndacct').siblings().fadeOut(1000);
+            mainLoader();
+            setTimeout(function () {
+
+                $('#finAndacct').fadeIn(1000);
+
+
+            }, 2000);
+        }
+
+        $(document).ready(function () {
+            var loginTracking = "../Home/LoginTracking";
+            $.get(loginTracking);
+            $('.notification').text("0");
+            $('#minimizeSidebar').click();
+            $('#minimizeSidebar').css('visibility', 'hidden');
+            $('#openInvoiceCard').click(function () {
+                $('#reportSelect > option').removeAttr('selected');
+                $('#reportSelect > option').eq(27).attr('selected', 'selected');
+                $('#reportSelect').val($('#reportSelect > option').eq(27).val());
+                eval($('#runPowerBI'));
+            });
+
+            $('#purchaseOrderCard').click(function () {
+                $('#reportSelect > option').removeAttr('selected');
+                $('#reportSelect > option').eq(2).attr('selected', 'selected');
+                $('#reportSelect').val($('#reportSelect > option').eq(2).val());
+                eval($('#runPowerBI'));
+            });
+        });
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+    <script src="https://microsoft.github.io/PowerBI-JavaScript/demo/node_modules/powerbi-client/dist/powerbi.js"></script>
+    <script id="runPowerBI">
+            $(document).ready(function () {
+                setTimeout(function () {
+
+
+                    var accessToken = localStorage.getItem('accesstoken').toString();
+                    var embedUrl = "https://app.powerbi.com/reportEmbed?reportId=6ab63d7b-e7eb-4429-973f-a5a50634c2ff";
+                    var reportId = "9a7e1750-a882-4130-a3ff-e18e9c968df0";
+                    var models = window['powerbi-client'];
+                    //var date = new Date().getFullYear();
+                    var date = "2018";
+                    var val = [date];
+
+                    //This also includes settings and options such as filters.
+                    //You can find more information at https://github.com/Microsoft/PowerBI-JavaScript/wiki/Embed-Configuration-Details.
+                    var config = {
+                        type: 'report',
+                        accessToken: accessToken,
+                        embedUrl: embedUrl,
+                        id: reportId,
+                        permissions: 7,
+
+                        settings: {
+                            filterPaneEnabled: false,
+                            navContentPaneEnabled: false,
+                        }
+                    };
+                    var reportContainer = document.getElementById('reportContainer');
+                    // Embed the report and display it within the div container.
+                    var report = powerbi.embed(reportContainer, config);
+
+                    // Build the filter you want to use. For more information, See Constructing
+                    // Filters in https://github.com/Microsoft/PowerBI-JavaScript/wiki/Filters.
+                    // Get a reference to the embedded report HTML element
+                    var embedContainer = document.getElementById('reportContainer');
+                    // Get a reference to the embedded report.
+                    report = powerbi.get(embedContainer);
+                    // Set the filter for the report.
+                    // Pay attention that setFilters receives an array.
+
+
+                    report.on("error", event => {
+                         window.location.href = "../../";
+                    });
+
+                    report.on("loaded", event => {
+
+                        const page = report.page('ReportSectiona601e08cc335c226e211');
+                        page.setActive();
+
+                        $('#reportSelect').change(function () {
+                            $('#reportSelect > option').removeAttr('selected');
+                            function mainLoader() {
+                                $('.content').fadeTo(100, 0.01);
+                                $('.absCenter').fadeToggle(500);
+                                setTimeout(() => {
+                                    $('.absCenter').fadeToggle(500);
+                                    $('.content').fadeTo(500, 1);
+                                }, 500);
+                            }
+                            mainLoader();
+                            const page = report.page($('#reportSelect').val().toString());
+                            page.setActive();
+                            var url = "../Home/TrackPowerBIPage?report=" + $('#reportSelect').prop('selectedOptions')[0].label;
+                            $.get(url);
+                        });
+                    });
+
+                }, 4000);
+
+            });
+    </script>
+    <script src="~/js/tableexport.js"></script>
+    <script>
+        //$("table").tableExport();
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+    <script>
+        !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = 'https://weatherwidget.io/js/widget.min.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'weatherwidget-io-js');
+    </script>
+    <script>
+        var date = new Date();
+        var dateString = date.toLocaleDateString();
+        $('.weatherwidget-io').attr('data-label_2', dateString);
+    </script>
+    <script src="~/js/flipclock.js"></script>
+    <script type="text/javascript">
+
+        var clock;
+
+        $(document).ready(function () {
+            clock = $('.clock').FlipClock({
+                clockFace: 'TwelveHourClock',
+                showSeconds: false
+            });
+        });
+
+    </script>
+    @*<script>
+        $(document).ready(function () {
+            $('#azure').click(function () {
+
+                mainLoader(); setTimeout(function () {
+                    $('#azure-reporting').show(); $(function () {
+                        var markers = [];
+                        function getLocation() {
+                            if (navigator.geolocation) {
+                                navigator.geolocation.getCurrentPosition(showPosition);
+                            }
+                        }
+
+                        function showPosition(position) {
+                            window['latlong'] = [position.coords.latitude, position.coords.longitude];
+                        }
+                        function go() {
+                            $('#uscongress').load('../assets/jquery-jvectormap-us-116congress.js');
+                            getLocation();
+                            eval($('#uscongress')[0].innerHTML);
+                            setTimeout(function () {
+
+
+                                var map = new jvm.Map({
+
+                                    map: 'us_116congress',
+                                    normalizeFunction: 'polynomial',
+                                    backgroundColor: 'transparent',
+                                    fill: 'white',
+                                    hoverColor: '#E78AC3',
+                                    container: $('#map1'),
+                                    regionStyle: {
+                                        fill: 'white',
+                                        "fill-opacity": 1,
+                                        stroke: 'none',
+                                        "stroke-width": 0,
+                                        "stroke-opacity": 1
+                                    },
+                                    hover: {
+                                        "fill-opacity": 0.6,
+                                        fill: 'gray',
+                                        cursor: 'pointer'
+                                    }
+
+                                });
+
+
+                                //var map = new jvm.MultiMap({
+                                //    container: $('#map1'),
+                                //    maxLevel: 2,
+                                //    main: {
+                                //        map: 'us_lcc_en',
+                                //        // scaleColors: ['#C8EEFF', '#0071A4'],
+                                //        normalizeFunction: 'polynomial',
+                                //        hoverOpacity: 0.7,
+                                //        hoverColor: false,
+                                //        markerStyle: {
+                                //            initial: {
+                                //                fill: '#F8E23B',
+                                //                stroke: '#383f47',
+                                //                r: 5,
+                                //                'fill-opacity': 0.5,
+                                //                'stroke-opacity': 0.7
+                                //            }
+                                //        },
+                                //        backgroundColor: 'transparent',
+
+                                //        markers: [
+                                //            { latLng: [window['latlong'][0], window['latlong'][1]], name: 'You Are Here', style: {fill: 'red', r: 20, 'fill-opacity': 0.5, 'z-index': 99 } },
+                                //            { latLng: [42.328752, -87.837026], name: 'AbbVie', style: { fill: 'red', r: 10, 'fill-opacity': 0.5 } },
+                                //            { latLng: [41.308273, -72.927879], name: 'Alexion Pharmaceuticals, Inc.', style: { fill: 'red', r: 5 } },
+                                //            { latLng: [42.653657, -71.706778], name: 'Alkermes plc.' },
+                                //            { latLng: [40.757132, -74.415217], name: 'Allergan plc' },
+                                //            { latLng: [34.170561, -118.837594], name: 'Amgen Inc.', style: { fill: 'red', r: 12, 'fill-opacity': 0.5 } },
+                                //            { latLng: [42.129923, -87.829948], name: 'Astellas Americas' },
+                                //            { latLng: [39.745947, -75.546589], name: 'AstraZeneca Pharmaceuticals LP' },
+                                //            { latLng: [40.824544, -74.417097], name: 'Bayer Corporation', style: { fill: 'red', r: 25, 'fill-opacity': 0.5 } },
+                                //            { latLng: [42.366763, -71.303113], name: 'Biogen' },
+                                //            { latLng: [37.973535, -122.531087], name: 'BioMarin Pharmaceutical Inc.' },
+                                //            { latLng: [41.281484, -73.498179], name: 'Boehringer Ingelheim Pharmaceuticals, Inc.' },
+                                //            { latLng: [40.730862, -73.987156], name: 'Bristol-Myers Squibb Company' },
+                                //            { latLng: [40.712374, -74.35271], name: 'Celgene Corporation' },
+                                //            { latLng: [40.706794, -74.548569], name: 'Daiichi Sankyo, Inc.' },
+                                //            { latLng: [41.02343, -74.06653], name: 'Eisai Inc.' },
+                                //            { latLng: [39.768333, -86.15835], name: 'Eli Lilly and Company' },
+                                //            { latLng: [42.130656, -70.916155], name: 'EMD Serono' },
+                                //            { latLng: [37.654949, -122.408125], name: 'Genentech' },
+                                //            { latLng: [37.560034, -122.268852], name: 'Gilead Sciences, Inc.' },
+                                //            { latLng: [35.886066, -78.882685], name: 'GlaxoSmithKline' },
+                                //            { latLng: [39.745947, -75.546589], name: 'Incyte Corporation' },
+                                //            { latLng: [40.706795, -74.548569], name: 'Ipsen Biopharmaceuticals, Inc.' },
+                                //            { latLng: [40.486217, -74.451817], name: 'Johnson & Johnson' },
+                                //            { latLng: [42.171137, -87.844512], name: 'Lundbeck Inc.' },
+                                //            { latLng: [40.676023, -74.289262], name: 'Merck & Co., Inc.', style: { fill: 'red', r: 5, 'fill-opacity': 0.5 } },
+                                //            { latLng: [40.21094, -75.278232], name: 'Merck Human Health Division - U.S. Human Health' },
+                                //            { latLng: [40.383129, -78.843357], name: 'Merck Research Laboratories' },
+                                //            { latLng: [40.383129, -78.843357], name: 'Merck Vaccine Division' },
+                                //            { latLng: [40.730862, -73.987156], name: 'Novartis Pharmaceuticals Corporation' },
+                                //            { latLng: [40.333441, -74.600434], name: 'Novo Nordisk Inc.' },
+                                //            { latLng: [40.345307, -74.648407], name: 'Otsuka America Pharmaceutical, Inc. (OAPI)' },
+                                //            { latLng: [39.084226, -77.146013], name: 'Otsuka Pharmaceutical Development & Commercialization, Inc. (OPDC)' },
+                                //            { latLng: [40.730862, -73.987156], name: 'Pfizer Inc.' },
+                                //            { latLng: [41.046818, -73.541977], name: 'Purdue Pharma L.P.', style: { fill: 'red', r: 8, 'fill-opacity': 0.5 } },
+                                //            { latLng: [40.559916, -74.551657], name: 'Sanofi' },
+                                //            { latLng: [41.095368, -75.324905], name: 'Sanofi Pasteur' },
+                                //            { latLng: [42.345927, -71.552287], name: 'Sunovion Pharmaceuticals Inc.' },
+                                //            { latLng: [42.171139, -87.844513], name: 'Takeda Pharmaceuticals USA, Inc.' },
+                                //            { latLng: [38.3973786, -76.6962076], name: 'Teva US Specialty Medicines' },
+                                //            { latLng: [33.8806941, -84.5086768], name: 'UCB' }
+                                //        ]
+                                //        //,
+                                //        //focusOn: {
+                                //        //    //region: 'US-MD',
+                                //        //    x: 1,
+                                //        //    y: 0.4,
+                                //        //    lat: 39.002112,
+                                //        //    long: -77.0408448,
+                                //        //    scale: 5
+                                //        //}
+                                //    },
+                                //    mapUrlByCode: function (code, multiMap) {
+                                //        return '/js/us-counties/jquery-jvectormap-data-' +
+                                //            code.toLowerCase() + '-' +
+                                //            multiMap.defaultProjection + '-en.js';
+                                //    }
+                                //});
+
+
+
+                                //if (window['latlong'] != 0) {
+                                //    if ($('#map1').hasClass('loaded') == false) {
+                                //        map;
+                                //        $('#map1').addClass('loaded');
+                                //    }
+                                //} else {
+                                //    if ($('#map1').hasClass('loaded') == false) {
+                                //        go();
+
+                                //    }
+                                //}
+                                $('#map1').addClass('loaded');
+                            }, 2000);
+                        }
+
+                        if ($('#map1').hasClass('loaded') == false) {
+                            go();
+                            setTimeout(function () {
+                                try {
+                                    $('path').hover(function () {
+                                        var StateId = $(this).attr('data-code').toString();
+                                        var URL = 'https://phrma.azurewebsites.net/Home/GetCongressData?StateId=' + StateId;
+                                        var dataResponse = $.get(URL).done(function (data) {
+                                            return data.responseJSON;
+                                        });
+                                        setTimeout(function () {
+                                            try {
+                                                $('.congressName').html(dataResponse.responseJSON["representativeName"]);
+                                                $('.congressParty').html(dataResponse.responseJSON["party"] + " - " + dataResponse.responseJSON["state"] + " " + "(" + dataResponse.responseJSON["stateId"] + ")");
+                                                $('.congressDetails').html("<p>Office: " + dataResponse.responseJSON["officeRoom"] + "</p>" + "<p> Phone: " + dataResponse.responseJSON["phone"]);
+                                                $('#representativeImage').attr('src', dataResponse.responseJSON["representativeImage"]);
+                                            } catch (e) {
+
+                                            }
+                                        }, 100);
+                                    });
+                                } catch (e) {
+
+                                }
+                            }, 2500);
+                        }
+                        //setInterval(function () {
+                        //   // var colors = ['blue', 'red', 'green', 'yellow', 'pink', 'purple'];
+
+                        //   // $('.jvectormap-marker').eq(Math.round(Math.random() * $('.jvectormap-marker').length)).attr('fill', colors[Math.round(Math.random() * (colors.length - 1))]);
+                        //}, 100);
+                    });
+                });
+            });
+        });
+    </script>*@
+    <script src="~/js/perfect-scrollbar.js"></script>
+   
+
+  
+
+
+</body>
+</html>
+

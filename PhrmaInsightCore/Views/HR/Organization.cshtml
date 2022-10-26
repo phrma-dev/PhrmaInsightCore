@@ -1,0 +1,795 @@
+﻿@{ Layout = null; }
+@model List<PhrmaInsightCore.Models.DB.Employees>
+	@using Newtonsoft.Json
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<!-- meta block -->
+		<title>PhRMA | Organizational Charts</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Diagram to explore its api and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="https://phrma.azurewebsites.net/codebase/diagram.js"></script>
+		<script type="text/javascript" src="https://phrma.azurewebsites.net/common/diagram.js"></script>
+		<link rel="stylesheet" href="https://phrma.azurewebsites.net/codebase/diagram.css?v=3.0.1">
+		<link rel="stylesheet" href="https://phrma.azurewebsites.net/common/index.css?v=3.0.1">
+		<link rel="stylesheet" href="https://phrma.azurewebsites.net/common/diagram.css?v=3.0.1">
+		<link href="https://phrma.azurewebsites.net/codebase/diagram.css" rel="stylesheet" />
+		<link href="https://phrma.azurewebsites.net/common/diagram.css" rel="stylesheet" />
+		<!-- custom sample head -->
+		<script type="text/javascript" src="https://phrma.azurewebsites.net/common/slider/slider.min.js?v=3.0.1"></script>
+		<link rel="stylesheet" href="https://phrma.azurewebsites.net/common/slider/slider.min.css?v=3.0.1">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<style>
+
+			.main__container {
+				/*height: calc(100% - 60px);*/
+				display: flex;
+			}
+
+			.sample__container {
+				height: calc(100% - 72px);
+				/*width: calc(100% - 248px);*/
+				width: calc(100%);
+				overflow: auto;
+			}
+
+			.dhx_sample-controls {
+				background: #fff;
+			}
+
+			.dhx_sample-slider__container {
+				width: 350px;
+			}
+
+			.dhx_diagram dhx_widget {
+				height: 100%;
+			}
+
+			.template {
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: white;
+				color: rgba(0, 0, 0, 0.7);
+				border: 1px solid #DFDFDF;
+				padding: 10px 12px;
+				cursor: pointer;
+			}
+
+				.template span {
+					display: flex;
+				}
+
+				.template h3, .template p {
+					text-align: left;
+					font-size: 14px;
+					line-height: 20px;
+					height: 20px;
+					margin: 0 0 4px 0;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
+				.template .template_container {
+					height: 100%;
+					width: 100%;
+					overflow: hidden;
+					position: relative;
+				}
+
+				.template .template_img-container {
+					min-width: 93px;
+					width: 93px;
+					margin-right: 12px;
+				}
+
+				.template .template_img-container-medium {
+					min-width: 44px;
+					width: 44px;
+					margin-right: 12px;
+				}
+
+				.template .template_img-container img, .template_img-container-medium img {
+					width: inherit;
+					height: auto;
+				}
+
+				.template .template_icon {
+					height: 20px;
+					width: 20px;
+					margin-right: 4px;
+				}
+
+			.dhx_selected .template {
+				outline: 2px solid #8c8c8c;
+			}
+
+			.sidebar__container {
+				min-width: 248px;
+				width: 248px;
+				height: 100%;
+				background: #fff;
+				border-left: 1px solid #DFDFDF;
+				padding: 20px;
+				display: flex;
+				flex-direction: column;
+			}
+
+				.sidebar__container a {
+					display: block;
+					text-align: center;
+					width: 100%;
+					height: 28px;
+					line-height: 28px;
+					color: #fff;
+					background: #0288D1;
+					border-radius: 14px;
+					margin-top: 28px;
+				}
+
+				.sidebar__container span {
+					font-size: 14px;
+					line-height: 20px;
+					font-family: Roboto;
+					font-style: normal;
+					font-weight: normal;
+					color: rgba(0, 0, 0, 0.7);
+					padding: 4px 0;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
+				.sidebar__container img {
+					height: 208px;
+					width: auto;
+					background: #8c8c8c;
+					margin-bottom: 28px;
+				}
+
+			#sidebar_toggle {
+				position: absolute;
+				top: 70px;
+				z-index: 1000;
+				right: 243px;
+			}
+		</style>
+		<script src="//unpkg.com/react@16.8.6/umd/react.development.js"></script>
+		<script src="//unpkg.com/react-dom@16.8.6/umd/react-dom.development.js"></script>
+		<script src="//unpkg.com/office-ui-fabric-react@7/dist/office-ui-fabric-react.js"></script>
+		<script src="//unpkg.com/@@uifabric/react-hooks@7/dist/react-hooks.js"></script>
+		<style>
+			.spinner {
+				margin: 100px auto 0;
+				width: 70px;
+				text-align: center;
+			}
+
+				.spinner > div {
+					width: 18px;
+					height: 18px;
+					background-color: #0288d1;
+					border-radius: 100%;
+					display: inline-block;
+					-webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+					animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+				}
+
+				.spinner .bounce1 {
+					-webkit-animation-delay: -0.32s;
+					animation-delay: -0.32s;
+				}
+
+				.spinner .bounce2 {
+					-webkit-animation-delay: -0.16s;
+					animation-delay: -0.16s;
+				}
+
+			@@-webkit-keyframes sk-bouncedelay {
+				0%, 80%, 100% {
+					-webkit-transform: scale(0)
+				}
+
+				40% {
+					-webkit-transform: scale(1.0)
+				}
+			}
+
+			@@keyframes sk-bouncedelay {
+				0%, 80%, 100% {
+					-webkit-transform: scale(0);
+					transform: scale(0);
+				}
+
+				40% {
+					-webkit-transform: scale(1.0);
+					transform: scale(1.0);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<section class="dhx_sample-controls">
+			<div id="content" style="margin: 0px 100px 0px 20px;"></div>
+			<div class="dhx_sample-slider__container" id="slider"></div>
+			<button id="print" style="margin: 0px 100px 0px 20px;">Print</button>
+		</section>
+		<section class="main__container">
+			<div class="sample__container" id="diagram">
+				<div class="spinner">
+					<div class="bounce1"></div>
+					<div class="bounce2"></div>
+					<div class="bounce3"></div>
+				</div>
+
+
+			</div>
+			@*<div id="sidebar_toggle">x</div>
+				<div class="sidebar__container">
+					<img id="image" src="" alt="">
+					<span id="name" style="font-weight:500">Name</span>
+					<span id="post">Post</span>
+					<span id="phone">Phone</span>
+					<span id="mail" style="color:#0288D1">Mail</span>
+					<span id="department">Birthday</span>
+					<a id="send" href="" target="_blank">Send email</a>
+				</div>*@
+		</section>
+		<script>
+			"use strict";
+			var _a = window.Fabric, IStackTokens = _a.IStackTokens, Stack = _a.Stack, Dropdown = _a.Dropdown, DropdownMenuItemType = _a.DropdownMenuItemType, IDropdownStyles = _a.IDropdownStyles, IDropdownOption = _a.IDropdownOption, Fabric = _a.Fabric, initializeIcons = _a.initializeIcons;
+			// Initialize icons in case this example uses them
+			initializeIcons();
+			var dropdownStyles = {
+				dropdown: { width: 300 }
+			};
+
+			var options = [
+				{ key: 'All', text: 'All' },
+				{ key: 'Administration', text: 'Administration' },
+				{ key: 'Advocacy and Strategic Alliances', text: 'Alliance' },
+				{ key: 'Advocacy Office', text: 'Advocacy Office' },
+				{ key: 'CEO Office', text: 'CEO Office' },
+				//{ key: 'Facilities & AV', text: 'Facilities & AV' },
+				{ key: 'Federal Advocacy', text: 'Federal Advocacy' },
+				{ key: 'Finance', text: 'Accounting/Finance' },
+				{ key: 'Foundation', text: 'Foundation' },
+				{ key: 'Human Resources', text: 'Human Resources' },
+				{ key: 'Information Technology', text: 'Information Technology' },
+				{ key: 'International Advocacy', text: 'International Advocacy' },
+				{ key: 'Law', text: 'Law' },
+				{ key: 'Meetings', text: 'Meetings' },
+				{ key: 'Policy, Research and Membership', text: 'Policy, Research and Membership' },
+				{ key: 'Public Affairs', text: 'Public Affairs' },
+				{ key: 'Science and Regulatory Advocacy', text: 'SRA' },
+				{ key: 'State Government Advocacy', text: 'State Government Advocacy' }];
+
+			var DropdownBasicExample = function () {
+				return React.createElement(Dropdown, { placeholder: "Select a Department", label: "", options: options, styles: dropdownStyles, defaultSelectedKey: "All" });
+			};
+			var DropdownBasicExampleWrapper = function () {
+				return React.createElement(Fabric, null,
+					React.createElement(DropdownBasicExample, null));
+			};
+			ReactDOM.render(React.createElement(DropdownBasicExampleWrapper, null), document.getElementById('content'));
+		</script>
+		<script>
+			window["photos"] = [];
+			$.get({
+				url: 'https://prod-33.eastus2.logic.azure.com/workflows/b6ab1d87adb74a29ae75d81207b7017d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=zVPhnmiVEjGfRB9eg_JsPktEmYZEyf1az-LGa7EFAP0',
+				success: function (data) {
+					window["users"] = data;
+				}
+			})
+			$.get({
+				url: "../HR/Photos",
+				success: function (data) {
+					window["photos"] = data;
+					console.log(JSON.stringify(data));
+				}
+
+			});
+		//var url = 'https://prod-61.eastus2.logic.azure.com:443/workflows/4f8dfad441714b7ab688a5ff7f62ba02/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=BeI9yIzO4IGENjzXCItIHoBoUh8YZOhyLbYrClYoFw4';
+		var theUrl = 'https://prod-87.eastus.logic.azure.com:443/workflows/0d2bcf9a549c415da04a7b8609b00cdf/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=TqljYYXrOxXTFKj-COia5xfxyiM2hvAn3Sb39BK8Fzw';
+
+		function httpGet(theUrl, department) {
+
+
+			var r = $.post({
+				url: theUrl,
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("department", department);
+				},
+				success: function(data) {
+					return data.responseText;
+				}
+			});
+			return r.responseText;
+		}
+			window["value"] = "All";
+			
+
+	
+		
+
+		//$.ajax({
+		//	url: "../EmployeesLatest2.json",
+		//	method: 'GET',
+		//	contentType: 'application/json',
+		//	success: function (data) {
+
+			
+		//		window["users"] = JSON.parse(data);
+		//		console.log(data);
+		//	}
+
+		//});
+			
+		function GetData() {
+		
+
+			var dropTXT = $('span.ms-Dropdown-title').text();
+			//var value = e.options[e.selectedIndex].value;
+			var value = "";
+			try {
+				value = dropTXT;
+			} catch (e) {
+				value = "All";
+			}
+
+
+
+
+			var department = value;
+			var departmentHeadEmail;
+			try {
+				var dept_head_url = 'https://prod-87.eastus.logic.azure.com:443/workflows/0d2bcf9a549c415da04a7b8609b00cdf/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=TqljYYXrOxXTFKj-COia5xfxyiM2hvAn3Sb39BK8Fzw';
+				if (value === "All") {
+					departmentHeadEmail = "";
+				} else {
+					departmentHeadEmail = httpGet(dept_head_url, department);
+				}
+
+				console.log(departmentHeadEmail);
+			} catch (e) {
+
+			}
+
+			var heads = {
+				"All": "subl@phrma.org",
+				"Administration": "tmerchant@phrma.org",
+				"Alliance": "sgraham@phrma.org",
+				"Advocacy Office": "lreilly@phrma.org",
+				"CEO Office": "subl@phrma.org",
+				"Facilities & AV": "tmerchant@phrma.org",
+				"Federal Advocacy": "aesposito@phrma.org",
+				"Accounting/Finance": "tmerchant@phrma.org",
+				"Foundation": "amiller@phrma.org",
+                "Human Resources": "riyer@phrma.org",
+				"Information Technology": "klittlefield@phrma.org",
+				"International Advocacy": "jtaylor@phrma.org",
+				"Law": "jstansel@phrma.org",
+				"Meetings": "tbressert@phrma.org",
+				"Policy, Research and Membership": "jbryant@phrma.org",
+                "SRA": "lvereshchagina@phrma.org",
+				"State Government Advocacy": "slaganga@phrma.org",
+                "Public Affairs": "pvanderveer@phrma.org"
+			};
+
+			departmentHeadEmail = heads[department];
+
+			var rawData = window["users"];
+			console.log("RAW DATA LOG");
+			console.log(rawData);
+			console.log("RAW DATA LOG");
+			var adminArray = ["Information Technology", "Facilities and AV", "Facilities & AV", "Meetings", "Accounting/Finance", "Administration"];
+			var advocacyArray = ["International Advocacy", "State Government Advocacy", "Advocacy and Strategic Alliances", "Federal Advocacy"]
+			var policyArray = ["Policy, Research and Membership", "Member Relations"];
+			var sraArray = ["Science and Regulatory Advoacy", "Foundation"];
+			var data = rawData.filter(function (a) {
+				if ((a["department"] == department.replace("and", "&") || a["department"] == department)  && department != "All" && department != "Administration") {
+					return a;
+				} else if (department == "All") {
+					return a;
+				} else if (department == "Administration" && adminArray.indexOf(a["department"]) != -1) {
+					return a;
+				} else if (department == "Advocacy Office" && advocacyArray.indexOf(a["department"]) != -1) {
+					return a;
+				} else if (department == "Policy, Research and Membership" && policyArray.indexOf(a["department"]) != -1) {
+					return a;
+				} else if (department == "Science and Regulatory Advocacy" && sraArray.indexOf(a["department"]) != -1) {
+					return a;
+				}
+			});
+
+			
+
+
+
+			data = data.filter(function (a) {
+				if (["Temp", "Consultant"].indexOf(a["title"]) == -1) {
+					return a;
+				}
+			});
+			console.log(data);
+			var photoLookup = window["photos"];
+			//console.log(photoLookup);
+			var dataArray = [];
+
+			for (var k = 0; k < data.length; k++) {
+				var obj = new Object();
+
+				var photoResult = photoLookup.filter((a) => {
+					if (a.email == data[k]["email"]) {
+						return a;
+					}
+				});
+				user_photo = photoResult.length == 1 && photoResult != "" && photoResult != undefined && photoResult != null ? photoResult[0].photo : '../../img/nophoto.png';
+				if (data[k]["email"] === "subl@phrma.org" && value === "All") {
+					obj =
+						new Object({
+							id: "main",
+							name: data[k]["name"],
+							post: data[k]["title"].replace('&', 'and'),
+							phone: data[k]["officePhone"],
+							mail: data[k]["email"],
+							photo: user_photo,
+							department: data[k]["department"].replace('&', 'and')
+						});
+					
+					dataArray.push(obj);
+
+				} else if (data[k]["managerEmail"] === "subl@phrma.org" && value === "All") {
+					obj =
+						new Object({
+							id: data[k]["email"].toString(),
+							name: data[k]["name"],
+							post: data[k]["title"].replace('&', 'and'),
+							phone: data[k]["officePhone"],
+							mail: data[k]["email"],
+							photo: user_photo,
+							parent: "main",
+							dir: "vertical",
+							open: false,
+							department: data[k]["department"].replace('&', 'and')
+						});
+					dataArray.push(obj);
+
+				} else if (data[k]["managerEmail"] !== "" && value === "All") {
+					obj =
+						new Object({
+							id: data[k]["email"],
+							name: data[k]["name"],
+							post: data[k]["title"].replace('&', 'and'),
+							phone: data[k]["officePhone"],
+							mail: data[k]["email"],
+							photo: user_photo,
+							parent: data[k]["managerEmail"],
+							dir: "vertical",
+							open: false,
+							department: data[k]["department"].replace('&', 'and')
+
+						});
+					dataArray.push(obj);
+
+				} else if (data[k]["email"] === departmentHeadEmail && value !== "All") {
+					obj =
+						new Object({
+							id: "main",
+							name: data[k]["name"],
+							post: data[k]["title"].replace('&', 'and'),
+							phone: data[k]["officePhone"],
+							mail: data[k]["email"],
+							photo: user_photo,
+							open: true,
+							department: data[k]["department"].replace('&', 'and')
+						});
+					dataArray.push(obj);
+				} else if (data[k]["email"] !== departmentHeadEmail && data[k]["managerEmail"] === departmentHeadEmail && value !== "All") {
+					obj =
+						new Object({
+							id: data[k]["email"].toString(),
+							name: data[k]["name"],
+							post: data[k]["title"].replace('&', 'and'),
+							phone: data[k]["officePhone"],
+							mail: data[k]["email"],
+							photo: user_photo,
+							parent: "main",
+							dir: "vertical",
+							open: true,
+							department: data[k]["department"].replace('&', 'and')
+						});
+					dataArray.push(obj);
+				} else if (data[k]["email"] !== departmentHeadEmail && data[k]["managerEmail"] !== departmentHeadEmail && value !== "All") {
+					obj =
+						new Object({
+							id: data[k]["email"].toString(),
+							name: data[k]["name"],
+							post: data[k]["title"].replace('&', 'and'),
+							phone: data[k]["officePhone"],
+							mail: data[k]["email"],
+							photo: user_photo,
+							parent: data[k]["managerEmail"],
+							dir: "vertical",
+							open: false,
+							department: data[k]["department"].replace('&', 'and')
+						});
+					dataArray.push(obj);
+
+				}
+			};
+			console.log(dataArray);
+			return dataArray;
+
+			
+
+		}
+
+		function Go(dataParameter) {
+			var medCardShape = dataParameter;
+			function tickTemplate(v) {
+				return v;
+			}
+
+			var slider = new dhx.Slider("slider", {
+				min: 0.6,
+				max: 1,
+				tooltip: false,
+				step: 0.05,
+				tick: 1,
+				majorTick: 2,
+				value: 0.8,
+				tickTemplate: tickTemplate
+			});
+
+			var diagram;
+
+			function largeTemplate(config) {
+				var template = '<section class="template">';
+				template += '<div class="template_container template_img-container">';
+				template += '<img src="' + config.photo + '" alt="' + config.name + "-" + config.post + '"></img>';
+				template += '</div>';
+				template += '<div class="template_container">';
+				template += '<h3>' + config.name + '</h3>';
+				template += '<p>' + config.department + '</p>';
+				template += '<p>' + config.post + '</p>';
+				template += '<span>';
+				//template += '<img class="template_icon" src="../common/img/icons/cellphone-android.svg" alt="phone number"></img>';
+				//template += '<p>' + config.phone + '</p>';
+				template += '<p>' + config.mail + '</p>';
+				template += '</span>';
+				template += '<span>';
+				template += '<img class="template_icon" src="../common/img/icons/email-outline.svg" alt="email"></img>';
+				template += '<a style="color:#0288D1" href="mailto:' + config.mail + '" target="_blank">' + config.mail + '</a> ';
+				template += '</span></div>';
+				template += '</section>';
+				return template;
+			}
+
+			function mediumTemplate(config) {
+				var template = '<section class="template">';
+				template += '<div class="template_container template_img-container-medium">';
+				template += '<img src="' + config.photo + '" alt="' + config.name + "-" + config.post + '"></img>';
+				template += '</div>';
+				template += '<div class="template_container">';
+				template += '<h3>' + config.name + '</h3>';
+				template += '<p>' + config.post + '</p>';
+				template += '<p>' + config.department + '</p>';
+
+				template += '</div>';
+				template += '</section>';
+				return template;
+			}
+
+			function smallTemplate(config) {
+				var template = '<section class="template">';
+				template += '<div class="template_container">';
+				template += '<h3>' + config.name + '</h3>';
+				template += '<p>' + config.post + '</p>';
+				template += '<p>' + config.department + '</p>';
+				template += '</div>';
+				template += '</section>';
+				return template;
+			}
+
+			var largeDefaults = {
+				width: 330,
+				height: 115
+			};
+
+			var mediumDefaults = {
+				width: 200,
+				height: 68
+			};
+
+			var smallDefaults = {
+				width: 200,
+				height: 44
+			};
+
+			var person;
+
+			//function getInfo(person) {
+			//	var image = document.querySelector("#image");
+			//	var name = document.querySelector("#name");
+			//	var post = document.querySelector("#post");
+			//	var phone = document.querySelector("#phone");
+			//	var mail = document.querySelector("#mail");
+			//	var department = document.querySelector("#department");
+
+
+			//	name.innerHTML = person.name + "";
+			//	post.innerHTML = person.post + "";
+			//	phone.innerHTML = person.phone + "";
+			//	mail.innerHTML = person.mail + "";
+			//	send.href = "mailto:" + person.mail + "";
+			//	image.src = person.img + "";
+			//	image.alt = person.name + "-" + person.post + "";
+			//	department.innerHTML = person.department + "";
+			//}
+
+			function createDiagram(config) {
+				diagram = new dhx.Diagram("diagram", {
+					type: "org",
+					defaultShapeType: "template",
+					scale: config.scale
+				});
+
+				diagram.addShape("template", {
+					template: config.template,
+					defaults: config.defaults
+				});
+
+				medCardShape.forEach(function (item) {
+					item.width = config.defaults.width;
+					item.height = config.defaults.height;
+				});
+
+				diagram.data.parse(medCardShape);
+
+				//diagram.events.on("ShapeClick", function (id) {
+				//	diagram.selection.add(id);
+				//	person = diagram.data.getItem(id);
+				//	//getInfo({
+				//	//	name: person.name,
+				//	//	post: person.post,
+				//	//	phone: person.phone,
+				//	//	mail: person.mail,
+				//	//	img: person.photo,
+				//	//	department: person.department
+				//	//});
+				//});
+			}
+
+			function changeTemplate(scale) {
+				var selectionItem = diagram.selection.getItem();
+				if (diagram) {
+					diagram.destructor();
+				}
+				switch (true) {
+					case scale >= 0.8:
+						createDiagram({
+							defaults: largeDefaults,
+							template: largeTemplate,
+							scale: scale
+						});
+						break;
+					case scale <= 0.8 && scale >= 0.75:
+						createDiagram({
+							defaults: mediumDefaults,
+							template: mediumTemplate,
+							scale: scale
+						});
+						break;
+					case scale < 0.75 && scale >= 0.6:
+						createDiagram({
+							defaults: smallDefaults,
+							template: smallTemplate,
+							scale: scale
+						});
+						break;
+				}
+				diagram.selection.add(selectionItem.id);
+			}
+
+			slider.events.on("Change", function (value) {
+				changeTemplate(value);
+			});
+
+			createDiagram({
+				defaults: mediumDefaults,
+				template: mediumTemplate,
+				scale: 0.75
+			});
+
+			diagram.selection.add("main");
+
+			person = diagram.data.getItem("main");
+
+			//getInfo({
+			//	name: person.name,
+			//	post: person.post,
+			//	phone: person.phone,
+			//	mail: person.mail,
+			//	img: person.photo,
+			//	department: person.department
+			//});
+
+			function filter() {
+				diagram.data.filter({ by: "text", match: "Read N" });
+			}
+
+
+
+			function undoFilter() {
+				diagram.data.filter();
+			}
+
+
+		}
+			setTimeout(() => {
+				var allData = GetData();
+				Go(allData);
+			}, 2000);
+		
+		
+
+		$('#print').click(function () {
+			$('.dhx_sample-controls').hide();
+			window.print();
+			setTimeout(function () {
+				$('.dhx_sample-controls').show();
+
+			}, 1000);
+		});
+		var i = 0;
+
+		function checkUsers() { };
+		checkUsers =
+			setInterval(function () {
+				var secElapsed = i;
+				if (window.users.length == 0
+
+					|| window.photos.length == 0
+				) {
+					console.log("loading users... " + secElapsed + " seconds elapsed");
+					console.log(window.users);
+				}
+				else {
+					console.log("READY!");
+					$('.spinner').hide();
+					window["value"] = $('span.ms-Dropdown-title').text();
+					$('#diagram').html("");
+					$('#slider').html("");
+					setTimeout(function () {
+						var data = GetData();
+						console.log(data);
+						Go(data);
+						$('.spinner').hide();
+					}, 2000);
+					clearInterval(checkUsers);
+				}
+				i += 1;
+			}, 1000);
+		setInterval(function () {
+
+
+			if ($('span.ms-Dropdown-title').text() != window["value"] && window.users.length > 0) {
+				window["value"] = $('span.ms-Dropdown-title').text();
+
+
+				$('#diagram').html("");
+				$('#slider').html("");
+				setTimeout(function () {
+					var data = GetData();
+					Go(data);
+					$('.spinner').hide();
+				}, 400);
+			}
+		}, 1000);
+		</script>
+	</body>
+</html>

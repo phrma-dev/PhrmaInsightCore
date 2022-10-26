@@ -1,0 +1,62 @@
+﻿<div class="absCenter">
+    <div class="loaderPill">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+</div>
+<script id="runPowerBI">
+
+    var accessToken =
+            `@try
+            {
+                @ViewBag.AccessToken;
+            }
+            catch (Exception)
+            {}`;
+
+
+    setTimeout(function () {
+
+        localStorage.setItem('accesstoken', accessToken.toString());
+
+        var i = 0;
+        setInterval(function () {
+            if (localStorage.getItem('accesstoken') == null)
+            {
+                console.log("Waiting for Access Token..." + i);
+                i++;
+            }
+
+            if (localStorage.getItem('accesstoken') != null)
+            {
+				window.location.href = "https://teams.microsoft.com/_#/apps/470f4b1e-924f-4fda-b4ae-db78b233adc1/sections/dd9a402f-1585-491c-9c7b-4a841ccde876";
+				window.location = 'https://teams.microsoft.com/_#/apps/470f4b1e-924f-4fda-b4ae-db78b233adc1/sections/dd9a402f-1585-491c-9c7b-4a841ccde876';
+            }
+        },500);
+    },2000);
+
+
+
+
+    var isIE10 = false;
+
+    if (navigator.userAgent.indexOf("MSIE 10") > -1) {
+        // this is internet explorer 10
+        isIE10 = true;
+        // window.location = 'https://phrma.azurewebsites.net/Home/Main';
+        window.location = '../Finance/Reporting';
+    }
+
+    var isIE = (navigator.userAgent.indexOf("MSIE") != -1);
+
+    if (isIE) {
+        if (!isIE10) {
+            window.location = '../Finance/Reporting';
+        }
+    }
+
+
+</script>

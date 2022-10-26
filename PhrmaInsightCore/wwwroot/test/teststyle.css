@@ -1,0 +1,441 @@
+﻿* {
+    transition-duration: 1s;
+}
+
+.row {
+    margin: 0;
+}
+
+
+
+.label-white {
+    width: 100%;
+    bottom: -15.5px;
+    position: absolute;
+    font-size: 2em;
+    color: white;
+    background-color: #181818;
+    text-align: center;
+    left: 0px;
+    cursor: pointer;
+}
+
+.label {
+    width: 100%;
+    bottom: -15.5px;
+    position: absolute;
+    font-size: 2em;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: center;
+    left: 0px;
+    cursor: pointer;
+}
+
+.label-citrix {
+    width: 100%;
+    bottom: -15.5px;
+    position: absolute;
+    font-size: 2em;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: center;
+    left: 0px;
+    cursor: pointer;
+}
+
+.label-dark {
+    width: 100%;
+    bottom: -15.5px;
+    position: absolute;
+    font-size: 2em;
+    color: white;
+    height: 48px;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: center;
+    left: 0px;
+    cursor: pointer;
+}
+
+.label-black {
+    width: 100%;
+    bottom: -15.5px;
+    position: absolute;
+    font-size: 2em;
+    color: white;
+    height: 48px;
+    background-color: #181818;
+    text-align: center;
+    left: 0px;
+    cursor: pointer;
+}
+
+.label-very-dark {
+    width: 100%;
+    bottom: -15.5px;
+    position: absolute;
+    font-size: 2em;
+    color: white;
+    height: 48px;
+    background-color: rgba(31, 58, 147, 0.9);
+    text-align: center;
+    left: 0px;
+    cursor: pointer;
+}
+
+@font-face {
+    font-family: 'proxima_nova_rgregular';
+    src: url('https://litmus.com/fonts/Emails/proximanova-regular-webfont.eot');
+    src: url('https://litmus.com/fonts/Emails/proximanova-regular-webfont.eot?#iefix') format('embedded-opentype'), url('https://litmus.com/fonts/Emails/proximanova-regular-webfont.woff') format('woff'), url('https://litmus.com/fonts/Emails/proximanova-regular-webfont.ttf') format('truetype'), url('https://litmus.com/fonts/Emails/proximanova-regular-webfont.svg#proxima_nova_rgregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.logo-blue {
+    height: 55px;
+    margin-top: 13.5px;
+    fill: #1c2d41;
+    padding: 0;
+    margin-left: 0px;
+    position: relative;
+    left: -45px;
+}
+
+.logo-white {
+    height: 55px;
+    margin-top: 9px;
+    fill: white;
+    padding: 0;
+    margin-left: 0px;
+    position: relative;
+    left: -45px;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    min-width: 500px !important;
+    overflow-x: hidden;
+}
+
+#header-nav {
+    height: 82px;
+    background-color: white;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    z-index: 1000;
+    transition-duration: 0.5s;
+}
+
+#header-menu {
+    position: fixed;
+    top: 82px;
+    height: 77px;
+    width: 100%;
+    background-color: #1f334a;
+    z-index: 1000;
+    border-top: 5px solid #2b88d2;
+    color: white;
+    overflow: hidden;
+    transition-duration: 0.5s;
+}
+
+#main-hero {
+    margin-top: 170px;
+    transition-duration: 0.5s;
+    margin-left: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+#quad-box {
+    height: 600px;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 10px;
+    margin-left: 0px;
+}
+
+#hover-corona-hero {
+    position: absolute;
+    height: 600px;
+    width: 100%;
+    top: 0;
+    /* background-color: red; */
+    z-index: 999;
+    opacity: 0;
+}
+
+.hide {
+    display: none;
+}
+
+#hover-corona-hero:hover {
+    position: absolute;
+    height: 600px;
+    width: 100%;
+    cursor: pointer;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    opacity: 1;
+}
+
+#corona-hero {
+    height: 600px;
+    width: 100%;
+    background-size: cover;
+    background-image: url('https://phrma.org/-/media/Project/PhRMA/PhRMA-Org/PhRMA-Org/A---C/COVID-19_cell_hero.jpg');
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.quad-box-parent {
+    height: 50%;
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px !important;
+}
+
+#quad-box-1 {
+    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/358566/msofficefluenticons.png");
+    background-position: center;
+    background-size: cover;
+    height: calc(100% - 5px);
+    width: 100%;
+    padding: 0px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+}
+
+#quad-box-5 {
+    background-image: url("https://www.goempyrean.com/wp-content/uploads/2018/11/EmpLogo_HiTouch_web.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: calc(100% - 5px);
+    width: 100%;
+    padding: 0px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+}
+
+#quad-box-2 {
+    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/358566/remote.png");
+    background-size: cover;
+    height: calc(100% - 5px);
+    width: 100%;
+    padding: 0px;
+    cursor: pointer;
+}
+
+#quad-box-6 {
+    background-image: url("https://influitive.com/wp-content/uploads/2018/08/adp-lp-facebook.jpg");
+    background-size: fill;
+    background-position: center;
+    height: calc(100% - 5px);
+    width: 100%;
+    padding: 0px;
+    cursor: pointer;
+}
+
+#quad-box-3 video, #quad-box-7 video {
+    width: 100%;
+}
+
+#quad-box-3 {
+    overflow: hidden;
+    background-size: cover;
+    background-origin: center;
+    height: calc(100% - 5px);
+    width: 100%;
+    padding: 0px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+
+#quad-box-7 {
+    overflow: hidden;
+    background-size: cover;
+    background-origin: center;
+    height: calc(100% - 5px);
+    width: 100%;
+    padding: 0px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#quad-box-8 {
+    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/358566/Doclink.png');
+    background-size: cover;
+    background-position: center;
+    height: calc(100% - 5px);
+    width: 100%;
+    padding: 0px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+#quad-box-4 {
+    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/358566/zoom.png");
+    background-origin: center;
+    background-size: cover;
+    height: calc(100% - 5px);
+    width: 100%;
+    padding: 0px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+#quad-box-2 .label-citrix {
+    height: 48px;
+}
+
+    #quad-box-2 .label-citrix > img {
+        height: 43px;
+        width: auto;
+        position: relative;
+        top: -4px;
+    }
+
+#section1 {
+    margin-top: 10px;
+    height: 900px;
+    width: 100%;
+    background-color: black;
+    opacity: 0.9;
+}
+
+.nav-linkz {
+    padding: 1.469rem;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    transition-duration: 1s;
+}
+
+    .nav-linkz:hover {
+        background-color: #35455a;
+    }
+
+
+#menu-expand {
+    width: 85px;
+    padding-right: 30px;
+    padding-top: 17px;
+    padding-left: 13px;
+    align-content: end;
+    justify-content: end;
+    position: relative;
+    cursor: pointer;
+}
+
+.menu-small {
+    display: none;
+    transition-duration: 1s;
+}
+
+
+@media only screen and (min-width: 1100.01px) {
+    .menu-small {
+        display: none;
+        transition-duration: 1s;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .nav-linkz {
+        display: none;
+    }
+
+    .menu-small {
+        display: block;
+    }
+
+    #header-nav {
+        display: none;
+    }
+
+    #header-menu {
+        top: 0px;
+    }
+
+    #main-hero {
+        margin-top: 90px;
+    }
+
+    #quad-box {
+        padding-left: 0px;
+        height: 450px;
+    }
+
+    #corona-hero {
+        height: 450px;
+    }
+
+    #hover-corona-hero {
+        height: 450px;
+    }
+
+        #hover-corona-hero:hover {
+            height: 450px;
+        }
+
+    .fa-envelope {
+        font-size: 8em;
+    }
+}
+
+#badge-corona-hero {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: relative;
+    top: 80%;
+    height: 20%;
+    width: 100%;
+    color: white;
+    font-size: 2.5em;
+    font-family: 'proxima_nova_rgregular', Helvetica, Arial, sans-serif;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+span.back {
+    transform: rotateZ(45deg);
+    transform-origin: center;
+    position: relative;
+    top: 0px;
+}
+
+span {
+    height: 4px;
+    margin-top: 7px;
+    width: 100%;
+    background-color: white;
+    display: block;
+    border-radius: 9px;
+}
+
+    span.forward {
+        transform: rotateZ(-45deg);
+        transform-origin: center;
+        position: relative;
+        top: 11px;
+    }
+
+#corona-message {
+    padding-top: 27%;
+    color: white;
+    text-align: center;
+    font-size: 2em;
+}

@@ -1,0 +1,248 @@
+@model List<PhrmaInsightCore.Models.DB.Forecasting>
+<div class="demo-static-toast pos-absolute t-100 r-10" style="z-index: 9999999 !important; width: 350px;"></div>
+<div class="absCenter" style="z-index: 999999;">
+	<div class="loaderPill">
+		<div class="spinner">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</div>
+	</div>
+</div>
+<div id="selectMenuRow" class="container-fluid" style="height: 42px; background-color: #f7f7f7; transition-duration: 2s;">
+	<div class="container-fluid">
+		<div class="row d-flex flex-nowrap ">
+			<div class="media" style="margin: auto;">
+				<span onclick="window.location.href = '../Finance/ForecastLocation'" class="las la-arrow-alt-circle-left" style="position: absolute; left: -100px; font-size: 40px; margin-right: 5px; cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Back to Forecast"></span>
+				<div class="media-body">
+					<select class="form-control select2" id="departmentSelect" style="width: 300px; font-size: 0.9em;">
+						<option label="Filter Departments"></option>
+						<option value="All">All</option>
+						@foreach (var item in ViewBag.Departments)
+						{
+							<option value="@item.DepartmentId">@item.DepartmentId - @item.DepartmentName</option>
+						}
+					</select>
+					<div id="hover-blue" style="height: 2px; width: 0%; background-color: blue;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Navbar -->
+<div class="">
+	<div id="main-dashboard" class="container-fluid" style="display: none;">
+		<div class="mainTable" style="margin-left: auto; margin-right: auto;">
+			<table style="font-weight: bold; position: fixed; top: 150px; display: table;  width: 1100px !important; font-family: 'Montserrat', sans-serif; font-weight: 500;">
+				<tr id="table-header" class="row" style="font-size: 0.75em; line-height: 1.5em;">
+					<th class="col" style="font-weight: 500; padding-left: 2rem; max-width: 70px !important; min-width: 70px !important; width: 70px !important;">Department</th>
+					<th class="col" style="font-weight: 500; padding-left: 2rem; max-width: 70px !important; min-width: 70px !important; width: 70px !important;">Project</th>
+					<th class="col" style="font-weight: 500; padding-left: 2rem; min-width: 325px !important; max-width: 325px !important; width: 325px !important;">Location</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">Working Budget</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">Actuals</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">PO Balance</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">Requisitions</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">Total Committed</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">Forecast</th>
+				</tr>
+				<tbody id="editTableBody" style="background-color: #eee !important; height: 650px; width: 1100px !important; overflow-y: scroll; overflow-x: hidden; position: fixed; top: 200px; font-family: 'Montserrat', sans-serif;">
+				</tbody>
+			</table>
+		</div>
+
+
+	</div>
+	
+</div>
+
+<script src="../azia/lib/jquery/jquery.min.js"></script>
+<script src="../assets/js/plugins/sweetalert2.js"></script>
+<script>
+	$(document).ready(function () {
+
+		$('head').append(`<style>.select2-container--default .select2-selection--single { background-color: transparent; border: none; height: 38px; font-weight: 500;font-family: 'Roboto', 'sans-serif';color: #031B4F; cursor: pointer;} .select2-results__options { max-height: 500px !important;} </style>`);
+
+		$('#departmentSelect').select2({
+			placeholder: 'Department',
+			dropdownAutoWidth: true,
+			allowClear: true
+		});
+
+		
+
+		$.get({
+			url: '../Finance/GetForecastLocationSummary',
+			success: function (data) { 
+				$('.absCenter').fadeOut(2000);
+
+				var html;
+				for (var i = 0; i < data.length; i++) {
+					if (data[i]["entryCategory"] == "GT") {
+                        html +=
+                            `<tr class="row" style="margin-bottom: 10px; margin-top: 5px; background-color: darkblue; color: white; height: 30px !important; font-size: 0.866rem; font-weight: 600; border-bottom: 1px solid lightgray; padding-top: 0.15rem;">
+								<td class="col" style="padding: 0.3rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important; width: 70px !important"><span style="position: relative; top: -3px;">Total</span></td>
+								<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important;"></td>
+								<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 325px !important; max-width: 325px !important; width: 325px !important;"></td>`;
+									  
+                        html +=
+                            `<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["workingBudget"]), 0)).toLocaleString() + `</td>` +
+							`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["actuals"]), 0)).toLocaleString() + `</td>` +
+							`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["hardCommitments"]), 0)).toLocaleString() + `</td>` +
+							`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["requisitions"]), 0)).toLocaleString() + `</td>` +
+							`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["totalCommitted"]), 0)).toLocaleString() + `</td>`;
+
+						html += 
+							`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["forecast"]), 0)).toLocaleString() + `</td>` +
+							`</tr>`;
+
+					} else if (data[i]["entryCategory"] == "DT") {
+                        html +=
+                            `<tr class="row open" department="` +  data[i]["departmentId"] + `" id="rowMain" style="cursor: pointer; margin-bottom: 2px; margin-top: 15px; background-color: rgba(73, 101, 191, 0.90); color: white; height: 30px !important; font-size: 0.866rem; font-weight: 600; border-bottom: 1px solid lightgray; padding-top: 0.15rem;">
+								<td class="col" style="padding: 0.3rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important; width: 70px !important"><span style="position: relative; top: -3px; ">` + data[i]["departmentId"] + ` - ` + data[i]["departmentName"] + `</span></td>` +
+                            `<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important;"></td>
+								<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 325px !important; max-width: 325px !important; width: 325px !important;"></td>`;
+
+                        html +=
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["workingBudget"]), 0)).toLocaleString() + `</td>` +
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["actuals"]), 0)).toLocaleString() + `</td>` +
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["hardCommitments"]), 0)).toLocaleString() + `</td>` +
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["requisitions"]), 0)).toLocaleString() + `</td>` +
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["totalCommitted"]), 0)).toLocaleString() + `</td>`;
+
+						html +=
+							`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["forecast"]), 0)).toLocaleString() + `</td>` +
+							`</tr>`;
+                    } else if (data[i]["entryCategory"] == "PT") {
+                        var icons = "";
+                        if (data[i]["departmentId"] == "20" || data[i]["departmentId"] == "40" || data[i]["departmentId"] == "30" || data[i]["departmentId"] == "20") {
+                            icons = `<i class="la la-plus-square plusExpand" style="display: none; font-size: 15px; padding-top: 0.1rem; cursor: pointer;"></i><i class="minusCollapse la la-minus-square " style="font-size: 15px; padding-top: 0.1rem; cursor: pointer;"></i><i class="material-icons" style="font-size: 15px; padding-top: 0.1rem; visibility: hidden;  cursor: pointer;"></i><span style="position: relative; top: -3px; color: white;"></span>`;
+                        } else {
+                            icons = "";
+                        }
+
+                        html +=
+                            `<tr class="row" department="` +  data[i]["departmentId"] + `"  project="` +  data[i]["projectId"] + `"  id="rowReg" style="margin-bottom: 5px; background-color: mediumseagreen; color: white; height: 25px !important; font-size: 0.866rem; font-weight: 600; border-bottom: 1px solid lightgray;">
+								<td value="" class="col text-right" style="padding: 0.1rem 0.3rem 0.3rem 0.1rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important; width: 70px !important;">` + icons + `</td>
+								<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 0.1rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important;">` + data[i]["projectId"] + ` - ` + data[i]["projectName"] + `</td>` +
+								`<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 325px !important; max-width: 325px !important; width: 325px !important;"></td>`;
+
+
+                        html +=
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["workingBudget"]), 0)).toLocaleString() + `</td>` +
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["actuals"]), 0)).toLocaleString() + `</td>` +
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["hardCommitments"]), 0)).toLocaleString() + `</td>` +
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["requisitions"]), 0)).toLocaleString() + `</td>` +
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["totalCommitted"]), 0)).toLocaleString() + `</td>`;
+					
+						html +=
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["forecast"]), 0)).toLocaleString() + `</td>` +
+								`</tr>`;
+                    } else if (data[i]["entryCategory"] == "LT") {
+                        if (data[i]["departmentId"] == "20" || data[i]["departmentId"] == "40" || data[i]["departmentId"] == "30" || data[i]["departmentId"] == "20" ) {
+
+							html +=
+								`<tr class="row bodyRow" department="` +  data[i]["departmentId"] + `" project="` +  data[i]["projectId"] + `" id="rowReg" style="background-color: white; height: 25px !important; font-size: 0.75rem; font-weight: 600; border-bottom: 1px solid lightgray;">
+									<td id="" value="c" class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important; width: 70px !important; color: white; font-weight: 600;"></td>
+									<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important; font-weight: 600;"></td>
+									<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 325px !important; max-width: 325px !important; width: 325px !important; overflow: hidden !important; position: relative; left: -75px; font-weight: 600;">` + data[i]["locationName"] + `</td>`;
+
+							html +=
+								`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap; font-weight: 600;" id="id">` + parseInt(Math.round(parseFloat(data[i]["workingBudget"]), 0)).toLocaleString() + `</td>
+								<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap; font-weight: 600;" id="id">` + parseInt(Math.round(parseFloat(data[i]["actuals"]), 0)).toLocaleString() + `</td>
+								<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap; font-weight: 600;" id="id">` + parseInt(Math.round(parseFloat(data[i]["hardCommitments"]), 0)).toLocaleString() + `</td>
+								<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap; font-weight: 600;" id="id">` + parseInt(Math.round(parseFloat(data[i]["requisitions"]), 0)).toLocaleString() + `</td>
+								<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap; font-weight: 600;" id="id">` + parseInt(Math.round(parseFloat(data[i]["totalCommitted"]), 0)).toLocaleString() + `</td>` +
+								`<td class="text-right" style="width: 100px !important; padding: 0.3rem 0rem; white-space: nowrap; font-weight: 600;" id="id">` + parseInt(Math.round(parseFloat(data[i]["forecast"]), 0)).toLocaleString() + `</td>` +	
+							`</tr>`;
+                        }
+					}
+				}
+
+				$('#editTableBody').html(html);
+			}
+		});
+
+		$(window).resize();
+	});
+</script>
+<script>
+    $(document).ready(function () {
+		$('[data-toggle="tooltip"]').tooltip();
+		setTimeout(function () {
+			$(window).resize(function(){
+				var spacing = ( window.innerWidth - 1100 );     
+                var margin = spacing / 2 + 'px';
+
+				if(spacing >= 0){
+                    $('.mainTable').css('margin-left', margin);
+                    $('.la-arrow-alt-circle-left').css('left', ((spacing/2) + 13) + 'px');
+				} else {
+                    $('.mainTable').css('margin-left', '5px');
+					$('.la-arrow-alt-circle-left').css('left', '18px');
+				}
+			});
+			$('.media-body').mouseenter(function () {
+				$(this).find('#hover-blue').css('width', '95%');
+			});
+
+			$('.media-body').mouseleave(function () {
+				$(this).find('#hover-blue').css('width', '0%');
+			});
+
+			$('.minusCollapse').click(function () {
+				$(this).hide();
+				$(this).siblings().show();
+				var proj = $(this).parent().parent().attr('project');
+				var dept = $(this).parent().parent().attr('department');
+				var rows = 'tr[project=' + proj + '][department=' + dept + ']';
+				$(rows).hide();
+				$(this).parent().parent().show();
+			});
+
+			$('.plusExpand').click(function () {
+				$(this).hide();
+				$(this).siblings().show();
+				var proj = $(this).parent().parent().attr('project');
+				var dept = $(this).parent().parent().attr('department');
+				var rows = 'tr[project=' + proj + '][department=' + dept + ']';
+				$(rows).show();
+				$(this).parent().parent().show();
+			});
+
+			$('#departmentSelect').on('select2:select', function (e) {
+				var selected = $('#departmentSelect').val();
+				if (selected != "All") {
+					var rows = 'tr[department=' + selected + ']';
+					var notRows = 'tr:not([department=' + selected + '])';
+					$(rows).show();
+					$(notRows).hide();
+					$('#table-header').show();
+				} else {
+					$('tr').show();
+				}
+            });
+            setInterval(function () {
+				$('tr#rowMain.open').click(function () {
+					var department = 'tr.bodyRow[department=' + $(this).attr('department') + ']';
+					$(department).hide();
+					$(this).show().addClass('closed').removeClass('open');        
+				});
+
+				$('tr#rowMain.closed').click(function () {
+					var department = 'tr.bodyRow[department=' + $(this).attr('department') + ']';
+                    $(department).show();
+					$(this).addClass('open').removeClass('closed');
+				});
+            }, 1000);
+
+
+            $(window).resize();
+            $('#main-dashboard').fadeIn(1000);
+        }, 3000);
+	});
+</script>
+
+
+
+
+

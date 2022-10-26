@@ -1,0 +1,368 @@
+﻿@{ Layout = null;}
+<html>
+<head>
+	<title>PhRMA Insight</title>
+	<link href="~/azia/css/azia.min.css" rel="stylesheet" />
+	<link href="~/azia/lib/bootstrap/css/bootstrap.min.css" />
+	<style>
+		@@page {
+			/*size: 8.5in 11in;*/
+			size: landscape;
+		}
+
+		.person {
+			cursor: pointer;
+		}
+
+		@@media print {
+			.page-break {
+				page-break-before: always;
+			}
+		}
+
+		.movedown {
+			animation: movedown normal 0.5s;
+		}
+
+		@@keyframes movedown {
+			0% {
+				top: 60px;
+			}
+
+			100% {
+				top: 50px;
+			}
+		}
+
+		.spinner-container {
+			position: fixed;
+			height: 100%;
+			width: 100%;
+		}
+
+		.spinner {
+			margin: 100px auto;
+			width: 50px;
+			height: 40px;
+			text-align: center;
+			font-size: 10px;
+		}
+
+			.spinner > div {
+				background-color: #2225b4;
+				height: 100%;
+				width: 6px;
+				display: inline-block;
+				-webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+				animation: sk-stretchdelay 1.2s infinite ease-in-out;
+			}
+
+			.spinner .rect2 {
+				-webkit-animation-delay: -1.1s;
+				animation-delay: -1.1s;
+			}
+
+			.spinner .rect3 {
+				-webkit-animation-delay: -1.0s;
+				animation-delay: -1.0s;
+			}
+
+			.spinner .rect4 {
+				-webkit-animation-delay: -0.9s;
+				animation-delay: -0.9s;
+			}
+
+			.spinner .rect5 {
+				-webkit-animation-delay: -0.8s;
+				animation-delay: -0.8s;
+			}
+
+		@@-webkit-keyframes sk-stretchdelay {
+			0%, 40%, 100% {
+				-webkit-transform: scaleY(0.4)
+			}
+
+			20% {
+				-webkit-transform: scaleY(1.0)
+			}
+		}
+
+		@@keyframes sk-stretchdelay {
+			0%, 40%, 100% {
+				transform: scaleY(0.4);
+				-webkit-transform: scaleY(0.4);
+			}
+
+			20% {
+				transform: scaleY(1.0);
+				-webkit-transform: scaleY(1.0);
+			}
+		}
+	</style>
+	<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.min.css" />
+	<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.components.min.css" />
+	<script src="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/js/fabric.min.js"></script>
+</head>
+<body style="width: 700px;">
+	<div id="filters" class="content-item" style="width: 100%; position: fixed; top: 0px; height: 50px; background-color: white; z-index: 99; display: none;">
+		<div class="row">
+			<div class="col">
+				<select id="users"></select>
+			</div>
+			<div class="col">
+				<div class="ms-Dropdown" tabindex="0">
+					<label class="ms-Label">Dropdown label</label>
+					<i class="ms-Dropdown-caretDown ms-Icon ms-Icon--ChevronDown"></i>
+					<select class="ms-Dropdown-select" id="issue_areas">
+						<option value="All">All</option>
+						<option value="340B">340B</option>
+						<option value="Adherence, Medication Mgt.">Adherence, Medication Mgt.</option>
+						<option value="Authorized Generics/Generics">Authorized Generics/Generics</option>
+						<option value="Biologics/Biosimilars">Biologics/Biosimilars</option>
+						<option value="Biomarkers">Biomarkers</option>
+						<option value="Budget, Federal (Appropriations)">Budget, Federal (Appropriations)</option>
+						<option value="CER/EBM/HTA">CER/EBM/HTA</option>
+						<option value="China">China</option>
+						<option value="Chronic Disease">Chronic Disease</option>
+						<option value="Clinical Development/Clinical Trials">Clinical Development/Clinical Trials</option>
+						<option value="CMMI">CMMI</option>
+						<option value="Coverage Policy">Coverage Policy</option>
+						<option value="Coverage/Benefits ＆ Cost Saving">Coverage/Benefits ＆ Cost Saving</option>
+						<option value="COVID-19 Response">COVID-19 Response</option>
+						<option value="Deficit Reduction">Deficit Reduction</option>
+						<option value="DOD/VA/Tricare">DOD/VA/Tricare</option>
+						<option value="Drug Development Tools">Drug Development Tools</option>
+						<option value="Drug Safety/REMS/PHARMACOVIGILANCE/ Sentinel">Drug Safety/REMS/PHARMACOVIGILANCE/ Sentinel</option>
+						<option value="Drug Shortages">Drug Shortages</option>
+						<option value="Dual Eligibles">Dual Eligibles</option>
+						<option value="Emerging Co. Issues">Emerging Co. Issues</option>
+						<option value="Environmental Issues/ Secure Disposal/ Take Back">Environmental Issues/ Secure Disposal/ Take Back</option>
+						<option value="Expanded Access/Right to Try">Expanded Access/Right to Try</option>
+						<option value="False Claims Act/ Liability">False Claims Act/ Liability</option>
+						<option value="FDA/ PDUFA/ BSUFA">FDA/ PDUFA/ BSUFA</option>
+						<option value="Federal Drug Pricing/ Price Control/ Transparency">Federal Drug Pricing/ Price Control/ Transparency</option>
+						<option value="Health Care Reform/ ACA Repeal-Replace">Health Care Reform/ ACA Repeal-Replace</option>
+						<option value="Health Information Technology (HIT)">Health Information Technology (HIT)</option>
+						<option value="Hep C/ Cancer">Hep C/ Cancer</option>
+						<option value="Important/ Counterfeiting/ Drug Safety">Important/ Counterfeiting/ Drug Safety</option>
+						<option value="India">India</option>
+						<option value="Infectious Disease/ Antibiotics">Infectious Disease/ Antibiotics</option>
+						<option value="Innovation/R＆D">Innovation/R＆D</option>
+						<option value="Innovative Contracting/ Value-based Health Care">Innovative Contracting/ Value-based Health Care</option>
+						<option value="International Market Access">International Market Access</option>
+						<option value="International Markets/ International Regulatory/ ICH">International Markets/ International Regulatory/ ICH</option>
+						<option value="IP/ Patent Issues">IP/ Patent Issues</option>
+						<option value="IPAB">IPAB</option>
+						<option value="Jobs/ Economic Impact/ Competitiveness">Jobs/ Economic Impact/ Competitiveness</option>
+						<option value="Market Access/ Cost Sharing">Market Access/ Cost Sharing</option>
+						<option value="Marketing/DTC">Marketing/DTC</option>
+						<option value="Medicaid">Medicaid</option>
+						<option value="Medicare Part B">Medicare Part B</option>
+						<option value="Medicare Part D/ NonInterference">Medicare Part D/ NonInterference</option>
+						<option value="OIG/Exclusion/Anti-Kickback">OIG/Exclusion/Anti-Kickback</option>
+						<option value="Patient Savings Programs/ CoPay Coupons">Patient Savings Programs/ CoPay Coupons</option>
+						<option value="Payment Models">Payment Models</option>
+						<option value="PBM/ Middleman Issues">PBM/ Middleman Issues</option>
+						<option value="Pediatrics/ BPCA/ PREA">Pediatrics/ BPCA/ PREA</option>
+						<option value="Personalized Medicine">Personalized Medicine</option>
+						<option value="Pharmacy">Pharmacy</option>
+						<option value="PhRMA Code">PhRMA Code</option>
+						<option value="Prescription Drug Abuse">Prescription Drug Abuse</option>
+						<option value="Quality Clinical Issues">Quality Clinical Issues</option>
+						<option value="Quality Manufacturing">Quality Manufacturing</option>
+						<option value="Rare Diseases">Rare Diseases</option>
+						<option value="Real World Evidence">Real World Evidence</option>
+						<option value="Regulatory Pathways (Expedited Breakthrough, Combination Products)">Regulatory Pathways (Expedited Breakthrough, Combination Products)</option>
+						<option value="Scoring Issues">Scoring Issues</option>
+						<option value="Specialty Meds">Specialty Meds</option>
+						<option value="State Proactive Policy">State Proactive Policy</option>
+						<option value="STEM/ Workforce Issues">STEM/ Workforce Issues</option>
+						<option value="Sunshine Act">Sunshine Act</option>
+						<option value="Supply Chain/ Manufacturing">Supply Chain/ Manufacturing</option>
+						<option value="Tax">Tax</option>
+						<option value="Trade">Trade</option>
+						<option value="Vaccines">Vaccines</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="html" class="content-item" style="position: relative; top: 50px; display: none;">
+		Loading...
+	</div>
+	<div class="spinner-container">
+		<div class="spinner">
+			<div class="rect1"></div>
+			<div class="rect2"></div>
+			<div class="rect3"></div>
+			<div class="rect4"></div>
+			<div class="rect5"></div>
+		</div>
+	</div>
+	<div id="popup_issue_areas" class="content-item" style="position: fixed; height: 500px; width: 500px; top: 75px; left: 700px; overflow-y: auto; overflow-x: hidden; z-index: 9999; display: none;">
+
+
+	</div>
+	<script src="../azia/lib/jquery/jquery.min.js"></script>
+	<script src="~/azia/lib/bootstrap/js/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			var DropdownHTMLElements = document.querySelectorAll('.ms-Dropdown');
+			for (var i = 0; i < DropdownHTMLElements.length; ++i) {
+				var Dropdown = new fabric['Dropdown'](DropdownHTMLElements[i]);
+			}
+			$.get({
+				url: '../Print/GetUsers',
+				success: function (data) {
+					var html = ``;
+					var select_html = `<option issueareas="null" value="All">All</option>`;
+					var areas_html = `<option value="All">All</option>`;
+					for (var i = 0; i < data.length; i++) {
+						select_html += `<option issueareas="` + data[i]["issueareas"] + `" value="` + data[i]["useR_PRINCIPAL_NAME"] + `">` + data[i]["giveN_NAME"] + " " + data[i]["surname"] + `</option>`;
+					}
+					for (var k = 0; k < data.length; k += 2) {
+						//if (k % 10 == 0) {
+						//    if (k == 0) {
+						//        html += `<div class="row"><img style="margin-top: 0px; margin-left: 30px; margin-bottom: 20px;" src="../../img/phrmatoplogo.jpg"/></div>`;
+						//    } else {
+						//        html += `<div class="row page-break"><img style="margin-left: 30px; margin-bottom: 20px;" src="../../img/phrmatoplogo.jpg"/></div>`;
+						//    }
+						//}
+
+
+
+
+						html += `<div class="row" style="margin-top: 10px; padding-bottom: 10px;">`;
+						////////////////////
+						html += `<div value="` + data[k]["useR_PRINCIPAL_NAME"] + `" class="col row person">`;
+						html += `<div style="width: 125px; margin-left: 30px;">`;
+						html += `<img style="height: 125px; width: 125px; border-radius: 50%;" src="` + data[k]["alertmediaid"] + `" />`;
+						html += `</div>`;
+						html += `<div class="col" style="font-size: 12px;">`;
+						html += `<div style="font-size: 16px; margin-top: 10px;">` + data[k]["giveN_NAME"] + " " + data[k]["surname"] + `</div>`;
+						html += `<div style="margin-top: 3px;">` + data[k]["department"] + `</div>`;
+						html += `<div>` + data[k]["title"] + `</div>`;
+						html += `<div>` + data[k]["officE_LOCATION"] + `</div>`;
+						html += `<div><a href="mailto:` + data[k]["useR_PRINCIPAL_NAME"] + `">` + data[k]["useR_PRINCIPAL_NAME"] + `</a></div>`;
+						html += `<div>` + data[k]["mobilE_PHONE"] + `</div>`;
+						html += `</div>`;
+						html += `</div>`;
+						////////////////////
+						if (k + 1 < data.length) {
+							html += `<div class="col row person" value="` + data[k + 1]["useR_PRINCIPAL_NAME"] + `">`;
+							html += `<div style="width: 125px; margin-left: 30px;">`;
+							html += `<img style="height: 125px; width: 125px; border-radius: 50%;" src="` + data[k + 1]["alertmediaid"] + `" />`;
+							html += `</div>`;
+							html += `<div class="col" style="font-size: 12px;">`;
+							html += `<div style="font-size: 16px; margin-top: 10px;">` + data[k + 1]["giveN_NAME"] + " " + data[k + 1]["surname"] + `</div>`;
+							html += `<div style="margin-top: 3px;">` + data[k + 1]["department"] + `</div>`;
+							html += `<div>` + data[k + 1]["title"] + `</div>`;
+							html += `<div>` + data[k + 1]["officE_LOCATION"] + `</div>`;
+							html += `<div><a href="mailto:` + data[k + 1]["useR_PRINCIPAL_NAME"] + `">` + data[k + 1]["useR_PRINCIPAL_NAME"] + `</a></div>`;
+							html += `<div>` + data[k + 1]["mobilE_PHONE"] + `</div>`;
+							html += `</div>`;
+							html += `</div>`;
+						}
+						////////////////////
+						html += `</div>`;
+
+						//html += `<div style="height: 3px !important; width: 100%; background: linear-gradient(to right, lightgray, gray);"></div>`;
+
+
+					}
+					$('#html').html(html);
+					$('#users').html(select_html);
+					$('.content-item').show();
+					$('.spinner-container').hide();
+					setTimeout(function () {
+						$('.person').click(function (e) {
+							$('#popup_issue_areas').show();
+							$('#popup_issue_areas').html("");
+
+							var person = `#users>option[value="` + $(this).attr('value') + `"]`;
+							var p = $(person)
+							var ia = p.attr('issueareas').split("|");
+							console.log(ia);
+							var phtml = `<h5 style="margin-left: 35px;">` + p.text() + '</h5>';
+							phtml += `<ul>`;
+							$.each(ia, function (z) {
+								if (z > 0) {
+									phtml += `<li>` + ia[z] + `</li>`;
+								}
+							});
+							phtml += `</ul>`;
+							var top = '75px'
+							var left = '700px';
+							$('#popup_issue_areas').css({ 'top': top, 'left': left });
+							$('#popup_issue_areas').html(phtml);
+						});
+
+					}, 2000);
+				}
+			});
+
+			$('#users').change(function () {
+				eval($('#showhide')[0].innerHTML);
+			});
+
+			$('#issue_areas').change(function () {
+				eval($('#showhide2')[0].innerHTML);
+			});
+
+			$('select').change(function () {
+
+				$('#html').addClass('movedown');
+				setTimeout(function () {
+					$('#html').removeClass('movedown');
+				}, 2000);
+			});
+		});
+	</script>
+	<script id="showhide">
+		if ($('#users').val() != "All") {
+			$('#issues_areas').val("All");
+			var email = $('#users').val().toString();
+			var hide = `.person:not([value='` + email + `'])`;
+			var show = `.person[value='` + email + `']`;
+			$(hide).parents('.row').hide();
+			$(hide).hide();
+			$(show).show().parents('.row').show();
+		} else {
+
+			$('.person').show();
+			$('.person').parents('.row').show();
+		}
+
+
+
+
+	</script>
+	<script id="showhide2">
+		if ($('#issues_areas').val() != "All") {
+			$('#users').val("All");
+			var issuearea = $('#issue_areas').val().toString();
+			$('.person').parents('.row').hide();
+			$('.person').hide();
+			$.each($('#users>option'), function (k) {
+				if ($('#users>option').eq(k).attr('issueareas').toString().indexOf($('#issue_areas').val().toString()) != -1) {
+					var show = `.person[value='` + $('#users>option').eq(k).val().toString() + `']`;
+					$(show).show();
+					$(show).show().parents('.row').show();
+				}
+			});
+		} else {
+			$('.person').show();
+			$('.person').parents('.row').show();
+		}
+
+
+
+
+	</script>
+
+</body>
+</html>
+
+
+
+

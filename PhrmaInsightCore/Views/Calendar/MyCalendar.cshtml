@@ -1,0 +1,139 @@
+﻿<div class="az-content az-content-calendar">
+    <div class="container">
+        <div class="az-content-left az-content-left-calendar">
+            <div class="az-content-header">
+                <a href="" id="azMenuShow" class="az-header-menu-icon"><span></span></a>
+                <a href="index.html" class="az-logo">az<span>i</span>a</a>
+                <a href="" id="azContentLeftHide" class="az-header-arrow">
+                    <i class="icon ion-md-arrow-forward d-sm-none"></i>
+                    <i class="icon ion-md-close d-none d-sm-block"></i>
+                </a>
+            </div><!-- az-content-header -->
+
+            <div id="dateToday" class="az-content-label az-content-label-sm tx-medium lh-1 mg-b-10"></div>
+            <h2 class="az-content-title mg-b-25 tx-24">My Calendar</h2>
+
+            <div class="fc-datepicker az-datepicker mg-b-30"></div>
+
+            <label class="az-content-label tx-13 tx-bold mg-b-10">Event List</label>
+            <nav class="nav az-nav-column az-nav-calendar-event">
+                <a href="" class="nav-link"><i class="icon ion-ios-calendar tx-primary"></i> <div>Calendar Events</div></a>
+                <a href="" class="nav-link"><i class="icon ion-ios-calendar tx-success"></i> <div>Birthday Events</div></a>
+                <a href="" class="nav-link"><i class="icon ion-ios-calendar tx-danger"></i> <div>Holiday Calendar</div></a>
+                <a href="" class="nav-link"><i class="icon ion-ios-calendar tx-warning"></i> <div>Other Calendar</div></a>
+                <a href="" class="nav-link exclude"><i class="icon ion-ios-calendar tx-info"></i> <div>Discovered Events</div></a>
+            </nav>
+        </div>
+        <div class="az-content-body az-content-body-calendar">
+
+            <div id="calendar" class="az-calendar"></div>
+        </div><!-- az-content-body -->
+    </div><!-- container -->
+</div><!-- az-content -->
+
+
+<div class="modal az-modal-calendar-schedule" id="modalSetSchedule" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Create New Event</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div><!-- modal-header -->
+            <div class="modal-body">
+                <form id="azFormCalendar" method="post" action="calendar.html">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Add title">
+                    </div><!-- form-group -->
+                    <div class="form-group d-flex align-items-center">
+                        <label class="rdiobox mg-r-60">
+                            <input type="radio" name="etype" value="event" checked>
+                            <span>Event</span>
+                        </label>
+                        <label class="rdiobox">
+                            <input type="radio" name="etype" value="reminder">
+                            <span>Reminder</span>
+                        </label>
+                    </div><!-- form-group -->
+                    <div class="form-group mg-t-30">
+                        <label class="tx-13 mg-b-5 tx-gray-600">Start Date</label>
+                        <div class="row row-xs">
+                            <div class="col-7">
+                                <input id="azEventStartDate" type="text" value="" class="form-control" placeholder="Select date">
+                            </div><!-- col-7 -->
+                            <div class="col-5">
+                                <select id="azEventStartTime" class="select2-modal az-event-time" data-placeholder="Select time">
+                                    <option label="Select time">Select time</option>
+                                </select>
+                            </div><!-- col-5 -->
+                        </div><!-- row -->
+                    </div><!-- form-group -->
+                    <div class="form-group">
+                        <label class="tx-13 mg-b-5 tx-gray-600">End Date</label>
+                        <div class="row row-xs">
+                            <div class="col-7">
+                                <input id="azEventEndDate" type="text" value="" class="form-control" placeholder="Select date">
+                            </div><!-- col-7 -->
+                            <div class="col-5">
+                                <select id="azEventEndTime" class="select2-modal az-event-time" data-placeholder="Select time">
+                                    <option label="Select time">Select time</option>
+                                </select>
+                            </div><!-- col-5 -->
+                        </div><!-- row -->
+                    </div><!-- form-group -->
+                    <div class="form-group">
+                        <textarea class="form-control" rows="2" placeholder="Write some description (optional)"></textarea>
+                    </div><!-- form-group -->
+
+                    <div class="d-flex mg-t-15 mg-lg-t-30">
+                        <button type="submit" class="btn btn-az-primary pd-x-25 mg-r-5">Save</button>
+                        <a href="" class="btn btn-light" data-dismiss="modal">Discard</a>
+                    </div>
+                </form>
+            </div><!-- modal-body -->
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+<div class="modal az-modal-calendar-event" id="modalCalendarEvent" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="event-title"></h6>
+                <nav class="nav nav-modal-event">
+                    <a href="#" class="nav-link"><i class="icon ion-md-open"></i></a>
+                    <a href="#" class="nav-link"><i class="icon ion-md-trash"></i></a>
+                    <a href="#" class="nav-link" data-dismiss="modal"><i class="icon ion-md-close"></i></a>
+                </nav>
+            </div><!-- modal-header -->
+            <div class="modal-body">
+                <div class="row row-sm">
+                    <div class="col-sm-6">
+                        <label class="tx-13 tx-gray-600 mg-b-2">Start Date</label>
+                        <p class="event-start-date"></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="tx-13 mg-b-2">End Date</label>
+                        <p class="event-end-date"></p>
+                    </div><!-- col-6 -->
+                </div><!-- row -->
+
+                <label class="tx-13 tx-gray-600 mg-b-2">Description</label>
+                <p class="event-desc tx-gray-900 mg-b-30"></p>
+
+                <a href="" class="btn btn-secondary wd-80" data-dismiss="modal">Close</a>
+            </div><!-- modal-body -->
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+<script src="../azia/lib/jquery/jquery.min.js"></script>
+<script src="../azia/lib/moment/min/moment.min.js"></script>
+<script src="../azia/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../azia/lib/ionicons/ionicons.js"></script>
+@*<script src="../azia/js/app-calendar-events.js"></script>*@
+<script src="../azia/js/app-calendar.js"></script>
+
+
+
+

@@ -1,0 +1,314 @@
+﻿@{ Layout = null; }
+
+	@using Newtonsoft.Json
+<!DOCTYPE html>
+<html>
+<head>
+	<title>COVID-19 Daily Check-In</title>
+	<style>
+		.form-switch, .form-check-input, .form-check-label {
+			cursor: pointer;
+		}
+
+		.header {
+			position: fixed;
+			top: 0px;
+			height: 75px;
+			width: 100vw;
+			border-bottom: 5px solid #2b88d2;
+			background: linear-gradient( 270deg,#2b88d2,#1f334a,#1f334a,#1f334a);
+		}
+		#content {
+			position: relative;
+			top: 80px;
+			width: 100%;
+			overflow: auto;
+			height: calc(100vh - 80px);
+		}
+		img {
+			position: relative;
+			height: 80%;
+			top: 7px;
+			left: 15px;
+			border-radius: 10%;
+		}
+
+	</style>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<div class="header">
+		<img src="~/assets/Coronavirus.png" />
+		<h1 class="display-5" style="color: white; left: 92px; top: 10px; position: absolute;">COVID-19 Daily Check-In</h1>
+	</div>
+	<div id="content" style="padding: 25px; max-width: 1000px; min-width: 375px; margin: auto auto;">
+		<div>
+			<div class="input-group-sm mb-3">
+				<div class="form-floating mb-3">
+					<input type="text" class="form-control" id="firstName" placeholder="First Name">
+					<label for="firstName">First Name</label>
+				</div>
+				<div class="form-floating mb-3">
+					<input type="text" class="form-control" id="lastName" placeholder="Last Name">
+					<label for="lastName">Last Name</label>
+				</div>
+			</div>
+			<div class="form-floating mb-3">
+				<input type="email" class="form-control" id="email" placeholder="name@example.com">
+				<label for="email">Email address</label>
+			</div>
+			<div class="q">
+				1.	Did you receive a negative COVID-19 PCR test as required in accordance with PhRMA requirements (negative test within 72 hours of initial access or retesting within the last 10 days of the month)?
+			</div>
+			<div class="q" style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px; padding: 5px;">
+				<div></div>
+				<div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="q1" state="off">
+						<label class="form-check-label" for="q1">No</label>
+					</div>
+				</div>
+			</div>
+			<div class="q" style="margin-top: 30px;">
+				2.	Do you have any of the following symptoms?
+				<p style="font-style: italic; color: gray; margin-left: 10px;">Please answer YES or NO to each symptom below:</p>
+			</div>
+			<div class="q" style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 20px; padding: 20px;" id="q2">
+
+			</div>
+			<div class="q" style="margin-top: 30px;">
+				3.	Within the past 14 days, have you had close contact (see definition on page 1) with someone with symptoms of COVID-19 or a known COVID-19 infection?
+			</div>
+			<div class="q" style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px; padding: 5px;">
+				<div></div>
+				<div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="q3" state="off">
+						<label class="form-check-label" for="q3">No</label>
+					</div>
+				</div>
+			</div>
+			<div class="q" style="margin-top: 30px;">
+				4.	Are you isolating or quarantining because you may have been exposed to a person with COVID-19 or are worried that you may be sick with COVID-19?
+			</div>
+			<div class="q" style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px; padding: 5px;">
+				<div></div>
+				<div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="q4" state="off">
+						<label class="form-check-label" for="q4">No</label>
+					</div>
+				</div>
+			</div>
+			<div class="q" style="margin-top: 30px;">
+				5.	Are you currently waiting on the results of a COVID-19 test?
+			</div>
+			<div class="q" style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px; padding: 5px;">
+				<div></div>
+				<div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="q5" state="off">
+						<label class="form-check-label" for="q5">No</label>
+					</div>
+				</div>
+			</div>
+			<div class="q" style="margin-top: 30px;">
+				6.	Have you been in a crowded indoor space <b>without a face covering</b>, within 6 feet of others not in your household, for a cumulative total of 15 minutes in the last 14 days?
+			</div>
+			<div class="q" style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px; padding: 5px;">
+				<div></div>
+				<div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="q6" state="off">
+						<label class="form-check-label" for="q6">No</label>
+					</div>
+				</div>
+			</div>
+			<div class="q" style="margin-top: 30px;">
+				7.	Have you had overnight travel to a state other than a low-risk state as designated by the DC government or international travel in the last 14 days?
+			</div>
+			<div class="q" style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px; padding: 5px;">
+				<div></div>
+				<div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="q7" state="off">
+						<label class="form-check-label" for="q7">No</label>
+					</div>
+				</div>
+			</div>
+			<div style="margin-top: 15px;">
+				<label>COVID-19 PCR Test Results</label>
+				<div class="input-group mb-3">
+
+					<input type="file" class="form-control" id="file">
+				</div>
+
+			</div>
+			<div class="q">
+
+			</div>
+			<div class="q">
+				<button style="display: block; margin-top: 25px; width: 100%;" class="btn btn-primary" onclick="submit()">Submit</button>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script>
+		let currentIndex = 0;
+
+		let q2 = document.getElementById("q2");
+		let html = ``;
+		let arr = ["Fever or chills", "Cough", "Shortness of breath or difficulty breathing", "Fatigue", "Muscle or body aches", "Headache", "New loss of taste or smell", "Sore throat", "Congestion or runny nose", "Nausea or vomiting", "Diarrhea"];
+		let k = 0;
+		arr.forEach((item) => {
+			k += 1;
+			html += `<div>`;
+			html += item;
+			html += `</div>
+									<div>
+										<div class="form-check form-switch">
+										  <input class="form-check-input" type="checkbox" id="q2a`  + k + `" state="` + "off" + `">
+										  <label class="form-check-label" for="q2a`  + k + `">No</label>
+										</div>
+									</div>
+									`;
+		});
+		q2.innerHTML = html;
+		setTimeout(() => {
+			let inputs = document.getElementsByClassName('form-check-input');
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].addEventListener('click', function () {
+					let state = this.getAttribute('state') == "off" ? "on" : "off";
+					let YesNo = state == "on" ? "Yes" : "No";
+					this.parentNode.children[1].textContent = YesNo;
+					this.setAttribute('state', state);
+					console.log(this.getAttribute('state'));
+				});
+			}
+
+
+		}, 1000);
+		function next() {
+
+			let q = document.getElementsByClassName('q');
+			currentIndex >= q.length - 2 ? currentIndex = currentIndex : currentIndex += 2;
+			let idx = 0;
+
+			for (var i = 0; i < q.length; i++) {
+				if (idx == currentIndex || idx == currentIndex + 1) {
+					q[i].style.display = "block";
+
+				} else {
+					q[i].style.display = "none";
+				}
+				idx += 1;
+			}
+
+
+
+		}
+
+		function back() {
+
+			let q = document.getElementsByClassName('q');
+			currentIndex <= 0 ? currentIndex = 0 : currentIndex -= 2;
+			let idx = 0;
+
+			for (var i = 0; i < q.length; i++) {
+				if (idx == currentIndex || idx == currentIndex + 1) {
+					q[i].style.display = "block";
+
+
+				} else {
+					q[i].style.display = "none";
+				}
+				idx += 1;
+			}
+
+
+
+		}
+		function submit() {
+			if ($('#file')[0].files.length == 1) {
+				var formData = new FormData();
+				formData.append('ifile', $('#file')[0].files[0]);
+
+				$.ajax({
+					url: '../Screening/UploadFile',
+					contentType: false,
+					data: formData,
+					processData: false,
+					type: "POST",
+					success: function (data) {
+
+						console.log("submitted!");
+
+					}
+				});
+			}
+
+			let attachment = $('#file')[0].files.length > 0 ? "/screening/" + $('#file')[0].files[0].name : "none";
+			let data = {
+				firstName: document.getElementById("firstName").value,
+				lastName: document.getElementById("lastName").value,
+				email: document.getElementById("email").value,
+				q1: document.getElementById("q1").getAttribute('state') == "off" ? "No" : "Yes",
+				q2a01: document.getElementById("q2a1").getAttribute('state') == "off" ? "No" : "Yes",
+				q2a02: document.getElementById("q2a2").getAttribute('state') == "off" ? "No" : "Yes",
+				q2a03: document.getElementById("q2a3").getAttribute('state') == "off" ? "No" : "Yes",
+				q2a04: document.getElementById("q2a4").getAttribute('state') == "off" ? "No" : "Yes",
+				q2a05: document.getElementById("q2a5").getAttribute('state') == "off" ? "No" : "Yes",
+				q2a06: document.getElementById("q2a6").getAttribute('state') == "off" ? "No" : "Yes",
+				q2a07: document.getElementById("q2a7").getAttribute('state') == "off" ? "No" : "Yes",
+				q2a08: document.getElementById("q2a8").getAttribute('state') == "off" ? "No" : "Yes",
+				q2a09: document.getElementById("q2a9").getAttribute('state') == "off" ? "No" : "Yes",
+				q2a10: document.getElementById("q2a10").getAttribute('state') == "off" ? "No" : "Yes",
+				q2a11: document.getElementById("q2a11").getAttribute('state') == "off" ? "No" : "Yes",
+				q3: document.getElementById("q3").getAttribute('state') == "off" ? "No" : "Yes",
+				q4: document.getElementById("q4").getAttribute('state') == "off" ? "No" : "Yes",
+				q5: document.getElementById("q5").getAttribute('state') == "off" ? "No" : "Yes",
+				q6: document.getElementById("q6").getAttribute('state') == "off" ? "No" : "Yes",
+				q7: document.getElementById("q7").getAttribute('state') == "off" ? "No" : "Yes",
+				attachment: attachment
+			};
+			console.log(data);
+			if (document.getElementById("firstName").value == "" || document.getElementById("lastName").value == "" || document.getElementById("email").value == "") {
+				Swal.fire({
+					title: 'Error!',
+					text: 'Please make sure to fill out all fields before submitting',
+					icon: 'error'
+				})
+			} else {
+				$.ajax({
+					url: 'https://prod-57.eastus.logic.azure.com:443/workflows/dd74c2784efe4000a1792617449956d3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=MYT8gSC3SdKEt218KXsPOCizR9FhWCIbX3LLBQ0nym0',
+					data: data,
+					type: "POST",
+					success: function (data) {
+
+						console.log("submitted!");
+						$('#content').hide();
+						Swal.fire({
+							title: 'Saved!',
+							text: 'Thank-you',
+							icon: 'success'
+						}).then((result) => {
+							window.location.href = "https://phrma.org";
+						});
+
+					}
+				});
+			}
+			
+		}
+
+
+
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,500 @@
+﻿<div class="az-content az-content-dashboard">
+	<div class="container">
+		<div class="az-content-body">
+			<div class="az-dashboard-one-title">
+				<div>
+					<h2 class="az-dashboard-title">Hi, Welcome back!</h2>
+					@*<p class="az-dashboard-text">Your web analytics dashboard template.</p>*@
+				</div>
+			</div>
+			<div class="az-dashboard-nav"></div>
+			<div class="row row-sm mg-b-20">
+				<div class="col-xs-12 col-sm-6 col-md-4 ht-lg-100p col-lg-4 mg-t-10">
+					<div id="div" class="card card-dashboard-one" onclick="window.location.href = '../Finance/ForecastLocation'">
+						<div class="card-header">
+							<div>
+								<h6 style="font-size: 18px;" class="card-title hover-white">Forecast 2022</h6>
+							</div>
+						</div><!-- card-header -->
+						<div class="card-body" style="text-align: center; padding-bottom: 0px;">
+
+							<div class="flot-chart-wrapper">
+								<div id="flotChart1" class="flot-chart" style="height: 140px; top: 10px;"></div>
+							</div>
+						</div><!-- card-body -->
+					</div><!-- card -->
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4 ht-lg-100p col-lg-4 mg-t-10">
+					<div id="div" class="card card-dashboard-one div1" onclick="window.location.href = '../Finance/AuthorizePowerBI'">
+						<div class="card-header">
+							<div>
+								<h6 style="font-size: 18px;" class="card-title hover-white">Reporting</h6>
+							</div>
+						</div><!-- card-header -->
+						<div class="card-body" style="text-align: center; padding-bottom: 0px;">
+							<div class="chart-wrapper" style="height: 140px;">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1208.29 601.14" style=" position: absolute; bottom: 0px; left: -20px; width: 115%;">
+									<g>
+										<path class="graph-a" d="M1205.93,2.85L1007.18,372.69c-2.6,4.84-9.15,9.59-14.56,10.55l-149.1,26.33a78.6,78.6,0,0,0-18.72,6.34L697.86,481.72a65.68,65.68,0,0,1-18.81,5.77L472,511.87a51.47,51.47,0,0,0-18.33,6.64l-128,82.63h882.46V0C1207.15,0.53,1206.68,1.47,1205.93,2.85Z" />
+									</g>
+									<g>
+										<path class="graph-b" d="M1208.15,128.49c-1,.48-0.77,1-1.13,1.74L1117.9,301.58c-2.54,4.88-9,9.79-14.42,10.9L959.66,342.33a56.14,56.14,0,0,0-17.91,7.88l-272,195.91a39.24,39.24,0,0,1-18.11,6.25L341.65,564.92c-5.5.22-14.47,0.87-19.94,1.43L4,599.74c-2.31.24-3.64,0.41-4,1.41H1208.15V128.49Z" />
+									</g>
+									<path class="graph-c" d="M1208,348.6l-194.9,152.13c-4.34,3.38-12.34,5.54-17.79,4.79L889.06,490.8c-5.45-.76-13.7,1-18.35,4L758.25,566.27a46,46,0,0,1-18.42,6L273.12,600.81c-1.22.08-2.17,0.33-2.85,0.33h938Z" />
+								</svg>
+							</div><!-- chart-wrapper -->
+						</div><!-- card-body -->
+					</div><!-- card -->
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4 mg-lg-t-0">
+					<div class="row row-sm mg-t-10">
+						<div class="card-body d-flex justify-content-center">
+							<div class="widget">
+								<div class="left-panel panel">
+									<div class="date date-today">
+										<!-- Update Date with JavaScript-->
+									</div>
+									<div class="city">
+										Washington, D.C.
+										<br />
+									</div>
+									<div class="temp">
+										<!-- Update Temp with JavaScript -->
+									</div>
+								</div>
+								<div class="right-panel panel">
+									<img src="~/img/Weather/us-capitol-building-icon.png" alt="" width="160">
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div><!--col -->
+			</div><!-- row -->
+			<div class="row row-sm mg-b-20">
+				@{ if (User.Identity.Name.ToLower() == "nlanteigne@phrma.org" || User.Identity.Name.ToLower() == "kdudley@phrma.org"
+						|| User.Identity.Name.ToLower() == "jrobinson@phrma.org"
+						)
+					{
+						<div class="col-xs-12 col-sm-6 col-md-4 ht-lg-100p col-lg-4 mg-t-10">
+							<div id="div" class="card card-dashboard-one" onclick="window.location.href = '../Finance/Budgeting'">
+								<div class="card-header">
+									<div>
+										<h6 style="font-size: 18px;" class="card-title hover-white">Budget 2023</h6>
+									</div>
+								</div><!-- card-header -->
+								<div class="card-body" style="text-align: center; padding-bottom: 0px;">
+
+									<div class="flot-chart-wrapper">
+										<div id="flotChart1q" class="flot-chart" style="height: 140px; top: 10px;"></div>
+									</div>
+								</div><!-- card-body -->
+							</div><!-- card -->
+						</div>
+					}
+				}
+
+
+
+
+
+				<div class="col-xs-12 col-sm-6 col-md-4 ht-lg-100p col-lg-4 mg-t-10">
+					<div id="div" class="card card-dashboard-one"
+						 onclick="window.location.href = 'https://phrma.sharepoint.com/sites/analytics'">
+						<div class="card-header">
+							<div>
+								<h6 style="font-size: 18px;" class="card-title hover-white">Priorities</h6>
+							</div>
+						</div><!-- card-header -->
+						<div class="card-body" style="text-align: center; padding-bottom: 0px;">
+							<div class="chart-wrapper" style="height: 140px;"></div>
+
+						</div><!-- card-body -->
+					</div><!-- card -->
+				</div>
+
+
+			</div><!-- row -->
+			</div><!-- az-content-body -->
+	</div><!-- container -->
+</div><!-- az-content -->
+<script src="../azia/lib/jquery/jquery.min.js"></script>
+<script>
+		if (window.location.href != "https://phrma.azurewebsites.net/Federal_Advocacy/Tool") {
+			$(function () {
+				'use strict'
+
+
+
+				$.plot('#flotChart1', [{
+					data: dashData2,
+					color: '#20639B'
+				}], {
+					series: {
+						shadowSize: 0,
+						lines: {
+							show: true,
+							lineWidth: 3,
+							fill: true,
+							fillColor: 'white'
+						}
+					},
+					grid: {
+						borderWidth: 0,
+						labelMargin: 0
+					},
+					yaxis: {
+						show: false,
+						min: 0,
+						max: 35
+					},
+					xaxis: {
+						show: false,
+						max: 50
+					}
+				});
+
+
+				$.plot('#flotChart1q', [{
+					data: dashData2,
+					color: '#20639B'
+				}], {
+					series: {
+						shadowSize: 0,
+						lines: {
+							show: true,
+							lineWidth: 3,
+							fill: true,
+							fillColor: 'yellow'
+						}
+					},
+					grid: {
+						borderWidth: 0,
+						labelMargin: 0
+					},
+					yaxis: {
+						show: false,
+						min: 0,
+						max: 35
+					},
+					xaxis: {
+						show: false,
+						max: 50
+					}
+				});
+
+                $.plot('#flotChart1a', [{
+					data: dashData2,
+					color: '#20639B'
+				}], {
+					series: {
+						shadowSize: 0,
+						lines: {
+							show: true,
+							lineWidth: 3,
+							fill: true,
+							fillColor: 'white'
+						}
+					},
+					grid: {
+						borderWidth: 0,
+						labelMargin: 0
+					},
+					yaxis: {
+						show: false,
+						min: 0,
+						max: 35
+					},
+					xaxis: {
+						show: false,
+						max: 50
+					}
+                });
+
+
+
+
+				//-------------------------------------------------------------//
+
+
+				// Line chart
+				$('.peity-line').peity('line');
+
+				// Bar charts
+				$('.peity-bar').peity('bar');
+
+				// Bar charts
+				$('.peity-donut').peity('donut');
+
+				//var ctx5 = document.getElementById('chartBar5').getContext('2d');
+				//new Chart(ctx5, {
+				//    type: 'bar',
+				//    data: {
+				//        labels: [0, 1, 2, 3, 4, 5, 6, 7],
+				//        datasets: [{
+				//            data: [2, 4, 10, 20, 45, 40, 35, 18],
+				//            backgroundColor: '#560bd0'
+				//        }, {
+				//            data: [3, 6, 15, 35, 50, 45, 35, 25],
+				//            backgroundColor: '#cad0e8'
+				//        }]
+				//    },
+				//    options: {
+				//        maintainAspectRatio: false,
+				//        tooltips: {
+				//            enabled: false
+				//        },
+				//        legend: {
+				//            display: false,
+				//            labels: {
+				//                display: false
+				//            }
+				//        },
+				//        scales: {
+				//            yAxes: [{
+				//                display: false,
+				//                ticks: {
+				//                    beginAtZero: true,
+				//                    fontSize: 11,
+				//                    max: 80
+				//                }
+				//            }],
+				//            xAxes: [{
+				//                barPercentage: 0.6,
+				//                gridLines: {
+				//                    color: 'rgba(0,0,0,0.08)'
+				//                },
+				//                ticks: {
+				//                    beginAtZero: true,
+				//                    fontSize: 11,
+				//                    display: false
+				//                }
+				//            }]
+				//        }
+				//    }
+				//});
+
+				// Donut Chart
+				//var datapie = {
+				//    labels: ['Federal Advocacy', 'SRA Work Group', 'State Advocacy', 'Public Affairs', 'Other'],
+				//    datasets: [{
+				//        data: [25, 20, 30, 15, 10],
+				//        backgroundColor: ['#6f42c1', '#007bff', '#17a2b8', '#00cccc', '#adb2bd']
+				//    }]
+				//};
+
+				//var optionpie = {
+				//    maintainAspectRatio: false,
+				//    responsive: true,
+				//    legend: {
+				//        display: false,
+				//    },
+				//    animation: {
+				//        animateScale: true,
+				//        animateRotate: true
+				//    }
+				//};
+
+				//// For a doughnut chart
+				//var ctxpie = document.getElementById('chartDonut');
+				//var myPieChart6 = new Chart(ctxpie, {
+				//    type: 'doughnut',
+				//    data: datapie,
+				//    options: optionpie
+				//});
+
+			});
+		}
+
+</script>
+<script>
+	$(document).ready(function () {
+
+
+        $('#div').mouseenter(function (){
+            $(this).find('.hover-white').addClass('white');
+        });
+
+        $('#div').mouseleave(function (){
+            $(this).find('.hover-white').removeClass('white');
+        });
+
+        $('.div').mouseenter(function (){
+            $(this).find('.hover-white').addClass('white');
+        });
+
+        $('.div').mouseleave(function (){
+            $(this).find('.hover-white').removeClass('white');
+        });
+
+        $('.div1').mouseenter(function (){
+            $(this).find('.hover-white').addClass('white');
+        });
+
+        $('.div1').mouseleave(function (){
+            $(this).find('.hover-white').removeClass('white');
+        });
+
+		var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+		var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+		var superscript = { "0": "th", "1": "st", "2": "nd", "3": "rd", "4": "th", "5": "th", "6": "th", "7": "th", "8": "th", "9": "th" };
+
+
+		var date = new Date();
+		var dayOfWeek = date.getDay();
+		var day = date.getDate();
+		var month = date.getMonth();
+		var year = date.getFullYear();
+		var sup = "";
+		if (day.toString().length == 2) {
+			if (day.toString()[0] == "1") {
+				sup = "th";
+			} else {
+				sup = superscript[day.toString()[1]];
+			}
+		} else {
+			sup = superscript[day.toString()[0]];
+		}
+		var dateString = weekdays[dayOfWeek] + ", " + months[month] + " " + day + "<sup>" + sup + "</sup>" + ", " + year;
+		$('.date-today').html(dateString);
+		///
+
+		$.get({
+			url: 'https://api.weatherapi.com/v1/current.json?key=31e7a9b82df3489db64180342192912&q=20004',
+			success:
+				function (data) {
+					var html = `<img data-toggle="tooltip-primary" data-placement="bottom" title="" data-original-title="` + data["current"]["condition"]["text"] + `" src="` + data["current"]["condition"]["icon"] + `" width="70" style="position: relative; top: -10px;" />` + Math.round(data["current"]["temp_f"], 0) + '&deg;';
+					$('.temp').html(html);
+					$('[data-toggle="tooltip-primary"]').tooltip({
+						template: '<div class="tooltip tooltip-primary" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+					});
+				}
+		});
+
+		$('#startDate').datepicker({
+			format: 'yyyy-mm-dd',
+			autoclose: true
+		});
+
+		$('#endDate').datepicker({
+			format: 'yyyy-mm-dd',
+			autoclose: true
+		});
+
+		$.get({
+			url: '../Finance/GetSiteCategoryStatistics',
+			success: function (data) {
+
+				var totalCount = data[0].sectionCount + data[1].sectionCount + data[2].sectionCount + data[3].sectionCount;
+
+				// Federal Advocacy
+				$('.az-traffic-detail-item>div:not(".progress")').eq(0).children('span').eq(1).html(data[3].sectionCount.toLocaleString() + ' <span>(' + ((data[3].sectionCount / totalCount) * 100).toString().substring(0, 4) + '%)</span>');
+				$('.progress-bar').eq(0).width(((data[3].sectionCount / totalCount) * 100) + '%');
+
+				// SRA Work Group
+				$('.az-traffic-detail-item>div:not(".progress")').eq(1).children('span').eq(1).html(data[0].sectionCount.toLocaleString() + ' <span>(' + ((data[0].sectionCount / totalCount) * 100).toString().substring(0, 4) + '%)</span>');
+				$('.progress-bar').eq(1).width(((data[0].sectionCount / totalCount) * 100) + '%');
+
+				// State Advocacy
+				$('.az-traffic-detail-item>div:not(".progress")').eq(2).children('span').eq(1).html(data[2].sectionCount.toLocaleString() + ' <span>(' + ((data[2].sectionCount / totalCount) * 100).toString().substring(0, 4) + '%)</span>');
+				$('.progress-bar').eq(2).width(((data[2].sectionCount / totalCount) * 100) + '%');
+
+				// Public Affairs
+				$('.az-traffic-detail-item>div:not(".progress")').eq(3).children('span').eq(1).html(data[1].sectionCount.toLocaleString() + ' <span>(' + ((data[1].sectionCount / totalCount) * 100).toString().substring(0, 4) + '%)</span>');
+				$('.progress-bar').eq(3).width(((data[1].sectionCount / totalCount) * 100) + '%');
+
+
+				var datapie = {
+					labels: ['Federal Advocacy', 'SRA Work Group', 'State Advocacy', 'Public Affairs'],
+					datasets: [{
+						data: [data[3].sectionCount, data[0].sectionCount, data[2].sectionCount, data[1].sectionCount],
+						backgroundColor: ['#6f42c1', '#007bff', '#17a2b8', '#00cccc'],
+						borderColor: 'white',
+						borderWidth: 2
+					}]
+				};
+
+				var optionpie = {
+					maintainAspectRatio: false,
+					responsive: true,
+					legend: {
+						display: false,
+					},
+					animation: {
+						animateScale: true,
+						animateRotate: true
+					},
+					plugins: {
+						labels: [
+							{
+								render: function (args) {
+									if (args.percentage > 10) {
+										return args.label;
+									}
+								},
+								fontColor: 'black',
+								position: 'outside',
+								arc: true
+							},
+							{
+								render: function (args) {
+									if (args.percentage > 10) {
+										return args.percentage + '%';
+									}
+								},
+								fontColor: 'white',
+								position: 'inside',
+								precision: 0
+							}
+						]
+					},
+					grid: {
+						hoverable: true,
+						clickable: true
+					}
+				};
+
+				// For a doughnut chart
+				var ctxpie = document.getElementById('chartDonut');
+				var myPieChart6 = new Chart(ctxpie, {
+					type: 'doughnut',
+					data: datapie,
+					options: optionpie
+
+				});
+
+
+
+			}
+		});
+
+
+	});
+</script>
+<script>
+	    $(document).ready(function () {
+        var ua = window.navigator.userAgent;
+        var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+        function isIE() {
+            ua = navigator.userAgent;
+            /* MSIE used to detect old browsers and Trident used to newer ones*/
+            var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+
+            return is_ie;
+        }
+        /* Create an alert to show if the browser is IE or not */
+        if (isIE()) {
+            $('body').find('.az-header').siblings().remove();
+            $('.az-header-menu > .nav').hide();
+			
+            alert("Internet Explorer is not supported.");
+            setTimeout(function () {
+				window.close();
+            }, 3000);
+
+        }
+    });
+</script>
+
+

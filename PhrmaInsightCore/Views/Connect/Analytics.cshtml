@@ -1,0 +1,364 @@
+﻿<div id="phrmaload" style="position: fixed; height: 100%; width: 100%; top: 50%; left:  50%;">
+	<div class="spinner-border text-primary" role="status">
+		<span class="sr-only">Loading...</span>
+	</div>
+	<label style="color:  black; position: relative; top: 30px; left: -43px;">Loading...</label>
+</div>
+<div style="visibility: hidden;" id="phrmashow" class="az-content az-content-dashboard">
+	<div class="container">
+		<div class="az-content-body">
+			<div class="az-dashboard-one-title">
+				<div>
+					<h2 class="az-dashboard-title">Hi, welcome back!</h2>
+					<p class="az-dashboard-text">PhRMA Connect Web Analytics</p>
+				</div>
+				<div class="az-content-header-right">
+					<a href="#" style="visibility: hidden;" id="updateDashboard" class="btn btn-purple">Update</a>
+					<div class="media">
+						<div class="media-body">
+							<label>Start Date</label>
+							<input type="text" value="01/01/2020" id="startDate" data-am-datepicker="{locale: 'en_US',  viewMode: 'days', minViewMode: 'days', maxViewMode: 'years'}" class="form-control" style="
+								width:  100px;
+								border:  none;
+								border-bottom:  1px solid black;
+								cursor: pointer;
+								padding:  0px;
+								margin: 0px;
+								height:  25px;
+							">
+						</div><!-- media-body -->
+					</div><!-- media -->
+					<div class="media">
+						<div class="media-body">
+							<label>End Date</label>
+							<input type="text" value="" id="endDate" data-am-datepicker="{locale: 'en_US',  viewMode: 'days', minViewMode: 'days', maxViewMode: 'years'}" class="form-control" style="
+								width:  100px;
+								border:  none;
+								border-bottom:  1px solid black;
+								cursor: pointer;
+								padding:  0px;
+								margin: 0px;
+								height:  25px;
+							">
+						</div><!-- media-body -->
+					</div><!-- media -->
+					<div class="media">
+						<div class="media-body">
+							<label>PhRMA</label>
+							<select type="text" value="" id="phrma" data-am-datepicker="{locale: 'en_US',  viewMode: 'days', minViewMode: 'days', maxViewMode: 'years'}" class="form-control" style="
+								width:  100px;
+								border:  none;
+								border-bottom:  1px solid black;
+								cursor: pointer;
+								padding:  0px;
+								margin: 0px;
+								height:  25px;
+                                position: relative;
+                                left: -4px;
+							">
+								<option value="Include">Include</option>
+								<option value="Exclude">Exclude</option>
+							</select>
+						</div><!-- media-body -->
+					</div><!-- media -->
+				</div>
+			</div><!-- az-dashboard-one-title -->
+			<div class="az-dashboard-nav">
+				<nav></nav>
+				<nav class="nav">
+					<a class="nav-link timeFrameFilter" href="#" interval="day">Day</a>
+					<a class="nav-link timeFrameFilter" href="#" interval="week">Week</a>
+					<a class="nav-link timeFrameFilter" href="#" interval="month">Month</a>
+					<a class="nav-link timeFrameFilter" href="#" interval="3months">3 Months</a>
+					<a class="nav-link timeFrameFilter" href="#" interval="6months">6 Months</a>
+					<a class="nav-link timeFrameFilter" href="#" interval="year">Year</a>
+					<a class="nav-link timeFrameFilter" href="#" interval="year"></a>
+				</nav>
+			</div>
+
+			<div class="row row-sm mg-b-20">
+				<div class="col-lg-7 ht-lg-100p">
+					<div class="card card-dashboard-one" style="min-height: 406px;">
+						<div class="card-header row">
+							<div class="col">
+								<h6 class="card-title">Website Audience Metrics</h6>
+							</div>
+							<div class="col">
+								<div class="" style="text-align: end;">
+									<i style="visibility: hidden;" class="far fa-minus-square zoom"></i>
+									<i class="far fa-plus-square zoom"></i>
+								</div>
+							</div>
+						</div>
+						<div class="d-flex flex-row-reverse" style="padding-right: 30px;">
+							<div style="">
+								<label class="mg-b-0">Page Views</label>
+								<h2 id="TotalPageViews"></h2>
+							</div>
+							<div style="margin-right: 30px;">
+								<label class="mg-b-0">Users</label>
+								<h2 id="DistinctTotalUsers"></h2>
+							</div>
+						</div>
+						<div class="card-body" style="padding: 20px;">
+							<div class="chartjs-wrapper-demo" style="max-height: 270px; min-height: 270px; height: 270px;">
+								<canvas id="chartArea1"></canvas>
+							</div>
+						</div><!-- card-body -->
+					</div><!-- card -->
+				</div><!-- col -->
+				<div class="col-lg-5 ht-lg-100p" style="max-height: 406px;">
+					<div class="card card-table-one">
+						<div class="row">
+							<div class="col">
+								<h6 class="card-title">Most Active Companies</h6>
+								<p class="az-content-text mg-b-20"></p>
+							</div>
+							<div class="col" style="text-align: right;">
+								<i style="cursor: pointer;" class="fa fa-eraser" clearid="company"></i>
+							</div>
+						</div>
+						<div class="table-responsive" style="height: 367px !important;">
+							<table class="table">
+								<thead>
+									<tr>
+										<th class="wd-15p">&nbsp;</th>
+										<th class="wd-45p">Company</th>
+										<th>Users</th>
+										<th class="wd-5p">&nbsp;</th>
+										<th>Views</th>
+										<th class="wd-5p">&nbsp;</th>
+										<th>% of Total</th>
+										<th class="wd-5p">&nbsp;</th>
+									</tr>
+								</thead>
+								<tbody id="ViewsByCompanyTable">
+								</tbody>
+							</table>
+						</div><!-- table-responsive -->
+					</div><!-- card -->
+				</div><!--col -->
+			</div><!-- row -->
+
+			<div class="row row-sm mg-b-20 mg-t-20">
+				<div class="col-lg-7 mg-t-20 mg-lg-t-0">
+					<div class="card card-dashboard-four">
+						<div class="card-header">
+							<h6 class="card-title">Views by Section</h6>
+							<i style="cursor: pointer; position: absolute; right: 7px; top: 0px;" class="fa fa-eraser" clearid="section"></i>
+						</div><!-- card-header -->
+						<div class="card-body row">
+							<div class="col-md-6 d-flex align-items-center">
+								<div class="chart" id="donutchart"><canvas id="chartDonut"></canvas></div>
+							</div>
+							<div id="sectionStats" style="max-height: 300px !important ; min-height: 300px !important; height: 300px !important; overflow-y: auto;" class="col-md-6 col-lg-5 mg-lg-l-auto mg-t-20 mg-md-t-0"></div>
+						</div><!-- card-body -->
+					</div><!-- card-dashboard-four -->
+				</div><!-- col -->
+				<div class="col-lg-5 mg-t-20 mg-lg-t-0">
+					<div class="card card-table-one">
+						<div class="row">
+							<div class="col">
+								<h6 class="card-title">Most Active Members</h6>
+								<p class="az-content-text mg-b-20" style="visibility: hidden;">//</p>
+							</div>
+							<div class="col" style="text-align: right;">
+								<i style="cursor: pointer;" class="fa fa-eraser" clearid="employee"></i>
+							</div>
+						</div>
+						<div class="table-responsive" style="height: 296px !important; min-height: 296px !important; max-height: 296px !important; overflow-y: auto;">
+							<table class="table">
+								<thead>
+									<tr>
+										<th class="wd-5p">&nbsp;</th>
+										<th>User</th>
+										<th style="text-align: left;" class="wd-15p">Company</th>
+										<th style="text-align: center;">Views</th>
+										<th style="text-align: center;">% of Total</th>
+									</tr>
+								</thead>
+								<tbody id="user-table">
+								</tbody>
+							</table>
+						</div><!-- table-responsive -->
+					</div><!-- card -->
+
+				</div><!-- col -->
+			</div><!-- row -->
+
+			<div class="row row-sm mg-b-20 mg-lg-b-0">
+				<div class="col-lg-7 col-xl-7 mg-t-20 mg-lg-t-0">
+					<div class="card card-dashboard-one">
+						<div class="card-header">
+							<h6 class="card-title">Views by Sub-Section <span style="margin-left: 10px;" class="badge badge-success">New</span></h6>
+							<i style="cursor: pointer; position: absolute; right: 22px; top: 22px;" class="fa fa-eraser" clearid="subsection"></i>
+						</div><!-- card-header -->
+						<div class="card-body" style="padding: 0px 20px 20px; 20px;">
+							<div id="SubSectionStats" style="padding: 20px; max-height: 300px !important; min-height: 300px !important; height: 300px !important; overflow-y: auto;" class=""></div>
+						</div><!-- card-body -->
+					</div><!-- card-dashboard-four -->
+				</div><!-- col-lg -->
+				<div class="col-lg-5 col-xl-5">
+					<div class="row row-sm">
+						<div class="col-md-6 col-lg-12 mg-b-20 mg-md-b-0 mg-lg-b-20">
+							<div class="card card-dashboard-pageviews">
+								<div class="card-header">
+									<h6 class="card-title">Most Downloaded Content</h6>
+								</div><!-- card-header -->
+								<div class="card-body" id="MostDownloaded" style="max-height: 316px; height: 316px; min-height: 316px; overflow-y: scroll;"></div>
+								<!-- card-body -->
+							</div><!-- card -->
+						</div><!-- col -->
+					</div><!-- row -->
+				</div><!-- col-lg-3 -->
+			</div><!-- row -->
+		</div><!-- az-content-body -->
+	</div>
+</div><!-- az-content -->
+<script src="../azia/lib/jquery/jquery.min.js"></script>
+<script>
+	$(function () {
+		'use strict'
+
+		// Line chart
+		$('.peity-line').peity('line');
+
+		// Bar charts
+		$('.peity-bar').peity('bar');
+
+		// Bar charts
+		$('.peity-donut').peity('donut');
+
+	});
+</script>
+<script>
+	$(document).ready(function () {
+		$('#endDate').val(((new Date().getMonth() + 1 ).toString().length == 1 ? '0' : '') + (parseInt(new Date().getMonth().toString()) + 1) + '/' + (new Date().getDate().toString().length == 1 ? '0' : '') + new Date().getDate().toString() + '/' + new Date().getFullYear().toString()); $('#endDate').attr('value', (new Date().getMonth().toString().length == 1 ? '0' : '') + (parseInt(new Date().getMonth().toString()) + 1) + '/' + (new Date().getDate().toString().length == 1 ? '0' : '') + new Date().getDate().toString() + '/' + new Date().getFullYear().toString());
+		var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+		var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		var superscript = { "0": "th", "1": "st", "2": "nd", "3": "rd", "4": "th", "5": "th", "6": "th", "7": "th", "8": "th", "9": "th" };
+		var date = new Date();
+		var dayOfWeek = date.getDay();
+		var day = date.getDate();
+		var month = date.getMonth();
+		var year = date.getFullYear();
+		var sup = "";
+		if (day.toString().length == 2) {
+			if (day.toString()[0] == "1") {
+				sup = "th";
+			} else {
+				sup = superscript[day.toString()[1]];
+			}
+		} else {
+			sup = superscript[day.toString()[0]];
+		}
+		var dateString = weekdays[dayOfWeek] + ", " + months[month] + " " + day + "<sup>" + sup + "</sup>" + ", " + year;
+		$('.date-today').html(dateString);
+
+		$.get({
+			url: 'https://api.weatherapi.com/v1/current.json?key=31e7a9b82df3489db64180342192912&q=20004',
+			success:
+				function (data) {
+					var html = `<img data-toggle="tooltip-primary" data-placement="bottom" title="" data-original-title="` + data["current"]["condition"]["text"] + `" src="` + data["current"]["condition"]["icon"] + `" width="70" style="position: relative; top: -10px;" />` + Math.round(data["current"]["temp_f"], 0) + '&deg;';
+					$('.temp').html(html);
+					$('[data-toggle="tooltip-primary"]').tooltip({
+						template: '<div class="tooltip tooltip-primary" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+					});
+				}
+		});
+
+		$('#startDate').datepicker({
+			format: 'yyyy-mm-dd',
+			autoclose: true
+		});
+
+		$('#endDate').datepicker({
+			format: 'yyyy-mm-dd',
+			autoclose: true
+		});
+
+		$('#startDate, #endDate, #phrma').change(function () {
+			$('#updateDashboard').click();
+		});
+
+		$('.timeFrameFilter').click(function () {
+			$('#endDate').val(((new Date().getMonth() + 1).toString().length == 1 ? '0' : '') + (parseInt(new Date().getMonth().toString()) + 1) + '/' + ((new Date().getDate() + 1).toString().length == 1 ? '0' : '') + new Date().getDate().toString() + '/' + new Date().getFullYear().toString());
+			$('#endDate').attr('value', ((new Date().getMonth() + 1).toString().length == 1 ? '0' : '') + (parseInt(new Date().getMonth().toString()) + 1) + '/' + ((new Date().getDate() + 1).toString().length == 1 ? '0' : '') + new Date().getDate().toString() + '/' + new Date().getFullYear().toString());
+			var interval = $(this).attr('interval').toString();
+			//window["timeframe"] = interval;
+			var subtractDays = 0;
+			switch (interval) {
+				case "day":
+					subtractDays = 0;
+					break;
+				case "week":
+					subtractDays = 6;
+					break;
+				case "month":
+					subtractDays = 29;
+					break;
+				case "3months":
+					subtractDays = 90;
+					break;
+				case "6months":
+					subtractDays = 182;
+					break;
+				case "year": 365;
+					subtractDays = 365;
+					break;
+			}
+			var beginDate = new Date();
+			beginDate.setDate(beginDate.getDate() - subtractDays);
+			beginDate.setHours(beginDate.getHours() - 5);
+			var startDate = beginDate.toISOString().substring(5, 7) + '/' + beginDate.toISOString().substring(8, 10) + '/' + beginDate.toISOString().substring(0, 4);
+			$('#startDate').val(startDate); $('#startDate').attr('value', startDate);
+			$('#updateDashboard').click();
+		});
+
+		var zoom = $('.zoom');
+		zoom.click(function () {
+			var modes = ["day", "week", "year"];
+			var indx = modes.indexOf(window["timeframe"]);
+			var q = $(this).hasClass('fa-minus-square') ? indx < modes.length - 1 ? 1 : 0 : indx > 0 ? -1 : 0;
+			if (indx + q == modes.length - 1) {
+				$('.fa-minus-square').css('visibility', 'hidden');
+				$('.fa-plus-square').css('visibility', 'visible');
+			} else if (indx + q == 0) {
+				$('.fa-plus-square').css('visibility', 'hidden');
+				$('.fa-minus-square').css('visibility', 'visible');
+			} else {
+				$('.zoom').css('visibility', 'visible');
+			}
+			window["timeframe"] = modes[indx + q];
+			$('#updateDashboard').click();
+		});
+		$('#updateDashboard').click(function () {
+			$('.chartjs-wrapper-demo').html(`<canvas id="chartArea1"></canvas>`);
+			selectCompany("", "");
+		});
+
+		selectCompany("", "");
+
+		$('.fa-eraser').click(function () {
+			var clearid = $(this).attr('clearid');
+			if (clearid == "company") {
+				window["company"] = "";
+			} else if (clearid == "employee") {
+				window["employee"] = "";
+			} else if (clearid == "section") {
+				window["section"] = "";
+			} else if (clearid == "subsection") {
+				window["subsection"] = "";
+			}
+			$('#updateDashboard').click();
+        });
+
+        setTimeout(function () {
+            $('#phrmaload').fadeOut(2000);
+            $('#phrmashow').css('visibility', 'visible');
+            $.get('../Connect/Tracking');
+        }, 3000);
+	});
+</script>
+
+

@@ -1,0 +1,460 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+@media print {
+}
+
+@page {
+    size: landscape;
+}
+
+@keyframes resized {
+    0% {
+        border-right: 3px solid black;
+        border-left: 3px solid black;
+    }
+
+    50% {
+        border-right: 4px solid black;
+        border-left: 4px solid black;
+    }
+
+    100% {
+        border-right: 3px solid black;
+        border-left: 3px solid black;
+    }
+}
+
+.resize {
+    cursor: ew-resize;
+    animation: resized 1s linear infinite;
+}
+
+#printView {
+    background-color: white;
+    max-width: 10in;
+}
+
+.toRemove {
+    background-color: rgba(255, 0, 221, 0.219) !important;
+    transition-duration: 2s;
+}
+
+.trow {
+    border: 0px solid white !important;
+}
+
+#table2 {
+    font-size: .5rem;
+    max-width: 10in;
+}
+
+.trowhover {
+    background-color: lightgray !important;
+}
+
+.finance, .impexium, .azure {
+    transition-duration: 1s;
+    top: 0px;
+}
+
+    .finance:hover, .impexium:hover, .azure:hover {
+        position: relative;
+        top: -20px;
+        cursor: pointer;
+    }
+
+.goUp {
+    position: relative;
+    top: -20px !important;
+    cursor: pointer;
+    transition-duration: 2s;
+}
+
+
+.weatherwidget-io-frame {
+    background-color: transparent !important;
+}
+
+.clock {
+    zoom: 0.45;
+    -moz-transform: scale(0.45);
+}
+
+#Region_1 {
+    fill: turquoise;
+}
+
+#Region_2 {
+    fill: red;
+}
+
+#Region_3 {
+    fill: orange;
+}
+
+#Region_4 {
+    fill: purple;
+}
+
+#Region_5 {
+    fill: green;
+}
+
+#Region_6 {
+    fill: blue;
+}
+
+#Region_7 {
+    fill: darkred;
+}
+
+#Region_8 {
+    fill: darkblue;
+}
+
+#Region_9 {
+    fill: darkorange;
+}
+
+#Region_10 {
+    fill: lightgreen;
+}
+
+#Region_11 {
+    fill: orangered;
+}
+
+#Region_12 {
+    fill: pink;
+}
+
+.navbar-brand {
+    top: 0px;
+}
+
+.selectpicker {
+    top: 0px;
+}
+
+#draggable:hover {
+    cursor: pointer;
+}
+
+thead {
+    display: table-header-group;
+}
+
+.noWrapText {
+    white-space: nowrap;
+    max-height: 50px;
+}
+
+#reportContainer {
+    width: 90vw;
+    max-height: 90vh;
+    height: 50.63vw;
+}
+
+iframe {
+    background-color: white;
+    border: 0 !important;
+}
+
+#other, #summary {
+    display: none;
+}
+
+
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.absCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.loaderPill {
+    text-align: center;
+}
+
+.loaderPill-anim {
+    height: 160px;
+}
+
+.loaderPill-anim-bounce {
+    -webkit-animation: loaderPillBounce 1800ms linear infinite;
+    animation: loaderPillBounce 1800ms linear infinite;
+}
+
+.loaderPill-anim-flop {
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-animation: loaderPillFlop 1800ms linear infinite;
+    animation: loaderPillFlop 1800ms linear infinite;
+}
+
+.loaderPill-pill {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 80px;
+    height: 30px;
+    border-radius: 15px;
+    border: 1px solid #237db5;
+    background-image: linear-gradient(to right, #237db5 50%, #ffffff 50%);
+}
+
+.loaderPill-floor {
+    display: block;
+    text-align: center;
+}
+
+.loaderPill-floor-shadow {
+    display: inline-block;
+    width: 70px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: rgba(35, 125, 181, 0.26);
+    -webkit-transform: translateY(-15px);
+    transform: translateY(-15px);
+    -webkit-animation: loaderPillScale 1800ms linear infinite;
+    animation: loaderPillScale 1800ms linear infinite;
+}
+
+.loaderPill-text {
+    font-weight: bold;
+    color: #237db5;
+    text-transform: uppercase;
+}
+
+@-webkit-keyframes loaderPillBounce {
+    0% {
+        -webkit-transform: translateY(123px);
+        transform: translateY(123px);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    25% {
+        -webkit-transform: translateY(40px);
+        transform: translateY(40px);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+
+    50% {
+        -webkit-transform: translateY(120px);
+        transform: translateY(120px);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    75% {
+        -webkit-transform: translateY(20px);
+        transform: translateY(20px);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+
+    100% {
+        -webkit-transform: translateY(120px);
+        transform: translateY(120px);
+    }
+}
+
+@keyframes loaderPillBounce {
+    0% {
+        -webkit-transform: translateY(123px);
+        transform: translateY(123px);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    25% {
+        -webkit-transform: translateY(40px);
+        transform: translateY(40px);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+
+    50% {
+        -webkit-transform: translateY(120px);
+        transform: translateY(120px);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    75% {
+        -webkit-transform: translateY(20px);
+        transform: translateY(20px);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+
+    100% {
+        -webkit-transform: translateY(120px);
+        transform: translateY(120px);
+    }
+}
+
+@-webkit-keyframes loaderPillFlop {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    25% {
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    75% {
+        -webkit-transform: rotate(450deg);
+        transform: rotate(450deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(720deg);
+        transform: rotate(720deg);
+    }
+}
+
+@keyframes loaderPillFlop {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    25% {
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    75% {
+        -webkit-transform: rotate(450deg);
+        transform: rotate(450deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(720deg);
+        transform: rotate(720deg);
+    }
+}
+
+@-webkit-keyframes loaderPillScale {
+    0% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    25% {
+        -webkit-transform: translateY(-15px) scale(0.7, 1);
+        transform: translateY(-15px) scale(0.7, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+
+    50% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    75% {
+        -webkit-transform: translateY(-15px) scale(0.6, 1);
+        transform: translateY(-15px) scale(0.6, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+
+    100% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+    }
+}
+
+@keyframes loaderPillScale {
+    0% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    25% {
+        -webkit-transform: translateY(-15px) scale(0.7, 1);
+        transform: translateY(-15px) scale(0.7, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+
+    50% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    75% {
+        -webkit-transform: translateY(-15px) scale(0.6, 1);
+        transform: translateY(-15px) scale(0.6, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+
+    100% {
+        -webkit-transform: translateY(-15px) scale(1, 1);
+        transform: translateY(-15px) scale(1, 1);
+    }
+}
+
+.content {
+    background-image: url('../img/phrmatoplogo.svg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    margin-top: 20px;
+}
+
+.fixed-top {
+    background-color: white !important;
+}
+
+.navbar.navbar-transparent {
+    background-color: white !important;
+    box-shadow: 2px 2px #beb6b6;
+}
+
+.logo {
+    background-color: white !important;
+    color: darkgray !important;
+}
+
+.main-panel > .content {
+    padding: 50px 0px;
+}
+
+.sidebar .logo {
+    padding: 10px 0px;
+}
+
+.navbar-nav:first-child {
+    left: 100px;
+}

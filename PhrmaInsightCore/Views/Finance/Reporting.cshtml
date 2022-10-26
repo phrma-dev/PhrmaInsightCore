@@ -1,0 +1,160 @@
+﻿<div class="container" style="height: 42px;">
+    <div class="row">
+        <div class="media" style="margin-right: 10px;">
+            <div class="media-body">
+                <label style="color: gray; font-size: 11px; text-transform: uppercase; letter-spacing: .5px;">Report</label>
+				<select class="form-control select2" id="reportSelect" style="width: 350px;">
+					<option value=""></option>
+					<optgroup label="Shared Reports">
+
+						<option value="ReportSectionae014d79c03110e8a0b8">Requisition Detail</option>
+						<option value="ReportSectionb48715c101c089526052">PO Summary</option>
+						<option value="ReportSection79e4dddfdd5d88fbe769">PO Detail</option>
+						<option value="ReportSection2041df5d7dfd0666d83c">All Account - Summary</option>
+						<option value="ReportSection53bebe7208a0c4ed010e">All Account - Detail</option>
+						<option value="ReportSection9ee50dcfb475040d2209">Vendor - Summary</option>
+						<option value="ReportSectionb8144c369795858c9c0e">Transaction Detail</option>
+
+						<option style="color: lightgray; visibility: hidden;" disabled=""></option>
+
+						<option value="ReportSectionc75e4e3254ebd039e817">Project - Summary</option>
+						<option value="ReportSectione0b12e71d4cde7143005">Project/Location - Summary</option>
+
+						<option style="color: lightgray; visibility: hidden;" disabled=""></option>
+
+						<option value="ReportSectionb992e187e5d20347b640">Employee T&E</option>
+						<option value="ReportSection2328a376d38999510335">Employee T&E by Month</option>
+						<option value="ReportSection143b58839ae0ef380826">Lobbying Report</option>
+						<option value="ReportSection721e4617da070e600cdd">Amicus Briefs</option>
+					</optgroup>
+
+					<option style="color: lightgray; visibility: hidden;" disabled=""></option>
+
+					<optgroup label="CFO Reports">
+						<option value="ReportSection3cc6f8f2c654868a8042">CFO Department Summary</option>
+						<option value="ReportSectionf824776b701b9782ee64">CFO Account Category Summary</option>
+						<option value="ReportSectionc731ce545c59d69201c2">CFO Detail</option>
+					</optgroup>
+					<option style="color: lightgray; visibility: hidden;" disabled=""></option>
+					@if (User.Identity.Name.ToLower() == "mcolter@phrma.org" || User.Identity.Name.ToLower() == "jbelle@phrma.org" || User.Identity.Name.ToLower() == "powerbiprodsvc@phrma.onmicrosoft.com" || User.Identity.Name.ToLower() == "nlanteigne@phrma.org")
+					{
+						<optgroup label="Historical Data - Prophix">
+							<option value="ReportSection4cd1a34bbf5a7b78ea12">Prophix - Actuals by Vendor</option>
+							<option value="ReportSectionbdd8d4b3615d3b1aed3c">Prophix - Actuals by Account</option>
+						</optgroup>
+					}
+					@if (User.Identity.Name.ToLower() == "cperry@phrma.org" || User.Identity.Name.ToLower() == "kdudley@phrma.org" || User.Identity.Name.ToLower() == "powerbiprodsvc@phrma.onmicrosoft.com")
+					{
+						<optgroup label="User Access Reviews">
+							<option value="ReportSectionb9b5e1b6606f929c9183">User Access</option>
+						</optgroup>
+					}
+				</select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="reportContainer" style=""></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/popper.js@1.14.6/dist/umd/popper.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+<script src="https://microsoft.github.io/PowerBI-JavaScript/demo/node_modules/powerbi-client/dist/powerbi.js"></script>
+<script id="runPowerBI">
+    $(document).ready(function () {
+        setTimeout(function () {
+
+
+            var accessToken = localStorage.getItem('accesstoken').toString();
+            var embedUrl = "https://app.powerbi.com/reportEmbed?reportId=6ab63d7b-e7eb-4429-973f-a5a50634c2ff";
+            var reportId = "6ab63d7b-e7eb-4429-973f-a5a50634c2ff";
+            var models = window['powerbi-client'];
+            //var date = new Date().getFullYear();
+            //var date = "2018";
+            //var val = [date];
+            //var filter = {
+            //    $schema: "http://powerbi.com/product/schema#basic",
+            //    target: {
+            //        table: "MasterTable",
+            //        column: "Year"
+            //    },
+            //    operator: "In",
+            //    values: val
+            //};
+            //This also includes settings and options such as filters.
+            //You can find more information at https://github.com/Microsoft/PowerBI-JavaScript/wiki/Embed-Configuration-Details.
+            var config = {
+                type: 'report',
+                accessToken: accessToken,
+                embedUrl: embedUrl,
+                id: reportId,
+                permissions: 7,
+                //filters: [filter],
+
+                settings: {
+                    filterPaneEnabled: false,
+                    navContentPaneEnabled: false,
+                }
+            };
+            var reportContainer = document.getElementById('reportContainer');
+            // Embed the report and display it within the div container.
+            var report = powerbi.embed(reportContainer, config);
+
+            // Build the filter you want to use. For more information, See Constructing
+            // Filters in https://github.com/Microsoft/PowerBI-JavaScript/wiki/Filters.
+            // Get a reference to the embedded report HTML element
+            var embedContainer = document.getElementById('reportContainer');
+            // Get a reference to the embedded report.
+            report = powerbi.get(embedContainer);
+            // Set the filter for the report.
+            // Pay attention that setFilters receives an array.
+            //report.setFilters([filter])
+            //    .then(function () {
+            //        Log.logText("Report filter was set.");
+            //    })
+            //    .catch(function (errors) {
+
+            //    });
+
+            report.on("error", event => {
+                window.location.href = "../../";
+            });
+
+            report.on("loaded", event => {
+
+                const page = report.page('ReportSection2a57ecf64e74a1b0748d');
+                page.setActive();
+                var report_size = "";
+                report_size = window.innerHeight - $('.az-header').height() - 20 + 'px';
+                $('#reportContainer').css('height', report_size);
+
+                $('#reportSelect').on('select2:select', function (e) {
+                     const page = report.page($('#reportSelect').val().toString());
+                     page.setActive();
+                
+                });
+            });
+        }, 2000);
+    });
+</script>
+<script>
+    $(document).ready(
+        function () {
+            var report_size = "";
+            $(window).resize(function () {
+                report_size = window.innerHeight - $('.az-header').height() - 50 + 'px';
+                $('#reportContainer').css('height', report_size);
+            });
+
+            $('head').append(`<style>.select2-container--default .select2-selection--single { background-color: transparent; border: none; height: 38px; font-weight: 500;font-family: 'Roboto', 'sans-serif';color: #031B4F; cursor: pointer;} .select2-results__options { max-height: 500px !important;} </style>`);
+            $('#reportSelect').select2({
+				placeholder: 'Choose Report',
+				dropdownAutoWidth: true,
+				allowClear: true
+			});
+        }
+    ); 
+</script>

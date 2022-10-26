@@ -1,0 +1,353 @@
+﻿<div class="az-content az-content-dashboard">
+    <div class="container" id="alert-container"></div>
+    <div class="container">
+        <div class="az-content-body">
+            <div class="row" style="max-height: 320px;">
+                <div class="col-md-5 col-lg-4" style="margin-top: 15px;">
+                    <div class="card bd-0" style="height: 100%;">
+                        <div class="card-header tx-medium bd-0 tx-white bg-indigo" style="height: 70px;">
+                            <select id="selectMember" class="form-control select2" placeholder="Choose one.." style="width: 90%;">
+                                <option value=""></option>
+                            </select>
+                        </div><!-- card-header -->
+                        <div class="card-body bd bd-t-0 container-fluid" style="height: 250px;">
+                        </div><!-- card-body -->
+                    </div><!-- card -->
+                </div><!-- col -->
+                <div class="col-md-7 col-lg-8" style="margin-top: 15px;">
+                    <div class="ql-wrapper ql-wrapper-demo" style="width: 100%;">
+                        <div id="quillEditor">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4" style="margin-top: 15px;">
+                    <div class="card bd-0" style="height: 100%;">
+                        <div class="card-header tx-medium bd-0 tx-black bg-white" style="border: 1px solid gray;">
+                            Articles
+                        </div><!-- card-header -->
+                        <div id="ac" class="card-body bd bd-t-0" style="height: 250px; padding: 5px;">
+
+                        </div><!-- card-body -->
+                    </div><!-- card -->
+                </div><!-- col -->
+                <div class="col-sm-12 col-md-4" style="margin-top: 15px;">
+                    <div class="card bd-0" style="height: 100%;">
+                        <div class="card-header tx-medium bd-0 tx-black bg-white" style="border: 1px solid gray;">
+                            Dear Colleagues
+                        </div><!-- card-header -->
+                        <div id="dc" class="card-body bd bd-t-0" style="height: 250px; padding: 5px;">
+
+                        </div><!-- card-body -->
+                    </div><!-- card -->
+                </div><!-- col -->
+                <div class="col-sm-12 col-md-4" style="margin-top: 15px;">
+                    <div class="card bd-0" style="height: 100%;">
+                        <div class="card-header tx-medium bd-0 tx-black bg-white" style="border: 1px solid gray;">
+                            Tracked Legislation
+                        </div><!-- card-header -->
+                        <div id="tl" class="card-body bd bd-t-0" style="height: 250px; padding: 5px;">
+
+                        </div><!-- card-body -->
+                    </div><!-- card -->
+                </div><!-- col -->
+
+
+                <div class="col-sm-12 col-md-4" style="margin-top: 15px;">
+                    <div class="card bd-0" style="height: 100%;">
+                        <div class="card-header tx-medium bd-0 tx-black bg-white" style="border: 1px solid gray;">
+                            Third Party Efforts
+                        </div><!-- card-header -->
+                        <div id="tp" class="card-body bd bd-t-0" style="height: 250px; padding: 5px;">
+
+                        </div><!-- card-body -->
+                    </div><!-- card -->
+                </div><!-- col -->
+                <div class="col-sm-12 col-md-4" style="margin-top: 15px;">
+                    <div class="card bd-0" style="height: 100%;">
+                        <div class="card-header tx-medium bd-0 tx-black bg-white" style="border: 1px solid gray;">
+                            PhRMA Meetings
+                        </div><!-- card-header -->
+                        <div id="mt" class="card-body bd bd-t-0" style="height: 250px; padding: 5px;">
+
+                        </div><!-- card-body -->
+                    </div><!-- card -->
+                </div><!-- col -->
+                <div class="col-sm-12 col-md-4" style="margin-top: 15px;">
+                    <div class="card bd-0" style="height: 100%;">
+                        <div class="card-header tx-medium bd-0 tx-black bg-white" style="border: 1px solid gray;">
+                            Voters for Cures
+                        </div><!-- card-header -->
+                        <div id="vc" class="card-body bd bd-t-0" style="height: 250px; padding: 5px;">
+
+                        </div><!-- card-body -->
+                    </div><!-- card -->
+                </div><!-- col -->
+            </div><!-- row -->
+        </div>
+    </div>
+</div>
+
+<script src="../azia/lib/jquery/jquery.min.js"></script>
+<script type="text/html" id="SaveNoteExecute">
+    $.ajax({
+        contentType: "application/json",
+        type: "POST",
+        data: JSON.stringify({ "MemberId": $("#selectMember").val(), "Note": $('.ql-editor').html().toString(), "User": "none" }),
+        url: "https://phrma.azurewebsites.net/Federal_Advocacy/MemberNotes",
+        success: function (result) {
+            alert("Note Saved!");
+
+
+        },
+        failure: function (){ $('.ql-editor').html(""); }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $.get({
+			url: "../Federal_Advocacy/GetMembersWithItems",
+            success: function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    var html = `<option value='` + data[i]["proRepublicaId"] + `'>` + data[i]["firstName"] + " " + data[i]["lastName"] + `</option>`;
+                    $('select').append(html);
+                }
+                $('.select2').select2();
+            }
+        });
+
+        $('#selectMember').on('select2:select', function (e) {
+            $('.card-body').html(`
+                <div class="absCenter" style="z-index: 999999; top: 10%; left: 35%;">
+	                <div class="loaderPill">
+		                <div class="spinner">
+			                <div class="bounce1"></div>
+			                <div class="bounce2"></div>
+			                <div class="bounce3"></div>
+		                </div>
+	                </div>
+                </div>`
+            );
+
+            $.get({
+				url: '../Federal_Advocacy/MembersGET',
+                success: function(data){
+                    var senatorsList = data;
+                    $.each(senatorsList, function (x) {
+                        if (senatorsList[x]["proRepublicaId"] == $('select').val()) {
+
+                            var img;
+
+                            if (senatorsList[x]["party"].toString() == "R") {
+                                img = `<img style="height: 75px; width: 75px;" id="partyImg" class="republicanImg" src="../img/republicanwithtriangle.png" />`;
+
+                            } else if (senatorsList[x]["party"].toString() == "D") {
+                                img = `<img style="height: 75px; width: 75px;" id="partyImg" class="democratImg" src="../img/democratwithtriangle.png" />`;
+                            }
+
+                            $('.card-body').eq(0).html(`<div class="row"><div><img src="` + senatorsList[x]["image"] + `" /></div><div>` + img + `</div></div>`);
+                            /////
+                            $.get({
+                                url: '../Federal_Advocacy/GetSharepointDocuments',
+                                success: function (data) {
+
+
+                                    var ac = 0;
+                                    var dc = 0;
+                                    var tp = 0;
+                                    var vc = 0;
+                                    var mt = 0;
+
+                                    var ac_html = `<ul style="list-style: none; height: 240px; overflow-y: scroll; padding: 0px;">`;
+                                    var dc_html = `<ul style="list-style: none; height: 240px; overflow-y: scroll; padding: 0px;">`;
+                                    var tp_html = `<ul style="list-style: none; height: 240px; overflow-y: scroll; padding: 0px;">`;
+                                    var vc_html = `<ul style="list-style: none; height: 240px; overflow-y: scroll; padding: 0px;">`;
+                                    var mt_html = `<ul style="list-style: none; height: 240px; overflow-y: scroll; padding: 0px;">`;
+
+                                    for (var i = 0; i < data.length; i++) {
+                                        console.log(data);
+                                        if (data[i]["document_Type"] == "Dear Colleagues" && data[i]["members"].indexOf($('.select2-selection__rendered').text().replace('×', '')) != -1) {
+                                            dc_html +=    
+                                                `<li style="font-size: 0.85rem;">` +
+                                                    `<a style="white-space: nowrap; padding-left: 5px;" href="#" onclick="window.open('` + data[i]["web_Url"] + `')">` + data[i]["document_Name"].split(".")[0].substring(0, 45) + `...</a>` +
+                                                `</li>`;
+                                            dc++;
+                                        }
+                                        else if (data[i]["document_Type"] == "Article" && (data[i]["state"] == senatorsList[x]["stateId"] || data[i]["members"].indexOf($('.select2-selection__rendered').text().replace('×', '')) != -1)) {
+                                            ac_html +=
+                                                `<li style="font-size: 0.85rem;">` +
+                                                    `<a style="white-space: nowrap; padding-left: 5px;" href="#" onclick="window.open('` + data[i]["web_Url"] + `')">` + data[i]["document_Name"].split(".")[0].substring(0, 45) + `...</a>` +
+                                                `</li>`;
+                                            ac++;
+                                        }
+                                        else if (data[i]["Document_Type"] == "Voters for Cures" && (data[i]["state"] == senatorsList[x]["stateId"] || data[i]["members"].indexOf($('.select2-selection__rendered').text().replace('×', '')) != -1)) {
+                                            vc_html +=
+                                                `<li style="font-size: 0.85rem;">` +
+                                                    `<a style="white-space: nowrap; padding-left: 5px;" href="#" onclick="window.open('` + data[i]["web_Url"] + `')">` + data[i]["document_Name"].split(".")[0].substring(0, 45) + `...</a>` +
+                                                `</li>`;
+                                            vc++;
+                                        }
+                                        else if (data[i]["Document_Type"] == "Third Party Efforts" && (data[i]["state"] == senatorsList[x]["stateId"] || data[i]["members"].indexOf($('.select2-selection__rendered').text().replace('×', '')) != -1)) {
+                                            tp_html +=
+                                                `<li style="font-size: 0.85rem;">` +
+                                                    `<a style="white-space: nowrap; padding-left: 5px;" href="#" onclick="window.open('` + data[i]["web_Url"] + `')">` + data[i]["document_Name"].split(".")[0].substring(0, 45) + `...</a>` +
+                                                `</li>`;
+                                            tp++;
+                                        }
+                                    }
+
+                                    if (ac == 0) {
+                                        ac_html +=
+                                            `<li style="font-size: 0.85rem;">` +
+                                                `None Found...` +
+                                            `</li>`;
+                                    }
+
+                                    if (dc == 0) {
+                                        dc_html +=
+                                            `<li style="font-size: 0.85rem;">` +
+                                                `None Found...` +
+                                            `</li>`;
+                                    }
+                                   
+                                    if (tp == 0) {
+                                        tp_html +=
+                                            `<li style="font-size: 0.85rem;">` +
+                                                `None Found...` +
+                                            `</li>`;
+                                    }
+
+                                    if (vc == 0) {
+                                        vc_html +=
+                                            `<li style="font-size: 0.85rem;">` +
+                                                `None Found...` +
+                                            `</li>`;
+                                    }
+
+                                    if (mt == 0) {
+                                        mt_html +=
+                                            `<li style="font-size: 0.85rem;">` +
+                                                `None Found...` +
+                                            `</li>`;
+                                    }
+
+                                    ac_html += `</ul>`;
+                                    dc_html += `</ul>`;
+                                    tp_html += `</ul>`;
+                                    vc_html += `</ul>`;
+                                    mt_html += `</ul>`;
+                                    $('#ac').html(ac_html);
+                                    $('#dc').html(dc_html);
+                                    $('#tp').html(tp_html);
+                                    $('#vc').html(vc_html);
+                                    $('#mt').html(mt_html);
+                                }
+                            });
+                            ////
+                        }
+                    });
+                }
+            });
+
+            
+
+            try {
+                $.get({
+                    url: "../Federal_Advocacy/GetNote?memberid=" + $('#selectMember').val().toString(),
+                    success: function (data) {
+                        console.log(data);
+                        var html = data;
+                        $('.ql-editor').html(data);
+                    },
+                    error: function () {
+                        $('.ql-editor').html("Add note here...");
+                        //alert("Failure");
+                    }
+                });
+                var getURL = "https://api.propublica.org/congress/v1/members/" + $('#selectMember').val() + "/bills/cosponsored.json";
+                var sponsoredBills = [];
+                $.ajax({
+                    type: 'GET',
+                    url: getURL,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("X-API-Key", "T2VUk50x0hSVpeJN9fLBj5xcwm55DQXweVQtTF9W");
+                    },
+                    success: function (data) {
+                        var iterateList = data["results"][0]["bills"];
+                        $.each(iterateList, function (a) {
+                            var obj = new Object();
+                            obj.name = iterateList[a]["number"] + " " + iterateList[a]["short_title"];
+                            obj.url = iterateList[a]["govtrack_url"];
+                            sponsoredBills.push(obj);
+                        });
+                        var html = `<ul style="list-style: none; height: 240px; overflow-y: scroll; padding: 0px;">`;
+                        $.each(sponsoredBills, function (a) {
+                            html +=
+                                `<li style="font-size: 0.85rem;">` +
+                                    `<a style="white-space: nowrap; padding-left: 5px;" href="#" onclick="window.open('` + sponsoredBills[a]["url"] + `')">` + sponsoredBills[a]["name"].substring(0, 45) + `...</a>` +
+                                `</li>`;
+                        });
+                        html += `</ul>`;
+                        $('#tl').html(html);
+                    }
+                });
+            } catch (e) {
+
+            }
+        });
+        $('head').append(`<style>   a { color: gray !important;} a:hover { color: blue !important;}`);
+
+    });
+</script>
+<script>
+    $(function () {
+        'use strict'
+
+        var icons = Quill.import('ui/icons');
+        icons['bold'] = '<i class="la la-bold" aria-hidden="true"></i>';
+        icons['italic'] = '<i class="la la-italic" aria-hidden="true"></i>';
+        icons['underline'] = '<i class="la la-underline" aria-hidden="true"></i>';
+        //icons['strike'] = '<i class="la la-strikethrough" aria-hidden="true"></i>';
+        icons['list']['ordered'] = '<i class="la la-list-ol" aria-hidden="true"></i>';
+        icons['list']['bullet'] = '<i class="la la-list-ul" aria-hidden="true"></i>';
+
+        icons['link'] = '<i class="la la-link" aria-hidden="true"></i>';
+        icons['save'] = '<i class="la la-save" aria-hidden="true"></i>';
+        //icons['image'] = '<i class="la la-image" aria-hidden="true"></i>';
+        // icons['video'] = '<i class="la la-film" aria-hidden="true"></i>';
+        // icons['code-block'] = '<i class="la la-code" aria-hidden="true"></i>';
+
+        var toolbarOptions = [
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            //['bold', 'italic', 'underline', 'strike'],
+            ['bold', 'italic', 'underline'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            //['link', 'image', 'video']
+            ['link'],
+            ['save']
+                
+        ];
+
+        var quill = new Quill('#quillEditor', {
+            modules: {
+                toolbar: toolbarOptions
+            },
+            theme: 'snow'
+        });
+
+        var toolbarInlineOptions = [
+            ['bold', 'italic', 'underline'],
+            [{ 'header': 1 }, { 'header': 2 }, 'blockquote'],
+            ['link', 'image', 'code-block'],
+        ];
+
+        setTimeout(function () {
+                $('.ql-toolbar').children('span').last().addClass('pull-right');
+        }, 1000);
+          
+        $('.la-save').click(function () {
+            eval($('#SaveNoteExecute')[0].innerText);
+        });
+    });
+</script>

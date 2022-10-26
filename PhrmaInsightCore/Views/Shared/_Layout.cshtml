@@ -1,0 +1,965 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Meta -->
+    <meta name="description" content="PhRMA Insight">
+    <!-- Icon -->
+    <link rel="icon" href="~/assets/img/icons/favicon-16x16.png" type="image/x-icon" />
+    <title>PhRMA | Insight</title>
+    <!-- vendor css -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+    <link href="../azia/lib/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../azia/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="../azia/lib/typicons.font/typicons.css" rel="stylesheet">
+    <link href="../azia/lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+    <link href="../azia/lib/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../azia/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="../azia/lib/typicons.font/typicons.css" rel="stylesheet">
+    <link href="../azia/lib/line-awesome/css/line-awesome.min.css" rel="stylesheet">
+    <link href="../azia/lib/quill/quill.snow.css" rel="stylesheet">
+    <link href="../azia/lib/quill/quill.bubble.css" rel="stylesheet">
+    <!-- Full Calendar-->
+    <link href="../azia/lib/fullcalendar/fullcalendar.min.css" rel="stylesheet">
+    <!-- select with search css -->
+    <link href="../azia/lib/select2/css/select2.min.css" rel="stylesheet">
+    <link href="../azia/lib/ion-rangeslider/css/ion.rangeSlider.css" rel="stylesheet">
+    <link href="../azia/lib/ion-rangeslider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <link href="../azia/lib/amazeui-datetimepicker/css/amazeui.datetimepicker.css" rel="stylesheet">
+    <link href="../azia/lib/jquery-simple-datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet">
+    <link href="../azia/lib/pickerjs/picker.min.css" rel="stylesheet">
+    <link href="~/css/sweetmodal.css" rel="stylesheet" />
+    <!-- azia CSS -->
+    <link rel="stylesheet" href="../azia/css/azia.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <style>
+		.card:hover h6 {
+		 color: white !important;
+        }
+		.folder-side-hide {
+			display: none;
+		}
+		.la-user-highlighted {
+		    background-color: lightgreen;
+        }
+		#Add-File:hover {
+		  
+            background-color: darkblue;
+            border-radius: 0px 13px !important;
+            transition-duration: 1s !important;
+
+        }
+		.File-Body-tr > td, #File-Table > thead > tr > th {
+			font-size: 13px;
+            padding: 10px;
+		}
+		#File-Table > thead > tr > th {
+			border-bottom: 1px solid lightgray;
+		}
+		.File-Body-tr > td:not(.no-border-right) {
+		    border: 1px solid lightgray;
+        }
+		.File-Body-tr > td.no-border-right {
+            border-top: 1px solid lightgray;
+            border-bottom: 1px solid lightgray;
+		    border-right: 1px solid white;
+            width: 20px !important;
+        }
+		#Metadata {
+			transition-duration: 0.5s;
+			height: calc(100vh - 65px);
+		}
+		.Member-Select-Option:hover, .selected-option {
+		    background-color: #f4f5f8;
+        }
+		.manila-folder {
+		    color: #f1d592;
+        }
+        .manila-folder-active {
+		    color: green !important;
+        }
+
+        .absCenter {
+            position: absolute;
+            top: 45%;
+            left: 47%;
+        }
+
+        .spinner {
+            margin: 100px auto 0;
+            width: 70px;
+            text-align: center;
+        }
+
+            .spinner > div {
+                width: 18px;
+                height: 18px;
+                background-color: #333;
+                border-radius: 100%;
+                display: inline-block;
+                -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+                animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+            }
+
+            .spinner .bounce1 {
+                -webkit-animation-delay: -0.32s;
+                animation-delay: -0.32s;
+            }
+
+            .spinner .bounce2 {
+                -webkit-animation-delay: -0.16s;
+                animation-delay: -0.16s;
+            }
+
+        @@-webkit-keyframes sk-bouncedelay {
+            0%, 80%, 100% {
+                -webkit-transform: scale(0)
+            }
+
+            40% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+		@@keyframes sk-bouncedelay {
+			0%, 80%, 100% {
+				-webkit-transform: scale(0);
+				transform: scale(0);
+			}
+
+			40% {
+				-webkit-transform: scale(1.0);
+				transform: scale(1.0);
+			}
+		}
+	</style>
+    <style>
+
+        .widget-container {
+            min-width: 450px;
+            max-width: 450px;
+        }
+
+        div.widget {
+            font-family: 'Roboto', sans-serif;
+            position: relative;
+            width: auto;
+            min-width: 390px;
+            border-radius: 9px;
+            padding: 15px;
+            padding-right: 30px;
+        }
+
+        div.left-panel {
+        }
+
+        div.date {
+            font-size: 14px;
+            font-weight: bold;
+            color: rgba(0,0,0,0.5);
+        }
+
+		div.city {
+			font-size: 21px;
+			font-weight: bold;
+			text-transform: uppercase;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			color: rgba(0,0,0,0.7);
+		}
+
+		div.temp {
+			font-size: 77px;
+			color: rgba(0,0,0,0.9);
+			font-weight: 100;
+			line-height: 1;
+		}
+
+        div.panel {
+            display: inline-block;
+        }
+
+        div.right-panel {
+            position: absolute;
+            float: right;
+            top: 0;
+            margin-top: 35px;
+            padding-left: 25px;
+        }
+    </style>
+    <style>
+        li[aria-disabled='true'] {
+            display: none;
+        }
+
+        #hover-blue {
+            transition-duration: 1s;
+            margin: auto;
+        }
+
+        .rowChanged input.changed {
+            color: darkblue !important;
+        }
+
+        .select2-selection__clear {
+            margin-right: 7px;
+        }
+
+        @@import url("https://fonts.googleapis.com/css?family=Mukta:700");
+
+        * {
+            box-sizing: border-box;
+        }
+
+            *::before, *::after {
+                box-sizing: border-box;
+            }
+
+        button {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            outline: none;
+            border: 0;
+            vertical-align: middle;
+            text-decoration: none;
+            background: transparent;
+            padding: 0;
+            font-size: inherit;
+            font-family: inherit;
+        }
+
+
+
+            button.learn-more .circle {
+                transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+                position: relative;
+                display: block;
+                margin: 0;
+                width: 33px;
+                height: 33px;
+                background: #282936;
+                border-radius: 50%;
+            }
+
+                button.learn-more .circle .icon {
+                    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    margin: auto;
+                    background: #fff;
+                }
+
+
+
+        .la-save:hover {
+            transition-duration: 1s;
+            transform: scale(1.2);
+        }
+    </style>
+    <style>
+        .white {
+            color: white !important;
+        }
+
+        #div {
+            font-size: 18px;
+            font-family: 'Raleway', sans-serif;
+            transition: .6s;
+            overflow: hidden;
+        }
+
+        div:focus {
+            outline: 0;
+        }
+
+        #div:before {
+            content: '';
+            display: block;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            width: 60px;
+            height: 100%;
+            left: 0;
+            top: 0;
+            opacity: .5;
+            -webkit-filter: blur(30px);
+            filter: blur(30px);
+            -webkit-transform: translateX(-100px) skewX(-15deg);
+            transform: translateX(-100px) skewX(-15deg);
+        }
+
+        #div:after {
+            content: '';
+            display: block;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            width: 30px;
+            height: 100%;
+            left: 30px;
+            top: 0;
+            color: white;
+            opacity: 0;
+            -webkit-filter: blur(5px);
+            filter: blur(5px);
+            -webkit-transform: translateX(-100px) skewX(-15deg);
+            transform: translateX(-100px) skewX(-15deg);
+        }
+
+        #div:hover {
+            background: #20639B;
+            color: white;
+            cursor: pointer;
+        }
+
+            #div:hover:before {
+                color: white;
+                -webkit-transform: translateX(300px) skewX(-15deg);
+                transform: translateX(300px) skewX(-15deg);
+                opacity: 0.6;
+                transition: .7s;
+            }
+
+            #div:hover:after {
+                -webkit-transform: translateX(300px) skewX(-15deg);
+                transform: translateX(300px) skewX(-15deg);
+                opacity: 1;
+                transition: .7s;
+            }
+
+        .tbl-header::-webkit-scrollbar {
+            visibility: hidden !important;
+        }
+    </style>
+    <style>
+
+        html {
+            font-size: 16px;
+        }
+
+        svg {
+            width: 100%;
+        }
+
+        /* .graph-container {
+          position: relative;
+          overflow: hidden;
+          animation: container;
+          animation-delay: .5s;
+          animation-duration: 2s;
+          animation-iteration-count: 1;
+        } */
+
+        .graph-a,
+        .graph-b,
+        .graph-c {
+            fill: #20639B;
+        }
+
+        .whitey {
+            fill: white !important;
+        }
+
+        .graph-a {
+            transform: translateZ(0) translateY(10px);
+            opacity: .125;
+            animation: layerA;
+            animation-delay: .5s;
+            animation-duration: 1s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+            opacity: 0;
+        }
+
+        .graph-b {
+            transform: translateZ(0) translateY(10px);
+            animation: layerB;
+            animation-delay: 1s;
+            animation-duration: 1s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+            opacity: 0;
+        }
+
+        .graph-c {
+            transform: translateZ(0) translateY(10px);
+            animation: layerC;
+            animation-delay: .75s;
+            animation-duration: 1s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+            opacity: 0;
+        }
+
+        @@keyframes container {
+            0% {
+                width: 0;
+            }
+
+            68% {
+                width: 68%;
+            }
+
+            80% {
+                width: 80%;
+            }
+
+            92% {
+                width: 92%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        @@keyframes layerC {
+            0% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(10px);
+            }
+        }
+
+        @@keyframes layerB {
+            0% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+
+            10% {
+                transform: translateY(10%)
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: .5;
+                transform: translateY(10px);
+            }
+        }
+
+        @@keyframes layerA {
+            0% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+
+            10% {
+                transform: translateY(10%)
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: .25;
+                transform: translateY(10px);
+            }
+        }
+    </style>
+    <style>
+        tbody#ViewsByCompanyTable > tr:hover {
+            background-color: #f4f5f8;
+            cursor: pointer;
+        }
+
+        tbody#user-table > tr:hover {
+            background-color: #f4f5f8;
+            cursor: pointer;
+        }
+
+        #MostDownloaded > .az-list-item:hover {
+            background-color: #f4f5f8;
+        }
+
+        .zoom {
+            cursor: pointer;
+        }
+
+        .deleteItem:hover {
+            opacity: 1;
+        }
+    </style>
+    <script src="../azia/lib/jquery/jquery.min.js"></script>
+    <script src="../azia/lib/chart.js/Chart.bundle.min.js"></script>
+    <script src="../azia/lib/chart.js/Chart.min.js"></script>
+    <script>
+        window["timeframe"] = "year";
+        window["company"] = "";
+		window["employee"] = "";
+		window["section"] = "";
+		window["subsection"] = "";
+        function selectCompany(companyString, employeeString, sectionString, subSectionString) {
+
+            window["company"] = (companyString != "" && companyString != null) ? companyString : window["company"];
+			window["employee"] = (employeeString != "" && employeeString != null) ? employeeString : window["employee"];
+			window["section"] = (sectionString != "" && sectionString != null) ? sectionString : window["section"];
+            window["subsection"] = (subSectionString != "" && subSectionString != null) ? subSectionString : window["subsection"];
+
+            $('.chartjs-wrapper-demo').html(`<canvas id="chartArea1"></canvas>`);
+            var query = "";
+            var beginDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            query = `?begindate=` + beginDate.toString() + `&enddate=` + endDate.toString() + `&company=` + window["company"] + '&phrma=' + $('#phrma').val().toString() + '&employee=' + window["employee"] + '&section=' + window["section"] + '&subsection=' + window["subsection"];
+
+            var distinctUsers = [];
+
+            var URL = "../Connect/GetTopCompaniesByDistinctUsers" + query
+            $.get({
+                url: URL,
+                success: function (data) {
+                    distinctUsers = data;
+                }
+            });
+
+            $('#user-table').html("");
+
+            var SpecificUserURL = '../Connect/GetSpecificEmployees' + query;
+            $.get({
+                url: SpecificUserURL,
+                success: function (data) {
+                    $('#user-table').html("");
+                    var html = "";
+                    var total = 0;
+                    $.each(data, function (z) {
+                        total += parseInt(data[z]["count"]);
+                    });
+                    var letters = ["A", "B", "C", "D", "E", "F"];
+                    $.each(data, function (m) {
+                        var pct = ((parseFloat(data[m]["count"]) / total) * 100).toFixed(1);
+                        var colorNumber = parseInt(Math.random(1) * 10000000000).toString().substring(0, 6);
+                        var letterPosition = Math.round((Math.random() * 10) / 2, 0);
+                        var letter = letters[Math.round((Math.random(5) * 10) / 2, 0)];
+                        var selectedColor = colorNumber.replace(colorNumber[letterPosition], letter);
+                        html += `<tr onclick="window['employee'] = '` + data[m]["email"].replace('#ext#@@phrma.onmicrosoft.com', '') + `'; selectCompany('','` + data[m]["email"].replace('#ext#@@phrma.onmicrosoft.com', '') + `','','')">`;
+                        html += `<td><div style="height: 12px !important; width: 12px; background-color: #` + selectedColor + `"></div></td>`;
+                        html += `<td style="text-align: left;"><strong style="padding-left: 10px; font-size: 13px;">` + data[m]["name"] + `</strong></td>`;
+                        html += `<td style="text-align: left;"><strong style="font-size: 13px;">` + data[m]["company"] + `</strong></td>`;
+                        html += `<td style="text-align: center;"><strong style="font-size: 13px;">` + data[m]["count"].toLocaleString() + `</strong></td>`;
+                        html += `<td style="text-align: center; font-size: 13px;">` + pct + `%</td>`;
+                        html += `</tr>`;
+                    });
+                    $('#user-table').html(html);
+                }
+            });
+
+            $('#MostDownloaded').html("");
+            var downloadQuery = '../Connect/GetTopDownloads' + query;
+            $.get({
+                url: downloadQuery,
+                success: function (data) {
+                    var html = "";
+                    $.each(data, function (k) {
+                        var fileType = data[k]["url"].toString().indexOf(".pdf") != -1 ? "pdf" : "pptx";
+                        html += `<div class="az-list-item" style="justify-content: left !important;">`;
+                        fileType == "pdf" ? html += `<div clas="col-1" style="width: 30px;"><i style="font-size: 18px; padding-left: 4px;" class="far fa-file-pdf"></i></div>` : html += `<div  style="width: 30px;"><img src="https://cdn.worldvectorlogo.com/logos/powerpoint-2.svg" style="height: 20px; width: 20px;" /></div>`;
+
+                        try {
+                            html += `<div class="col-11" style="text-align: left !important; padding-left: 10px;"><h7>` + data[k]["url"].toString().split('&file=')[1].split('&')[0].replace('.pptx', '').replace('.pdf', '') + `</h7></div>`;
+                        } catch (e) {
+                            html += `<div class="col-11" style="text-align: left !important; padding-left: 10px;"><h7>` + data[k]["url"].toString().split('/')[data[k]["url"].toString().split('/').length - 1].replace('.pptx', '').replace('.pdf', '') + `</h7></div>`;
+                        }
+
+                        html += `</div>`;
+                    });
+                    $('#MostDownloaded').html(html);
+                }
+            });
+
+			var subsectionQuery = '../Connect/GetSubSectionStatistics' + query;
+			$.get({
+				url: subsectionQuery,
+				success: function (data) {
+					var totalCount = 0;
+                    var labelsArray = [];
+					var dataArray = [];
+                    var colors = ["#6f42c1", "#007bff", "#00cccc", "#d13194", "#2c8709", "#e89829", "#c20819", "#c54597", '#1044b2', '#82e094'];
+                    $.each(data, function (q) {
+                        var subSectionCount = data[q]["subSectionCount"]
+                        totalCount += subSectionCount;
+                        labelsArray.push(data[q]["subSection"]);
+                        dataArray.push(subSectionCount);
+                     
+                    });
+					$('#SubSectionStats').html("");
+                    var html = ``;
+                    $.each(data, function (k) {
+                        html +=
+                           `<div class="az-traffic-detail-item" style="cursor: pointer;" subsection="` + data[k]['subSection'] + `" onclick="window['subsection'] = '` + data[k]['subSection'] + `'; selectCompany('','','','` + data[k]['subSection'] + `');">
+                                <div style="font-size: 0.8rem;">
+                                    <span>` + data[k]["subSection"] + `</span>
+                                    <span style="font-size: 0.8rem;"> ` + data[k].subSectionCount.toLocaleString() + `<span> (` + ((data[k].subSectionCount / totalCount) * 100).toString().substring(0, 4) + `%)</span></span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: ` + ((data[k].subSectionCount / totalCount) * 100) + `%; background-color: ` + colors[k] + ` !important;"></div>
+                                </div><!-- progress -->
+                            </div>`;
+                    });
+
+                    $('#SubSectionStats').append(html);
+				}
+			});
+
+            var urlWithQuery = '../Connect/GetSiteCategoryStatistics' + query;
+            $.get({
+                url: urlWithQuery,
+                success: function (data) {
+
+                    $('#sectionStats').html("");
+                    var totalCount = 0;
+                    var labelsArray = [];
+                    var dataArray = [];
+                    var colorsPieChartArray = [];
+                    var colors = ["#6f42c1", "#007bff", "#00cccc", "#d13194", "#2c8709", "#e89829", "#c20819", "#c54597", '#1044b2', '#82e094'];
+                    $.each(data, function (q) {
+                        var sectionCount = data[q]["sectionCount"]
+                        totalCount += sectionCount;
+                        labelsArray.push(data[q]["section"]);
+                        dataArray.push(sectionCount);
+                        colorsPieChartArray.push(colors[q]);
+                    });
+
+                    var html = ``;
+                    $.each(data, function (k) {
+                        html +=
+                            `<div class="az-traffic-detail-item" style="cursor: pointer;" section="` + data[k]['section'] + `" onclick="window['section'] = '` + data[k]['section'] + `'; selectCompany('','','` + data[k]['section'] + `','');">
+                                                            <div style="font-size: 0.8rem;">
+                                                                <span>` + data[k]["section"] + `</span>
+                                                                <span style="font-size: 0.8rem;"> ` + data[k].sectionCount.toLocaleString() + `<span> (` + ((data[k].sectionCount / totalCount) * 100).toString().substring(0, 4) + `%)</span></span>
+                                                            </div>
+                                                            <div class="progress">
+                                                                <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: ` + ((data[k].sectionCount / totalCount) * 100) + `%; background-color: ` + colors[k] + ` !important;"></div>
+                                                            </div><!-- progress -->
+                                                         </div>`;
+                    });
+
+                    $('#sectionStats').append(html);
+                    $('#donutchart').html(`<canvas id="chartDonut"></canvas>`);
+
+                    var datapie = {
+                        labels: labelsArray,
+                        datasets: [{
+                            data: dataArray,
+                            backgroundColor: colorsPieChartArray,
+                            borderColor: 'white',
+                            borderWidth: 2
+                        }]
+                    };
+
+                    var optionpie = {
+                        maintainAspectRatio: false,
+                        responsive: true,
+                        legend: {
+                            display: false,
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        },
+                        plugins: {
+                            labels: [
+                                {
+                                    render: function (args) {
+                                        if (args.percentage > 14.9) {
+                                            return args.label;
+                                        }
+                                    },
+                                    fontColor: 'black',
+                                    position: 'outside',
+                                    arc: true
+                                },
+                                {
+                                    render: function (args) {
+                                        if (args.percentage > 10) {
+                                            return args.percentage + '%';
+                                        }
+                                    },
+                                    fontColor: 'white',
+                                    position: 'inside',
+                                    precision: 0
+                                }
+                            ]
+                        },
+                        grid: {
+                            hoverable: true,
+                            clickable: true
+                        }
+                    };
+                    // For a doughnut chart
+                    //var ctxpie = document.getElementById('chartDonut');
+                    var ctxpie = $('#donutchart').find('canvas#chartDonut');
+                    var myPieChart6 = new Chart(ctxpie, {
+                        type: 'doughnut',
+                        data: datapie,
+                        options: optionpie
+
+                    });
+                }
+            });
+
+            $('#ViewsByCompanyTable').html("");
+            setTimeout(function () {
+                var companiesQueryURL = "../Connect/GetTopCompaniesByViews" + query;
+                $.get({
+                    url: companiesQueryURL,
+                    success: function (data) {
+                        var html = "";
+                        var total = 0;
+
+                        $.each(data, function (k) {
+                            total += parseFloat(data[k]["count"]);
+                        });
+                        $('#TotalPageViews').text(total.toLocaleString());
+                        var totalDistinctUsers = 0;
+                        $.each(distinctUsers, function (z) {
+                            totalDistinctUsers += parseInt(distinctUsers[z]["count"]);
+                        });
+                        $('#DistinctTotalUsers').text(totalDistinctUsers);
+                        $.each(data, function (q) {
+
+                            var dUsers = distinctUsers.filter(function (a) {
+                                return a.company == data[q]["company"].toString() ? a : null;
+                            });
+                            var pct = ((parseFloat(data[q]["count"]) / total) * 100).toFixed(1);
+                            var letters = ["A", "B", "C", "D", "E", "F"];
+                            var colorNumber = parseInt(Math.random(1) * 10000000000).toString().substring(0, 6);
+                            var letterPosition = Math.round((Math.random() * 10) / 2, 0);
+                            var letter = letters[Math.round((Math.random(5) * 10) / 2, 0)];
+                            var selectedColor = colorNumber.replace(colorNumber[letterPosition], letter);
+                            html +=
+                                `<tr onclick="window['company'] = '` + data[q]["company"] + `'; eval(selectCompany('` + data[q]["company"].toString() + `','','',''))">
+                                                                <td><div style="height: 15px !important; width: 15px; background-color: #`+ selectedColor + `"></div></td>
+                                                                <td><strong>` + data[q]["company"] + `</strong></td>` +
+                                `<td><strong>` + dUsers[0]["count"] + `</strong></td>` +
+                                `<td></td>` +
+                                `<td><strong>` + data[q]["count"].toLocaleString() + `</strong></td>` +
+                                `<td></td>` +
+                                `<td>` + pct + `%</td>
+                                                                 <td></td>
+                                                            </tr>`;
+                        });
+                        $('#ViewsByCompanyTable').html(html);
+                    }
+                });
+
+                var siteViewCountQuery = '../Connect/GetSiteViewCount' + query + '&timeframe=' + window["timeframe"];
+                $.get({
+                    url: siteViewCountQuery,
+                    success: function (data) {
+						console.log(data);
+                        var months = ["", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+                        var dataJS = [];
+                        var labelsJS = [];
+                        if (window["timeframe"] == "week") {
+                            $.each(data, function (k) {
+                                var dayDate = data[k]["day"].substring(5, 7) + "/" + data[k]["day"].substring(8, 10) + "/" + data[k]["day"].substring(2, 4);
+                                dataJS.push(data[k]["count"]);
+                                labelsJS.push(dayDate);
+                            });
+                        } else if (window["timeframe"] == "day") {
+                            $.each(data, function (k) {
+                                var hour = parseInt(data[k]["hour"]) > 12 ? (parseInt(data[k]["hour"]) - 12).toString() + " PM" : parseInt(data[k]["hour"]) == 12 ? "12 PM" : parseInt(data[k]["hour"]) == 0 ? "12 AM" : parseInt(data[k]["hour"]).toString() + " AM";
+                                dataJS.push(data[k]["count"]);
+                                labelsJS.push(hour);
+                            });
+                        } else {
+                            $.each(data, function (k) {
+                                dataJS.push(data[k]["count"]);
+                                labelsJS.push(months[parseInt(data[k]["month"])]);
+                            });
+                        }
+                        setTimeout(function () {
+                            var ctx9 = document.getElementById('chartArea1');
+                            new Chart(ctx9, {
+                                type: 'line',
+                                data: {
+                                    labels: labelsJS,
+                                    datasets: [{
+                                        data: dataJS,
+                                        borderColor: '#007bff',
+                                        borderWidth: 1,
+                                        backgroundColor: 'rgba(54, 162, 235,0.2)',
+                                        lineTension: 0,
+                                        pointRadius: 4,
+                                        pointBackgroundColor: 'rgb(54, 162, 235)',
+                                        pointHoverRadius: 7,
+                                        fill: true
+                                    }]
+                                },
+                                options: {
+                                    maintainAspectRatio: false,
+                                    legend: {
+                                        display: false,
+                                        labels: {
+                                            display: false
+                                        }
+                                    },
+                                    scales: {
+                                        yAxes: [{
+                                            position: 'left',
+                                            id: 'y-axis-1',
+                                            gridLines: {
+                                                display: false
+                                            },
+                                            ticks: {
+                                                beginAtZero: true,
+                                                fontSize: 10
+
+                                            },
+                                            display: true
+                                        }]
+                                    }
+                                }
+                            });
+
+                        }, 700);
+                    }
+                });
+
+                $('.peity-line').peity('line');
+                // Bar charts
+                $('.peity-bar').peity('bar');
+                // Bar charts
+                $('.peity-donut').peity('donut');
+            }, 1000);
+        };
+    </script>
+</head>
+<body>
+    <div class="az-header" style="min-width: 420px !important;">
+        <div class="container">
+            <div class="az-header-left">
+                <a href="../Finance/Dashboard" class="az-logo">
+                    <!-- <img src="https://phrma.azurewebsites.net/img/phrmatoplogonav.svg" style="height:  40px; position: relative; top:  5px;">-->
+                    <svg class="logo white" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 310 108" style="height: 45px; width: auto; position: relative; top: 2px; fill: white; enable-background:new 0 0 310 108;" xml:space="preserve" id="brandLogo"><title>PhRMA Logo</title><desc>PhRMA logo with words Research, Progress, and Hope underneath</desc><path d="M97,80.9c-1.4,1.2-2.4,0.8-2.4,0.8c-1.4-0.5-0.5-3-0.5-3c0.9-3,4.9-15.7,7.5-23.8c0,0,1.2-3.6,2.6-8.3 c1.5-5,0.6-8.5,0.6-8.5c-1.2-3.9-4.6-6.1-8.2-6.8c-2.4-0.5-5-0.5-6.9-0.4c-6,0.4-10.9,4-10.9,4c-3.1,2.2-3.7,3-3.7,3L88,0H62.1 v2.7h3.6L64,8.1c-7.5-8.2-26.1-7.9-26.1-7.9H0.4v2.6h10.9l0,82.7H0l0,2.6h39.1l0,0H66v-2.6h-7.2L73,43.8c0,0,7.4-8.3,13.1-9.4 c0,0,2.4-0.8,1,3.5c-1.6,5-8,25.5-10.9,34.7c0,0-1.5,4.7-1.3,7.9c0,0,0,6.9,8.1,8.1c9.1,1.3,13.7-2.7,24.1-14.4l0.1-4.5 C102.2,76.1,98.5,79.6,97,80.9z M28,2.8C37.7,1,43.2,4.7,43.2,4.7s8.8,4.4,7.4,20.1c0,0,0,8.4-3.7,13.4c0,0-3.3,4.3-10.3,5.3 c-2.3,0.3-8.6,0.1-8.6,0.1V2.8z M27.9,46.5c14.8,0,22.3-2,24.7-2.8L39.2,85.5H27.9V46.5z M55.8,85.5H42.1l13.7-43.1 c8.4-3.4,11.4-9.5,11.4-9.5c5.9-10,0.9-19.3-1.2-22.4l2.6-8.1h15.5L55.8,85.5z M88.5,86c-0.8,0.2-6.4,0.6-9-1.8 c-2.7-2.5-1.7-6.9-0.9-9.7c0.9-3.1,2.9-9.2,2.9-9.2c2.9-9.7,7.2-22.7,8.1-26.1c1.3-4.4,0.7-5.6,0.7-5.6s2.5-0.6,6.6,0.5 c4,1.1,6.4,4.1,4.4,11.7l-8.6,27.8l-1,3.1c-0.5,1.6-1,3.9-0.5,5.1C91.9,83.6,93,84,93,84C91.7,85.1,89.3,85.8,88.5,86z"></path><path d="M304.4,85.5L280.1,0.2h-8.5l-24.4,85.3L223.6,0.2h-3.9l-15.5,54.6L189.6,0.2h-3.8l-20.1,69.1 c0,0-0.4-14.8-4.7-19.6c-4.3-4.7-9.2-6.7-20.3-8.4c0,0-2.2,0.1-1.6-1.1c0,0,9.5-0.3,16.3-5.3c0,0,10.1-7.4,5.8-21.4 c-2.7-8.6-15.9-12-15.9-12c-6.1-1.7-19.2-1.2-19.2-1.2c-0.7,0-27.7,0-27.7,0v2.6l8.6,0l0.1,68.4l-0.1,2.2v12.1l-8.8,0v2.6h36.2 v-2.6H124V41.9h8c0,0,12.5-1.2,14.1,13.1c1.6,14.3-0.8,31.5,14.4,33.9c15.2,2.4,19.1-5.1,19.1-5.1l-0.8-1.3c0,0-4.7,4.9-8.2,3.8 c-2.9-0.9-4.2-3.8-4.5-9.5l14.5-47.7L197.3,89l17-59.7l15.1,56.2h-7.4v2.6h33.2v-2.6h-5.2l4.4-15.3h28.3l3.9,15.3h-7.1v2.6h30.1 v-2.6H304.4z M124.1,40.1l0-37.6c0,0,4.9-0.5,9.2,0.2c0,0,9,0.1,10.7,16c0.1,1.3,0.2,2.7,0.2,4.2c0.1,7.9-2.3,15.4-9.4,16.8 C134.7,39.7,128.9,41,124.1,40.1z M256.5,62.6l12-41.9l12.2,41.9H256.5z"></path><path d="M7.1,106.8l-2.6-4.3c-0.2,0-0.5,0-0.7,0H1.4v4.3H0.5V95.8h3.1c2.5,0,4.1,1.3,4.1,3.4c0,1.6-0.9,2.7-2.4,3.2 l2.7,4.5H7.1z M3.7,101.7c2,0,3.1-1.1,3.1-2.6c0-1.6-1.2-2.5-3.1-2.5H1.4v5.1H3.7z"></path><path d="M20.1,105.9v0.9h-7.3V95.8H20v0.9h-6.3v3.9h5.1v0.8h-5.1v4.6H20.1z"></path><path d="M30.7,98.7c-0.2-1.5-1.5-2.4-3-2.4c-1.6,0-2.8,0.8-2.8,2.1c0,1.3,1.6,1.8,3.1,2.2c1.5,0.4,3.7,1,3.7,3.3 c0,1.8-1.6,3.2-4,3.2c-2.4,0-3.8-1.4-4.1-3.2l0.9-0.2c0.1,1.4,1.3,2.6,3.2,2.6c1.8,0,3-1,3-2.3c0-1.8-2.1-2.2-3.6-2.6 c-1.3-0.4-3.2-0.9-3.2-2.8c0-1.7,1.6-2.9,3.8-2.9c2,0,3.5,1.2,3.9,2.9L30.7,98.7z"></path><path d="M43.6,105.9v0.9h-7.3V95.8h7.2v0.9h-6.3v3.9h5.1v0.8h-5.1v4.6H43.6z"></path><path d="M55.6,103.6h-5.8l-1.4,3.2h-1l4.9-11.1h0.8l4.9,11.1h-1L55.6,103.6z M55.2,102.8l-2-4.7 c-0.2-0.6-0.5-1.3-0.5-1.3h0c0,0-0.3,0.7-0.5,1.3l-2,4.7H55.2z"></path><path d="M68.7,106.8l-2.6-4.3c-0.2,0-0.5,0-0.7,0h-2.2v4.3h-0.9V95.8h3.1c2.5,0,4.1,1.3,4.1,3.4 c0,1.6-0.9,2.7-2.4,3.2l2.7,4.5H68.7z M65.4,101.7c2,0,3.1-1.1,3.1-2.6c0-1.6-1.2-2.5-3.1-2.5h-2.3v5.1H65.4z"></path><path d="M83.1,98.7c-0.8-1.4-2.4-2.2-4.1-2.2c-2.7,0-4.8,2-4.8,4.9c0,2.9,2.1,4.8,4.8,4.8c1.9,0,3.5-1,4.3-2.6 l0.9,0.3c-0.9,2-2.9,3.2-5.2,3.2c-3.2,0-5.7-2.4-5.7-5.7c0-3.3,2.6-5.7,5.7-5.7c2.2,0,4,1.1,5,2.9L83.1,98.7z"></path><path d="M96.8,95.8v11.1h-0.9v-5.3h-6.6v5.3h-0.9V95.8h0.9v4.8h6.6v-4.8H96.8z"></path><path d="M137.3,95.8c2.5,0,4.1,1.3,4.1,3.5c0,2.1-1.5,3.5-4.1,3.5h-2.2v4.1h-0.9V95.8H137.3z M137.3,101.8 c2,0,3.1-1,3.1-2.6c0-1.7-1.2-2.6-3.1-2.6h-2.2v5.2H137.3z"></path><path d="M152.3,106.8l-2.6-4.3c-0.2,0-0.5,0-0.7,0h-2.2v4.3h-0.9V95.8h3.1c2.5,0,4.1,1.3,4.1,3.4 c0,1.6-0.9,2.7-2.4,3.2l2.7,4.5H152.3z M149,101.7c2,0,3.1-1.1,3.1-2.6c0-1.6-1.2-2.5-3.1-2.5h-2.3v5.1H149z"></path><path d="M162.6,95.5c3.2,0,5.7,2.4,5.7,5.7c0,3.3-2.6,5.7-5.7,5.7c-3.2,0-5.7-2.4-5.7-5.7 C156.9,98,159.5,95.5,162.6,95.5z M162.6,106.1c2.7,0,4.8-2,4.8-4.9c0-2.9-2.1-4.9-4.8-4.9c-2.7,0-4.8,2-4.8,4.9 C157.8,104.2,159.9,106.1,162.6,106.1z"></path><path d="M182.6,105c-0.5,0.6-1.9,2.1-4.3,2.1c-3.2,0-5.7-2.4-5.7-5.7c0-3.3,2.6-5.7,5.7-5.7c2.3,0.1,4.1,1.2,5,2.9 l-0.9,0.2c-0.8-1.4-2.4-2.2-4.1-2.2c-2.7,0-4.8,2-4.8,4.9c0,2.9,2.1,4.9,4.8,4.9c2.3,0,3.9-1.4,4.3-2.4V102h-3.5v-0.8h4.3v5.6 h-0.8C182.6,105.4,182.6,105,182.6,105L182.6,105z"></path><path d="M194.8,106.8l-2.6-4.3c-0.2,0-0.5,0-0.7,0h-2.2v4.3h-0.9V95.8h3.1c2.5,0,4.1,1.3,4.1,3.4 c0,1.6-0.9,2.7-2.4,3.2l2.7,4.5H194.8z M191.5,101.7c2,0,3.1-1.1,3.1-2.6c0-1.6-1.2-2.5-3.1-2.5h-2.3v5.1H191.5z"></path><path d="M207.9,105.9v0.9h-7.3V95.8h7.2v0.9h-6.3v3.9h5.1v0.8h-5.1v4.6H207.9z"></path><path d="M218.4,98.7c-0.2-1.5-1.5-2.4-3-2.4c-1.6,0-2.8,0.8-2.8,2.1c0,1.3,1.6,1.8,3.1,2.2c1.5,0.4,3.7,1,3.7,3.3 c0,1.8-1.6,3.2-4,3.2c-2.4,0-3.8-1.4-4.1-3.2l0.9-0.2c0.1,1.4,1.3,2.6,3.2,2.6c1.8,0,3-1,3-2.3c0-1.8-2.1-2.2-3.6-2.6 c-1.3-0.4-3.2-0.9-3.2-2.8c0-1.7,1.6-2.9,3.8-2.9c2,0,3.5,1.2,3.9,2.9L218.4,98.7z"></path><path d="M230.2,98.7c-0.2-1.5-1.5-2.4-3-2.4c-1.6,0-2.8,0.8-2.8,2.1c0,1.3,1.6,1.8,3.1,2.2c1.5,0.4,3.7,1,3.7,3.3 c0,1.8-1.6,3.2-4,3.2c-2.4,0-3.8-1.4-4.1-3.2l0.9-0.2c0.1,1.4,1.3,2.6,3.2,2.6c1.8,0,3-1,3-2.3c0-1.8-2.1-2.2-3.6-2.6 c-1.3-0.4-3.2-0.9-3.2-2.8c0-1.7,1.6-2.9,3.8-2.9c2,0,3.5,1.2,3.9,2.9L230.2,98.7z"></path><path d="M269.7,95.8v11.1h-0.9v-5.3h-6.6v5.3h-0.9V95.8h0.9v4.8h6.6v-4.8H269.7z"></path><path d="M280.1,95.5c3.2,0,5.7,2.4,5.7,5.7c0,3.3-2.6,5.7-5.7,5.7c-3.2,0-5.7-2.4-5.7-5.7 C274.3,98,276.9,95.5,280.1,95.5z M280.1,106.1c2.7,0,4.8-2,4.8-4.9c0-2.9-2.1-4.9-4.8-4.9c-2.7,0-4.8,2-4.8,4.9 C275.3,104.2,277.4,106.1,280.1,106.1z"></path><path d="M293.5,95.8c2.5,0,4.1,1.3,4.1,3.5c0,2.1-1.5,3.5-4.1,3.5h-2.2v4.1h-0.9V95.8H293.5z M293.5,101.8 c2,0,3.1-1,3.1-2.6c0-1.7-1.2-2.6-3.1-2.6h-2.2v5.2H293.5z"></path><path d="M309.3,105.9v0.9H302V95.8h7.2v0.9h-6.3v3.9h5.1v0.8h-5.1v4.6H309.3z"></path><path d="M119.1,101.8c0,1.9-1.5,3.4-3.4,3.4c-1.9,0-3.4-1.5-3.4-3.4c0-1.9,1.5-3.4,3.4-3.4 C117.5,98.4,119.1,99.9,119.1,101.8z"></path><path d="M249.7,101.8c0,1.9-1.5,3.4-3.4,3.4c-1.9,0-3.4-1.5-3.4-3.4c0-1.9,1.5-3.4,3.4-3.4 C248.2,98.4,249.7,99.9,249.7,101.8z"></path></svg>
+
+                </a>
+                <a href="" id="azMenuShow" class="az-header-menu-icon d-lg-none"><span></span></a>
+            </div><!-- az-header-left -->
+            <div class="az-header-menu">
+                <div class="az-header-menu-header">
+                    <a href="../Finance/Dashboard" class="az-logo">
+                        <img src="https://phrma.azurewebsites.net/img/phrmatoplogonav.svg" style="height:  40px; position: relative; top:  5px;">
+                    </a>
+                    <a href="" class="close">&times;</a>
+                </div><!-- az-header-menu-header -->
+                <ul class="nav">
+                    <li class="nav-item active show">
+                        <a href="" class="nav-link with-sub"><i class="typcn typcn-chart-area-outline"></i>Menu</a>
+                        <div class="az-menu-sub">
+							<nav class="nav">
+								<a href="../Finance/Dashboard" class="nav-link active">Dashboard</a>
+								<a href="../Finance/AuthorizePowerBI" class="nav-link">Reporting</a>
+								<a href="../Finance/ForecastLocation" class="nav-link">Forecast 2020</a>
+
+								@if (User.Identity.Name.ToLower() == "rsehestedt@phrma.org" || User.Identity.Name.ToLower() == "powerbiprodsvc@phrma.onmicrosoft.com" || User.Identity.Name.ToLower() == "klittlefield@phrma.org" || ViewBag.DepartmentId == "10" || User.Identity.Name.ToLower() == "boleary@phrma.org"
+								   || User.Identity.Name.ToLower() == "rhunt@phrma.org" || User.Identity.Name.ToLower() == "egriffin@phrma.org" || User.Identity.Name.ToLower() == "apritchett@phrma.org" || User.Identity.Name.ToLower() == "jtunnell@phrma.org")
+								{
+
+									<a href="../Connect/Analytics" class="nav-link">Connect Analytics</a>
+								}
+								@if (User.Identity.Name.ToLower() == "rsehestedt@phrma.org" || User.Identity.Name.ToLower() == "powerbiprodsvc@phrma.onmicrosoft.com" || User.Identity.Name.ToLower() == "klittlefield@phrma.org" || ViewBag.DepartmentId == "10" )
+								{
+									<a href="../Federal_Advocacy/Tool" class="nav-link">Federal Advocacy</a>
+		
+								}
+							</nav>
+                        </div><!-- az-menu-sub -->
+                    </li>
+                </ul>
+            </div><!-- az-header-menu -->
+            <div class="az-header-right">
+                <div class="dropdown az-profile-menu">
+                    <a href="" class="az-img-user"><img src="https://via.placeholder.com/500" alt=""></a>
+                    <div class="dropdown-menu">
+                        <div class="az-dropdown-header d-sm-none">
+                            <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+                        </div>
+                        <div class="az-header-profile">
+                            <div class="az-img-user">
+                                <img src="" alt="">
+                            </div><!-- az-img-user -->
+                            <h6 id="Logged_In_User"></h6>
+                            @*<span>Premium Member</span>*@
+                        </div><!-- az-header-profile -->
+                        <a href="https://login.windows.net/794a0e5b-d96f-4b71-a78a-4456c6b5486a/oauth2/logout?post_logout_redirect_uri=https://phrma.azurewebsites.net/Logout/SignedOut" class="dropdown-item"><i class="la la-lock"></i>Logout</a>
+                    </div><!-- dropdown-menu -->
+                </div>
+            </div><!-- az-header-right -->
+        </div><!-- container -->
+    </div><!-- az-header -->
+    @RenderBody()
+    <script src="../azia/lib/jquery/jquery.min.js"></script>
+    <script src="../azia/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../azia/lib/ionicons/ionicons.js"></script>
+    <script src="../azia/lib/jquery.flot/jquery.flot.js"></script>
+    <script src="../azia/lib/jquery.flot/jquery.flot.resize.js"></script>
+    <script src="../azia/lib/jquery.flot/jquery.flot.pie.js"></script>
+    <script src="../azia/lib/chart.js/Chart.bundle.min.js"></script>
+    <script src="../azia/lib/peity/jquery.peity.min.js"></script>
+    <script src="../azia/lib/quill/quill.min.js"></script>
+    <script src="../azia/js/azia.js"></script>
+    <script src="../azia/js/chart.flot.sampledata.js"></script>
+    <script src="../azia/js/dashboard.sampledata.js"></script>
+    <script src="../azia/lib/select2/js/select2.min.js"></script>
+    <script src="../azia/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+    <script src="../azia/lib/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="../azia/lib/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+    <script src="../azia/lib/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
+    <script src="https://emn178.github.io/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+    <script src="../azia/lib/moment/min/moment.min.js"></script>
+    <script src="../azia/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+    <script src="../azia/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../azia/lib/ionicons/ionicons.js"></script>
+	<script src="../azia/lib/fullcalendar/fullcalendar.min.js"></script>
+    <script>
+
+
+        $.get({
+            url: '../Layout/UserPhoto',
+            success: function (data) {
+                $('.az-img-user > img').attr('src', data);
+            }
+        });
+        $.get({
+            url: '../Layout/UserName',
+            success: function (data) {
+                var first_name = data.split(',')[1] != undefined ? data.split(',')[1] : data;
+                var last_name = data.split(',')[1] != undefined ? data.split(',')[0] : "";
+                $('#Logged_In_User').text(first_name + ' ' + last_name);
+                $('.az-dashboard-title').text("Hi " + first_name + ", welcome back!");
+            }
+        });
+
+        $('#departmentSelect').select2({
+            placeholder: 'Choose one',
+            dropdownAutoWidth: true,
+            allowClear: true
+        });
+
+        $('.div1').hover(function () {
+            $('.graph-a, .graph-b, .graph-c').addClass('whitey');
+        });
+        $('.div1').mouseleave(function () {
+            $('.graph-a, .graph-b, .graph-c').removeClass('whitey');
+        });
+
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,407 @@
+﻿	<div class="az-content az-content-dashboard" style="overflow-x: hidden;">
+	<div id="Metadata" style="border: 1px solid #cdd4e0; display: none; padding: 20px; overflow-y: auto; overflow-x: hidden; width: 600px; position: fixed; top: 64px; left: 0px; z-index: 99; background-color: white;">
+		<i id="Hide-Metadata" style="cursor: pointer; font-size: 20px; position: absolute; top: 7px; right: 7px;" class="la la-close"></i>
+		<div class="mg-t-30" style="background-color: #afc3d461; width: 150%; position: relative; left: -20px; padding-left: 20px; font-weight: bolder; font-size: 20px;">
+			File <span id="Delete-File" style="margin-left: 30px; cursor: pointer; position: relative; top: -3px;" class="badge badge-danger">Delete File</span>
+		</div>
+		<input id="Updating-File" disabled class="mg-t-10" value="" type="text" style="width: 100%; border: none; padding: 5px 10px;" />
+		<div class="mg-t-10" style="background-color: #afc3d461; width: 150%; position: relative; left: -20px; padding-left: 20px; font-weight: bolder; font-size: 20px;">
+			Metadata
+		</div>
+		<div class="row row-sm mg-t-20">
+			<div class="col-4">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Document Category</label>
+				<select class="form-control select2" id="DocumentCategory" style="width: 100%; font-size: 0.9em;">
+					<option label="Choose one"></option>
+					<option value="Article">Article</option>
+					<option value="Dear Colleagues">Dear Colleagues</option>
+					<option value="Meetings">Meetings</option>
+					<option value="Third Party Efforts">Third Party Efforts</option>
+					<option value="Voters for Cures">Voters for Cures</option>
+				</select>
+
+			</div>
+			<div class="col-4">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">State</label>
+				<select class="form-control select2" id="State" style="width: 100%; font-size: 0.9em;">
+					<option label="Choose one"></option>
+					<option value="None">None</option>
+					<option value='AK'>Alaska</option>
+					<option value='AL'>Alabama</option>
+					<option value='AR'>Arkansas</option>
+					<option value='AZ'>Arizona</option>
+					<option value='CA'>California</option>
+					<option value='CO'>Colorado</option>
+					<option value='CT'>Connecticut</option>
+					<option value='DC'>District of Columbia</option>
+					<option value='DE'>Delaware</option>
+					<option value='FL'>Florida</option>
+					<option value='GA'>Georgia</option>
+					<option value='HI'>Hawaii</option>
+					<option value='IA'>Iowa</option>
+					<option value='ID'>Idaho</option>
+					<option value='IL'>Illinois</option>
+					<option value='IN'>Indiana</option>
+					<option value='KS'>Kansas</option>
+					<option value='KY'>Kentucky</option>
+					<option value='LA'>Louisiana</option>
+					<option value='MA'>Massachusetts</option>
+					<option value='MD'>Maryland</option>
+					<option value='ME'>Maine</option>
+					<option value='MI'>Michigan</option>
+					<option value='MN'>Minnesota</option>
+					<option value='MO'>Missouri</option>
+					<option value='MS'>Mississippi</option>
+					<option value='MT'>Montana</option>
+					<option value='NC'>North Carolina</option>
+					<option value='ND'>North Dakota</option>
+					<option value='NE'>Nebraska</option>
+					<option value='NH'>New Hampshire</option>
+					<option value='NJ'>New Jersey</option>
+					<option value='NM'>New Mexico</option>
+					<option value='NV'>Nevada</option>
+					<option value='NY'>New York</option>
+					<option value='OH'>Ohio</option>
+					<option value='OK'>Oklahoma</option>
+					<option value='OR'>Oregon</option>
+					<option value='PA'>Pennsylvania</option>
+					<option value='RI'>Rhode Island</option>
+					<option value='SC'>South Carolina</option>
+					<option value='SD'>South Dakota</option>
+					<option value='TN'>Tennessee</option>
+					<option value='TX'>Texas</option>
+					<option value='UT'>Utah</option>
+					<option value='VA'>Virginia</option>
+					<option value='VT'>Vermont</option>
+					<option value='WA'>Washington</option>
+					<option value='WI'>Wisconsin</option>
+					<option value='WV'>West Virginia</option>
+					<option value='WY'>Wyoming</option>
+				</select>
+			</div>
+			<div class="col-4">
+				<label style="font-size: 13px;    margin-bottom: 2px;    font-weight: 400;    color: #97a3b9;" class="form-label">Meeting Date</label>
+				<input class="form-control" type="date" id="Meeting-Date" placeholder="Date" style="width: 100%; font-size: 0.9em;" />
+
+			</div>
+
+		</div>
+		<div class="mg-t-25" style="background-color: #afc3d461; width: 150%; position: relative; left: -20px; padding-left: 20px; font-weight: bolder; font-size: 20px;">
+			Members
+		</div>
+		<div class="row row-sm mg-t-20">
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Members</label>
+				<div class="form-control" id="Member-Select" multiple="multiple" size="20" placeholder="Select Members" style="height: 50vh; overflow: auto; width: 100%; font-size: 0.9em;">
+
+				</div>
+			</div>
+			<div class="col">
+				<label style="font-size: 13px; margin-bottom: 2px; font-weight: 400; color: #97a3b9;" class="form-label">Selected Members</label>
+				<div class="form-control" id="Members-Selected" multiple="multiple" size="20" placeholder="Select Members" style="height: 50vh; overflow: auto; width: 100%; font-size: 0.9em;">
+
+				</div>
+			</div>
+		</div>
+		<div class="row row-sm mg-t-20">
+			<button id="Update" class="btn btn-primary btn-block">Update</button>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="az-content-body">
+			<div class="container-fluid" style="padding-top: 20px; height: calc(100vh - 130px);">
+				<div id="Folder-Side" style="width: 250px; border-right: 1px solid lightgray; position: relative; left: -15px; padding-right: 20px;">
+					<div class="folders">
+						<div style="cursor: pointer;"><i id="New-Folder-Toggle" class="fa fa-folder manila-folder" style="font-size: 16px;"></i><sup style="font-size: 1em; color: green;">+</sup><input id="New-Folder" style="display: none; margin-left: 5px; border: none; border-bottom: 1px solid Highlight;" type="text" placeholder="Folder Name" /><i id="Save-New-Folder" class="la la-save" style="display: none; height: 24px; font-size: 22px; padding: 0px 5px 0 5px; position: relative; top: 4px;"></i></div>
+					</div>
+					<div>
+						<button id="Add-File" style="transition-duration: 1s; margin-top: 20px; position: relative; left: calc((210px - 50%)/2); border-radius: 13px 0px; width: 114.5px;" onclick="$('#Upload-File').click();" class="btn btn-primary add-file">Add Files</button>
+						<input multiple style="display: none;" id="Upload-File" type="file" />
+					</div>
+				</div>
+				<div class="col files" style="max-width: 1000px;">
+					<div style="min-width: 660px; max-height: 700px; min-height: 200px;">
+						<table id="File-Table" style="max-width: 1000px;">
+							<thead>
+								<tr>
+									<th style="width: 35px;"></th>
+									<th style="width: 20px !important;"></th>
+									<th style="width: 375px;">Name</th>
+									<th style="width: 137px !important;">Category</th>
+									<th style="width: 51px;">State</th>
+									<th style="text-align: center; width: 80px;">Members</th>
+									<th style="width: 100px; white-space: nowrap;">Meeting Date</th>
+								</tr>
+							</thead>
+							<tbody id="File-Body">
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div id="Selected-Members-Hover" style="position: absolute; left: 1040px; top: 114px; display: none; width: 150px;">
+		<div style="background-color: white; z-index: 101; text-align: center; position: relative; top: 20px; font-size: 13px; font-weight: bold; color: black; border-bottom: 1px solid black;">Members</div>
+		<div class="form-control" id="Members-Selected-Hover" style="min-height: 350px; overflow: auto; width: 100%; font-size: 0.9em; padding-top: 25px;">
+		</div>
+	</div>
+	<script src="../azia/lib/jquery/jquery.min.js"></script>
+	<script src="../assets/js/plugins/sweetalert2.js"></script>
+	<script>
+		$(document).ready(function () {
+
+			
+			$.get({
+				url: "../Federal_Advocacy/MembersGET",
+				success: function (data) {
+					console.log(data);
+					for (var i = 0; i < data.length; i++) {
+						var html = `<div class="Member-Select-Option" value='` + data[i]["proRepublicaId"] + `'><input style="margin-right: 10px;" type="checkbox" />` + data[i]["firstName"] + " " + data[i]["lastName"] + `</div>`;
+						$('#Member-Select').append(html);
+					}
+					//$('.select2').select2();
+					$('#Member-Select>.Member-Select-Option>input').click(function () {
+						$(this).parent().toggleClass('selected-option');
+						$('#Members-Selected').html("");
+						$('#Members-Selected-Hover').html("");
+						$.each($('.selected-option'), function (k) {
+							$('#Members-Selected').append(`<div>` + $('.selected-option').eq(k).text() + `</div>`);
+							$('#Members-Selected-Hover').append(`<div>` + $('.selected-option').eq(k).text() + `</div>`);
+						});
+					});
+
+				}
+			});
+
+			$.get({
+				url: '../Federal_Advocacy/GetFolders',
+				success: function (data) {
+					var html = ``;
+					$.each(data, function (k) {
+						html += `<div class="folder" style="cursor: pointer; padding-top: 5px; font-size: 14px" name="` + data[k] + `" class="row"><i style="margin-right: 10px;" class="manila-folder fa fa-folder"></i>` + data[k] + `</div>`;
+					});
+					$('.folders').append(html);
+					setTimeout(function () {
+						
+						$('.folder').eq(0).click();
+						$('.folder').contextmenu(function (event) {
+							$(this).click();
+							event.stopPropagation();
+							event.cancelBubble = true;
+							$('.folder-options').remove();
+							var x = event.clientX + 50;
+							var y = event.clientY - 30;
+							$('body').append(`<div class="folder-options" style="width: 100px; height: 100px; position: fixed; top: ` + y + `px; left: ` + x + `px;"><div style="text-align: center;"><h7>Menu</h7></div><button style="margin-top: 2px;" onclick="$('.folder-options').remove();" class="btn btn-block btn-secondary">Cancel</button><button onclick="eval($('#Delete_Folder_Script')[0].innerHTML); Delete_Folder('` + $(this).attr('name') + `');" class="btn btn-danger btn-block">Delete</button></div>`)
+
+							return false;
+						});
+					}, 2000);
+
+				}
+			});
+
+			setTimeout(function () {
+				$('.folder').click(function () {
+					$(this).addClass('manila-folder-active').children('.manila-folder').addClass('manila-folder-active');
+					$(this).siblings('.folder').removeClass('manila-folder-active').children().removeClass('manila-folder-active');
+					$.get({
+						url: '../Federal_Advocacy/GetFiles?folder=' + $(this).attr('name'),
+						success: function (data) {
+							var html = ``;
+							$.each(data, function (k) {
+								var file_type =
+									data[k]["fileName"].indexOf(".pdf") != -1 ? `<img style="height: 40px; position: relative; left: 7px;" src="../img/adobepdficon.png" />`
+										: data[k]["fileName"].indexOf(".doc") != -1 || data[k]["fileName"].indexOf(".csv") != -1 ? `<img style="height: 40px;" src="../img/microsoftwordicon.png" />`
+											: data[k]["fileName"].indexOf(".ppt") != -1 ? `<img style="height: 33px; position: relative; left: 4px;" src="https://cdn.worldvectorlogo.com/logos/powerpoint-2.svg" />`
+												: "";
+								html += `<tr class="File-Body-tr"><td><i style="cursor: pointer; font-size: 1.5em;" onclick="$('#DocumentCategory').val(['` + data[k]["documentCategory"] + `']).select2(); $('#State').val(['` + data[k]["state"] + `']).select2(); eval($('#Get_Members_Script')[0].innerHTML); Get_Members('` + data[k]['members'] + `'); $('#Metadata').show().css('left', '0px'); $('#Updating-File').val('` + data[k]['fileName'] + `');" class="la la-edit"></i></td><td class="no-border-right">` + file_type + `</td><td class="file" style="cursor: pointer;" onclick="window.open('../Federal_Advocacy/GetBlobItems?filename=` + data[k]["fileName"] + `');" style="cursor: pointer;" name="` + data[k]["fileName"] + `" class="row">` + data[k]["fileName"].replace(".docx", "").replace(".pdf", "").replace(".pptx", "").replace(".jpg", "") + `</td><td>` + data[k]["documentCategory"] + `</td><td>` + data[k]["state"] + `</td><td class="members" members='` + data[k]["members"] + `' style="text-align: center;"><i style="cursor: pointer;" class="la la-lg la-user"></i></td><td>` + data[k]["meetingDate"] + `</td></tr>`;
+							});
+
+							$('#File-Body').html(html);
+
+
+							$('.la-user').click(function () {
+								$('.la-user').not($(this)).parent().removeClass('la-user-highlighted');
+								$(this).parent().toggleClass('la-user-highlighted');
+
+								if ($('.la-user-highlighted').length == 0) {
+									$('#Folder-Side').removeClass('folder-side-hide');
+									$('#Selected-Members-Hover').hide();
+								} else {
+									$('#Folder-Side').addClass('folder-side-hide');
+									$('#Selected-Members-Hover').show();
+								}
+
+								var members = $(this).parent().attr('members').split("|");
+								$(':checked').click();
+								$.each(members, function (k) {
+									var eval = '.Member-Select-Option[value=' + members[k] + ']';
+									$(eval).children('input').click();
+								});
+							});
+						}
+					});
+				});
+
+			}, 2000);
+
+			$('#Upload-File').change(function () {
+				$.each($('#Upload-File')[0].files, function (q) {
+					var formData = new FormData();
+					formData.append('ifile', $('#Upload-File')[0].files[q]);
+					formData.append('folder', $('.manila-folder-active').attr('name'));
+
+					$.ajax({
+						url: '../Federal_Advocacy/UploadFile',
+						contentType: false,
+						data: formData,
+						processData: false,
+						type: "POST",
+						success: function (data) {
+							setTimeout(function () {
+								$.get({
+									url: '../Federal_Advocacy/GetFiles?folder=' + $('.manila-folder-active').attr('name'),
+									success: function (data) {
+										$('.manila-folder-active').click();
+									}
+								});
+							}, 1300);
+						}
+					});
+				});
+			});
+
+			$('#Update').click(function () {
+				var members = "";
+				$('.selected-option').each(function () {
+					members += $(this).attr('value') + "|";
+				});
+
+				var formData = new FormData();
+				formData.append('filename', $('#Updating-File').val().toString());
+				formData.append('documentcategory', $('#DocumentCategory').val().toString());
+				formData.append('meetingdate', $('#Meeting-Date').val().toString());
+				formData.append('members', JSON.stringify(members));
+				formData.append('state', $('#State').val());
+
+				$.ajax({
+					url: '../Federal_Advocacy/UpdateMetadata',
+					contentType: false,
+					data: formData,
+					processData: false,
+					type: "POST",
+					success: function (data) {
+						Swal("Success!");
+						$.get({
+							url: '../Federal_Advocacy/GetFiles?folder=' + $('.manila-folder-active').attr('name'),
+							success: function (data) {
+								$('.manila-folder-active').click();
+								$('#Hide-Metadata').click();
+							}
+						});
+					}
+				});
+
+			});
+
+			$('#New-Folder-Toggle').click(function () {
+				$(this).siblings(':not("sup")').toggle();
+			});
+			$('#Save-New-Folder').click(function () {
+				var new_folder = $('#New-Folder').val().toString();
+				var formData = new FormData();
+				formData.append('foldername', new_folder);
+				var isEmpty = new_folder == "" || new_folder == null ? true : false;
+				var a;
+				if (!isEmpty) {
+					$.ajax({
+						url: '../Federal_Advocacy/AddFolder',
+						contentType: false,
+						data: formData,
+						processData: false,
+						type: 'POST',
+						success: function (data) {
+							data == "Success" ? Swal("Folder Added!") : Swal("Folder Already Exists!");
+							data == "Success" ? window.location.href = window.location.href : a = "";
+						}
+					});
+					// END POST
+				} else {
+					Swal("Please Enter a Folder Name!");
+				}
+			});
+
+			$('#Hide-Metadata').click(function () {
+				$('#Metadata').css('left', "-500px").hide(500);
+
+			});
+			
+
+
+
+			$('#Delete-File').click(function () {
+
+				var filename = $('#Updating-File').val();
+				var formData = new FormData();
+				formData.append('filename', filename);
+				formData.append('foldername', $('.manila-folder-active').attr('name'));
+				$.ajax({
+					url: '../Federal_Advocacy/DeleteFile',
+					contentType: false,
+					data: formData,
+					processData: false,
+					type: 'DELETE',
+					success: function (data) {
+						data == "Success" ? Swal("File Deleted!") : Swal("Error");
+						$('#Hide-Metadata').click();
+						$('.manila-folder-active').click();
+					}
+				})
+
+			});
+
+
+
+		});
+
+	</script>
+	<script id="Get_Members_Script">
+		function Get_Members(members_string) {
+			try {
+
+				$(':checked').click();
+				var members = members_string.split('|');
+				$.each(members, function (k) {
+					var eval = '.Member-Select-Option[value=' + members[k] + ']';
+					$(eval).children('input').click();
+				});
+
+
+			} catch (e) {
+
+			}
+		}
+	</script>
+	<script id="Delete_Folder_Script">
+		function Delete_Folder(foldername) {
+
+			var formData = new FormData();
+			formData.append('foldername', foldername);
+			var a;
+			$.ajax({
+				url: '../Federal_Advocacy/DeleteFolder',
+				contentType: false,
+				data: formData,
+				processData: false,
+				type: 'DELETE',
+				success: function (data) {
+					data == "Success" ? Swal("Folder Deleted!") : Swal("Folder cannot be deleted when files present.");
+					data == "Success" ? window.location.href = window.location.href : a = "";
+				}
+			});
+		}
+	</script>
+
+</div>

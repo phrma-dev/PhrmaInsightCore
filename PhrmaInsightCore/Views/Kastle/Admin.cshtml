@@ -1,0 +1,281 @@
+﻿@{ Layout = "_LayoutVisitors";}
+@if (User.Identity.Name.ToLower() == "kdudley@phrma.org" || User.Identity.Name.ToLower() == "klittlefield@phrma.org" || User.Identity.Name.ToLower() == "mpassman@phrma.org" || User.Identity.Name.ToLower() == "dhollins@phrma.org")
+{
+	<div id="phrmaload" style="position: fixed; height: 100%; width: 100%; top: 50%; left: 50%;">
+		<div class="spinner-border text-primary" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
+		<label style="color:  black; position: relative; top: 30px; left: -43px;">Loading...</label>
+	</div>
+	<div class="container-fluid hidephrma" style="margin-top: 10px; margin-bottom: 25px; display: none;">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb breadcrumb-style1 mg-b-0">
+				<li class="breadcrumb-item"><a href="../Kastle/Visitors">Add Visitors</a></li>
+				<li class="breadcrumb-item active"><a href="../Kastle/MyVisitorLog">My Visitors</a></li>
+				@if (User.Identity.Name.ToLower() == "kdudley@phrma.org" || User.Identity.Name.ToLower() == "klittlefield@phrma.org" || User.Identity.Name.ToLower() == "mpassman@phrma.org" || User.Identity.Name.ToLower() == "dhollins@phrma.org" || User.Identity.Name.ToLower() == "zkalkay@phrma.org")
+				{
+					<li class="breadcrumb-item active">Admin</li>
+					<li class="breadcrumb-item" aria-current="page"><a href="../Kastle/MyRecurringMeetings">Recurring Meetings</a></li>
+				}
+			</ol>
+		</nav>
+	</div>
+	<h2 style="text-align: center; display: none;" class="hidephrma">Admin</h2>
+	<div style="display: none;" class="row row-sm hidephrma justify-content-center">
+		<div class="btn-group-justified">
+			<select id="select" style="display: none;" class="hidephrma">
+				<option label="Filter Meetings"></option>
+			</select>
+		</div>
+	</div>
+	<p class="hidephrma container" style="display: none; text-align: center; color: red; font-size: 12px; position: relative; top: 30px; height: 15px;"> <span style="color: black;" id="updating"></span><span id="stopupdating" style="color: gray; cursor: pointer; margin-left: 7px; border-color: lightgray;">STOP</span></p>
+	<p class="hidephrma container" style="display: none; text-align: center; color: red; font-size: 12px; position: relative; top: 17px;">Note: Large Groups or Recurring Meetings may take a few minutes to appear</p>
+
+	<div class="container-fluid hidephrma" style="display: none;">
+		<div class="col-xl-10 offset-xl-1 col-xs-12">
+			<div class="tbl-header" style="overflow: hidden; overflow-y: scroll;">
+				<table class="table" style="width: 100%;">
+					<tr>
+						<th style="width: 65px !important; max-width: 65px !important; min-width: 65px !important; text-align: left; font-size: 0.9em">&nbsp;</th>
+						<th style="width: 230px !important; max-width: 230px !important; min-width: 230px !important; text-align: left; font-size: 0.9em">Meeting Date</th>
+						<th style="text-align: left; width: 375px !important; max-width: 375px !important; min-width: 375px !important; font-size: 0.9em;">Subject</th>
+						<th style="text-align: left; width: 120px !important; max-width: 120px !important; min-width: 120px !important; font-size: 0.9em;">Host</th>
+						<th style="text-align: left; width: 150px !important; max-width: 150px !important; min-width: 150px !important; font-size: 0.9em;">Visitor</th>
+						<th style="text-align: left; width: 175px !important; max-width: 175px !important; min-width: 175px !important; font-size: 0.9em;">Organization</th>
+						<th style="text-align: center; width: 60px !important; max-width: 60px !important; min-width: 60px !important; font-size: 0.9em;">Kastle Status</th>
+					</tr>
+				</table>
+			</div>
+			<div class="tbl-content" style="height: 60vh; overflow-x:auto; overflow-y: scroll; position: relative; top: -17px;">
+				<table class="table tbl-content" style="width:100%;">
+					<tbody id="tbody">
+						<tr></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script>
+
+	</script>
+	<script src="../azia/lib/jquery/jquery.min.js"></script>
+	<script src="../azia/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+	<script src="../azia/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="../azia/lib/ionicons/ionicons.js"></script>
+	<script src="../azia/lib/jquery.maskedinput/jquery.maskedinput.js"></script>
+	<script src="../azia/lib/spectrum-colorpicker/spectrum.js"></script>
+	<script src="../azia/lib/select2/js/select2.min.js"></script>
+	<script src="../azia/lib/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+	<script src="../azia/lib/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+	<script src="../azia/lib/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
+	<script src="../azia/lib/pickerjs/picker.min.js"></script>
+	<script>
+		(function ($) {
+			var Defaults = $.fn.select2.amd.require('select2/defaults');
+
+			$.extend(Defaults.defaults, {
+				searchInputPlaceholder: ''
+			});
+
+			var SearchDropdown = $.fn.select2.amd.require('select2/dropdown/search');
+
+			var _renderSearchDropdown = SearchDropdown.prototype.render;
+
+			SearchDropdown.prototype.render = function (decorated) {
+
+				// invoke parent method
+				var $rendered = _renderSearchDropdown.apply(this, Array.prototype.slice.apply(arguments));
+
+				this.$search.attr('placeholder', this.options.get('searchInputPlaceholder'));
+
+				return $rendered;
+			};
+
+		})(window.jQuery);
+	</script>
+	<script src="../assets/js/plugins/sweetalert2.js"></script>
+	<script>
+		$(document).ready(function () {
+			setTimeout(function () {
+				$('#phrmaload').hide();
+				$('.hidephrma').show();
+				$('.az-header-menu > .nav').hide();
+
+			}, 1500);
+
+			// End Get Visitor Groups
+			setTimeout(function () {
+				$.get({
+					url: '../Kastle/GetVisitorsAdmin',
+					success: function (data) {
+						var html = "";
+						var distinctMeetingDates = [];
+						var blue = "rgba(86, 207, 247, 0.05)";
+						var red = "rgba(222, 18, 18, 0.05)";
+						var colors = [blue, red];
+						var colorNum = 0;
+						$.each(data, function (k) {
+
+							var confirmed = data[k]["kastleConfirmed"] == "1" ? `<i title="Confirmed" class="fa fa-check" style="color: green; position: relative;"></i>` : `<div title="Pending Confirmation" class="spinner-border spinner-border-sm" role="status"></div>`;
+							var EditAndDelete = `<i style="cursor: pointer;" id="` + data[k]["groupId"] + `" class="fas fa-pen-fancy" title="Edit Meeting"></i><i title="Delete Meeting" id="` + data[k]["groupId"] + `" class="fa fa-times groupid" style="cursor: pointer; color: red; margin-left: 10px;"></i>`;
+							var eAd = k == 0 ? EditAndDelete : data[k]["groupId"] == data[k - 1]["groupId"] ? "" : EditAndDelete;
+							var htmlHeadLine = "";
+
+							colorNum = k == 0 ? 0 : data[k]["groupId"] == data[k - 1]["groupId"] ? colorNum : colorNum == 0 ? 1 : 0;
+
+							htmlHeadLine += `<tr class="headLine" groupId="` + data[k]["groupId"] + `" style="cursor: pointer; border-bottom: 1px solid #cdd4e0; background-color: ` + colors[colorNum] + `; font-weight: bold;" id="` + data[k]["niceMeetingDate"] + data[k]["niceMeetingTime"] + `">`;
+							htmlHeadLine += `<td style="font-size: 0.9em; width: 65px !important; max-width: 65px !important; min-width: 65px !important;">` + eAd + `</td>`;
+							htmlHeadLine += `<td style="font-size: 0.9em; width: 230px !important; max-width: 230px !important; min-width: 230px !important;" meetingdate="` + data[k]["meetingDate"] + `">` + data[k]["niceMeetingDate"] + " " + data[k]["niceMeetingTime"] + `</td>`;
+							htmlHeadLine += `<td style="font-size: 0.9em; width: 375px !important; max-width: 375px !important; min-width: 375px !important;">` + data[k]["subject"] + `</td>`;
+							htmlHeadLine += `<td style="font-size: 0.9em; width: 120px !important; max-width: 120px !important; min-width: 120px !important;">` + data[k]["host"] + `</td>`;
+							htmlHeadLine += `<td style="font-size: 0.9em; width: 150px !important; max-width: 150px !important; min-width: 150px !important;"></td>`;
+							htmlHeadLine += `<td style="font-size: 0.9em; width: 175px !important; max-width: 175px !important; min-width: 175px !important;"></td>`;
+							htmlHeadLine += `<td style="text-align: center; font-size: 0.9em; width: 60px !important; max-width: 60px !important; min-width: 60px !important;"></td>`;
+							htmlHeadLine += `</tr>`;
+
+							html += k == 0 ? htmlHeadLine : data[k]["groupId"] == data[k - 1]["groupId"] ? "" : htmlHeadLine;
+
+							html += `<tr style="display: none;" groupId="` + data[k]["groupId"] + `" id="` + data[k]["niceMeetingDate"] + data[k]["niceMeetingTime"] + `">`;
+							html += `<td style="border-top: none; font-size: 0.9em; width: 65px !important; max-width: 65px !important; min-width: 65px !important;"></td>`;
+							html += `<td style="border-left: 1px solid #cdd4e0; font-size: 0.9em; width: 230px !important; max-width: 230px !important; min-width: 230px !important;" meetingdate="` + data[k]["meetingDate"] + `">` + data[k]["niceMeetingDate"] + " " + data[k]["niceMeetingTime"] + `</td>`;
+							html += `<td style="font-size: 0.9em; width: 375px !important; max-width: 375px !important; min-width: 375px !important;">` + data[k]["subject"] + `</td>`;
+							html += `<td style="font-size: 0.9em; width: 120px !important; max-width: 120px !important; min-width: 120px !important;">` + data[k]["host"] + `</td>`;
+							html += `<td style="font-size: 0.9em; width: 150px !important; max-width: 150px !important; min-width: 150px !important;"><i title="Delete Visitor" class="fa fa-times uid" id="` + data[k]["uId"] + `" style="margin-right: 10px; color: red; cursor: pointer;"></i>` + data[k]["visitorFirstName"] + " " + data[k]["visitorLastName"] + `</td>`;
+							html += `<td style="font-size: 0.9em; width: 175px !important; max-width: 175px !important; min-width: 175px !important;">` + data[k]["visitorOrganization"] + `</td>`;
+							html += `<td style="text-align: center; font-size: 0.9em; width: 60px !important; max-width: 60px !important; min-width: 60px !important;">` + confirmed + `</td>`;
+							html += `</tr>`;
+							var time = data[k]["niceMeetingTime"];
+							if (k == 0) {
+								distinctMeetingDates.push([data[k]["niceMeetingDate"] + time, data[k]["niceMeetingDate"] + " " + time]);
+							} else if ((data[k]["niceMeetingDate"] + " " + time) != (data[k - 1]["niceMeetingDate"] + " " + data[k - 1]["niceMeetingTime"])) {
+								distinctMeetingDates.push([data[k]["niceMeetingDate"] + time, data[k]["niceMeetingDate"] + " " + time]);
+							}
+						});
+
+						$.each(distinctMeetingDates, function (x) {
+							var html = `<option value="` + distinctMeetingDates[x][0] + `">` + distinctMeetingDates[x][1] + `</option>`;
+							$('select').append(html);
+						});
+
+						$('#select').change(function (e) {
+							$.each($('tr'), function (q) {
+								if ($('tr').eq(q).attr('id') == $('select').val() || q == 0 || $('#select').val() == "") {
+									$('tr').eq(q).show();
+								} else if (q != 0) {
+									$('tr').eq(q).hide();
+								}
+							});
+						});
+						$('#tbody').append(html);
+						setTimeout(function () {
+							$('.uid').click(function () {
+								var deleteUserId = $(this).attr('id');
+								Swal.fire({
+									title: 'Delete this visitor?',
+									text: "Caution: Clicking delete will erase this user from the meeting.",
+									type: 'warning',
+									showCancelButton: true,
+									confirmButtonColor: '#3085d6',
+									cancelButtonColor: '#d33',
+									confirmButtonText: 'Delete'
+
+								}).then((result) => {
+									if (result.value) {
+										var thisoneurl = '../Kastle/DeleteVisitor?uid=' + deleteUserId;
+										$.get({
+											url: thisoneurl,
+											success: function () {
+												Swal("Deleted!");
+												var id = "i[id=" + deleteUserId + "]";
+												$(id).parent().parent().remove();
+											}
+										});
+									}
+								});
+								// End Swal
+							});
+							// End Click
+						}, 900);
+						// End Timeout
+					}
+					// End Success
+				});
+				// End Get Visitors
+
+
+
+				setTimeout(function () {
+					$('.groupid').click(function () {
+						var id = $(this).attr('id');
+						Swal.fire({
+							title: 'Delete this meeting?',
+							text: "Caution: Clicking delete will erase this meeting.",
+							type: 'warning',
+							showCancelButton: true,
+							confirmButtonColor: '#3085d6',
+							cancelButtonColor: '#d33',
+							confirmButtonText: 'Delete'
+
+						}).then((result) => {
+							if (result.value) {
+								var thisoneurl = '../Kastle/DeleteMeeting?groupid=' + id;
+								$.get({
+									url: thisoneurl,
+									success: function () {
+										window.location.href = "../Kastle/Admin";
+									}
+
+								});
+							}
+						});
+					});
+					$(".tbl-content").scroll(function () {
+						$(".tbl-header").scrollTop($(".tbl-content").scrollTop());
+						$(".tbl-header").scrollLeft($(".tbl-content").scrollLeft());
+					});
+
+					$('.fa-pen-fancy').click(function () {
+						var id = $(this).attr('id');
+						var url = "../Kastle/EditMeeting?groupid=" + id;
+						window.location.href = url;
+					});
+					$('.headLine').click(function () {
+						var groupid = $(this).attr('groupId')
+						var eval = `tr[groupId=` + groupid + `]`;
+						$(eval).toggle();
+						$(this).show();
+					});
+				}, 2500);
+
+
+			}, 2000);
+			//End Timeout
+			var x = 60;
+			var updateText = setInterval(function () {
+				x--;
+				if (x >= 0) {
+					$('#updating').text("Updating in: " + x + " seconds");
+				}
+
+			}, 1000);
+
+			var update = setInterval(function () { window.location.href = window.location.href; }, 60000);
+			$('#stopupdating').click(function () {
+				clearInterval(update);
+				clearInterval(updateText);
+				$('#updating').text("Stopped...");
+				$('#stopupdating').remove();
+			});
+
+		});
+		// End Document Ready
+	</script>
+
+}
+else
+{
+	<script>
+		window.location.href = "../Kastle/MyVisitorLog";
+	</script>
+
+}

@@ -1,0 +1,381 @@
+﻿.icons-sprite, .jspDragTop, .jspDragBottom, .jspDragLeft, .jspDragRight {
+    background: url(https://www.bgov.com/core/assets/icons-s6b39fa7dec-6a76a40d6a59bd723b6c06c612790f81.png) no-repeat
+}
+
+.active-icons-sprite {
+    background: url(https://www.bgov.com/core/assets/active-icons-s79a5736edd-e7fb6d0a14c8f54c833a41c23f652949.png) no-repeat
+}
+
+.backgrounds-vertical-sprite {
+    background: url(https://www.bgov.com/core/assets/backgrounds-vertical-s04eb6570eb-ee0f21f7f814b5478f1c602a3b7ad3df.png) no-repeat
+}
+
+.backgrounds-horizontal-sprite {
+    background: url(https://www.bgov.com/core/assets/backgrounds-horizontal-sb81b03a2f1-92caee8cd1416e4739de9611587e3724.png) no-repeat
+}
+
+.action-links-sprite {
+    background: url(https://www.bgov.com/core/assets/action-links-s044f5076fc-366af4b1ba79cae301c46548534de6f9.png) no-repeat
+}
+
+.states-sprite, .states-AK, .states-AL, .states-AR, .states-AS, .states-AZ, .states-CA, .states-CO, .states-CT, .states-DC, .states-DE, .states-FL, .states-FM, .states-GA, .states-GU, .states-HI, .states-IA, .states-ID, .states-IL, .states-IN, .states-KS, .states-KY, .states-LA, .states-MA, .states-MD, .states-ME, .states-MH, .states-MI, .states-MN, .states-MO, .states-MP, .states-MS, .states-MT, .states-NC, .states-ND, .states-NE, .states-NH, .states-NJ, .states-NM, .states-NV, .states-NY, .states-OH, .states-OK, .states-OR, .states-PA, .states-PR, .states-PW, .states-RI, .states-SC, .states-SD, .states-TN, .states-TX, .states-UT, .states-VA, .states-VI, .states-VT, .states-WA, .states-WI, .states-WV, .states-WY {
+    background: url(https://www.bgov.com/core/assets/states-sb2f8b42d2e-97acf94c98fde28716c0ccc20b197fd2.png) no-repeat
+}
+
+.banners-sprite {
+    background: url(https://www.bgov.com/core/assets/banners-saea2960941-01477ab20156d357ca8c578584b14346.png) no-repeat
+}
+
+.states-AK {
+    background-position: 0 -700px;
+    height: 100px;
+    width: 100px
+}
+
+.states-AL {
+    background-position: 0 -2400px;
+    height: 100px;
+    width: 100px
+}
+
+.states-AR {
+    background-position: 0 -2800px;
+    height: 100px;
+    width: 100px
+}
+
+.states-AS {
+    background-position: 0 -1800px;
+    height: 100px;
+    width: 100px
+}
+
+.states-AZ {
+    background-position: 0 -3900px;
+    height: 100px;
+    width: 100px
+}
+
+.states-CA {
+    background-position: 0 -2000px;
+    height: 100px;
+    width: 100px
+}
+
+.states-CO {
+    background-position: 0 -5600px;
+    height: 100px;
+    width: 100px
+}
+
+.states-CT {
+    background-position: 0 -1400px;
+    height: 100px;
+    width: 100px
+}
+
+.states-DC {
+    background-position: 0 -300px;
+    height: 100px;
+    width: 100px
+}
+
+.states-DE {
+    background-position: 0 -1000px;
+    height: 100px;
+    width: 100px
+}
+
+.states-FL {
+    background-position: 0 -2500px;
+    height: 100px;
+    width: 100px
+}
+
+.states-FM {
+    background-position: 0 0;
+    height: 100px;
+    width: 100px
+}
+
+.states-GA {
+    background-position: 0 -1200px;
+    height: 100px;
+    width: 100px
+}
+
+.states-GU {
+    background-position: 0 -400px;
+    height: 100px;
+    width: 100px
+}
+
+.states-HI {
+    background-position: 0 -5300px;
+    height: 100px;
+    width: 100px
+}
+
+.states-IA {
+    background-position: 0 -4200px;
+    height: 100px;
+    width: 100px
+}
+
+.states-ID {
+    background-position: 0 -4500px;
+    height: 100px;
+    width: 100px
+}
+
+.states-IL {
+    background-position: 0 -4300px;
+    height: 100px;
+    width: 100px
+}
+
+.states-IN {
+    background-position: 0 -3700px;
+    height: 100px;
+    width: 100px
+}
+
+.states-KS {
+    background-position: 0 -5000px;
+    height: 100px;
+    width: 100px
+}
+
+.states-KY {
+    background-position: 0 -3800px;
+    height: 100px;
+    width: 100px
+}
+
+.states-LA {
+    background-position: 0 -900px;
+    height: 100px;
+    width: 100px
+}
+
+.states-MA {
+    background-position: 0 -2900px;
+    height: 100px;
+    width: 100px
+}
+
+.states-MD {
+    background-position: 0 -1300px;
+    height: 100px;
+    width: 100px
+}
+
+.states-ME {
+    background-position: 0 -3000px;
+    height: 100px;
+    width: 100px
+}
+
+.states-MH {
+    background-position: 0 -3600px;
+    height: 100px;
+    width: 100px
+}
+
+.states-MI {
+    background-position: 0 -100px;
+    height: 100px;
+    width: 100px
+}
+
+.states-MN {
+    background-position: 0 -2700px;
+    height: 100px;
+    width: 100px
+}
+
+.states-MO {
+    background-position: 0 -2600px;
+    height: 100px;
+    width: 100px
+}
+
+.states-MP {
+    background-position: 0 -1600px;
+    height: 100px;
+    width: 100px
+}
+
+.states-MS {
+    background-position: 0 -1700px;
+    height: 100px;
+    width: 100px
+}
+
+.states-MT {
+    background-position: 0 -4900px;
+    height: 100px;
+    width: 100px
+}
+
+.states-NC {
+    background-position: 0 -4100px;
+    height: 100px;
+    width: 100px
+}
+
+.states-ND {
+    background-position: 0 -5400px;
+    height: 100px;
+    width: 100px
+}
+
+.states-NE {
+    background-position: 0 -5100px;
+    height: 100px;
+    width: 100px
+}
+
+.states-NH {
+    background-position: 0 -2200px;
+    height: 100px;
+    width: 100px
+}
+
+.states-NJ {
+    background-position: 0 -200px;
+    height: 100px;
+    width: 100px
+}
+
+.states-NM {
+    background-position: 0 -5200px;
+    height: 100px;
+    width: 100px
+}
+
+.states-NV {
+    background-position: 0 -4400px;
+    height: 100px;
+    width: 100px
+}
+
+.states-NY {
+    background-position: 0 -3100px;
+    height: 100px;
+    width: 100px
+}
+
+.states-OH {
+    background-position: 0 -800px;
+    height: 100px;
+    width: 100px
+}
+
+.states-OK {
+    background-position: 0 -4600px;
+    height: 100px;
+    width: 100px
+}
+
+.states-OR {
+    background-position: 0 -3400px;
+    height: 100px;
+    width: 100px
+}
+
+.states-PA {
+    background-position: 0 -4700px;
+    height: 100px;
+    width: 100px
+}
+
+.states-PR {
+    background-position: 0 -2300px;
+    height: 100px;
+    width: 100px
+}
+
+.states-PW {
+    background-position: 0 -2100px;
+    height: 100px;
+    width: 100px
+}
+
+.states-RI {
+    background-position: 0 -600px;
+    height: 100px;
+    width: 100px
+}
+
+.states-SC {
+    background-position: 0 -1500px;
+    height: 100px;
+    width: 100px
+}
+
+.states-SD {
+    background-position: 0 -4800px;
+    height: 100px;
+    width: 100px
+}
+
+.states-TN {
+    background-position: 0 -5500px;
+    height: 100px;
+    width: 100px
+}
+
+.states-TX {
+    background-position: 0 -3200px;
+    height: 100px;
+    width: 100px
+}
+
+.states-UT {
+    background-position: 0 -5700px;
+    height: 100px;
+    width: 100px
+}
+
+.states-VA {
+    background-position: 0 -4000px;
+    height: 100px;
+    width: 100px
+}
+
+.states-VI {
+    background-position: 0 -3500px;
+    height: 100px;
+    width: 100px
+}
+
+.states-VT {
+    background-position: 0 -1900px;
+    height: 100px;
+    width: 100px
+}
+
+.states-WA {
+    background-position: 0 -3300px;
+    height: 100px;
+    width: 100px
+}
+
+.states-WI {
+    background-position: 0 -1100px;
+    height: 100px;
+    width: 100px
+}
+
+.states-WV {
+    background-position: 0 -500px;
+    height: 100px;
+    width: 100px
+}
+
+.states-WY {
+    background-position: 0 -5800px;
+    height: 100px;
+    width: 100px
+}

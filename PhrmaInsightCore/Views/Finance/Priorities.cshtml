@@ -1,0 +1,834 @@
+@model List<PhrmaInsightCore.Models.DB.Forecasting>
+<div class="demo-static-toast pos-absolute t-100 r-10" style="z-index: 9999999 !important; width: 350px;"></div>
+<div class="absCenter" style="display: none; z-index: 999999;">
+	<div class="loaderPill">
+		<div class="spinner">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</div>
+	</div>
+</div>
+<div id="selectMenuRow" class="container-fluid" style="height: 42px; background-color: #f7f7f7; transition-duration: 2s;">
+	<div class="container">
+		<div class="row d-flex flex-nowrap">
+			<div class="media" style="margin-right: 10px; margin-left: 45px;">
+				<div class="media-body">
+					@*<label style="color: gray; font-size: 11px; text-transform: uppercase; letter-spacing: .5px;">Department</label>*@
+					<select class="form-control select2" id="departmentSelect" style="width: 300px; font-size: 0.9em;">
+						<option value=""></option>
+						@foreach (var item in ViewBag.Departments)
+						{
+							<option value="@item.DepartmentId">@item.DepartmentId - @item.DepartmentName</option>
+						}
+					</select>
+					<div id="hover-blue" style="height: 2px; width: 0px; background-color: blue;"></div>
+					<div id="hover-red" style="height: 2px; width: 0px; background-color: blue;"></div>
+				</div>
+
+			</div>
+			<div style="height: 33px; width:  2px; background-color: gray; margin-top: 5px;"></div>
+			<div class="media" style="margin-right: 10px;">
+				<div class="media-body">
+
+					<select class="form-control select2" id="projectSelect" style="width: 300px; font-size: 0.9em;">
+						<option value=""></option>
+						@foreach (var item in ViewBag.Projects)
+						{
+							<option value="@item.ProjectId">@item.ProjectId - @item.ProjectName</option>
+						}
+					</select>
+					<div id="hover-blue" style="height: 2px; width: 0px; background-color: blue;"></div>
+					<div id="hover-red" style="height: 2px; width: 0px; background-color: blue;"></div>
+				</div>
+			</div>
+			<div style="height: 33px; width: 2px; background-color: gray; margin-top: 5px;"></div>
+			<div class="media" style="margin-right: 10px;">
+				<div class="media-body">
+
+					<select class="form-control select2" id="locationSelect" style="width: 225px; font-size: 0.9em;">
+						<option value=""></option>
+						<option value="None">None</option>
+						@foreach (var item in ViewBag.Locations)
+						{
+							@if (item.LocationId.Substring(0, 1) == "_")
+							{
+								<option value="@item.LocationId">@item.LocationId.Replace("_", "") - @item.LocationName</option>
+							}
+							else
+							{
+								<option value="@item.LocationId">@item.LocationId - @item.LocationName</option>
+							}
+
+						}
+					</select>
+					<div id="hover-blue" style="height: 2px; width: 0px; background-color: blue;"></div>
+					<div id="hover-red" style="height: 2px; width: 0px; background-color: blue;"></div>
+				</div>
+			</div>
+			<button id="tableFilter" class="learn-more" onclick="$('#main-dashboard').show(); $('#addItemsMenu').hide(); $('#showAddItemsMenu').show();" style="margin-left: 10px;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Go">
+				<span class="circle" style="background-color: green;">
+					<span class="la la-angle-right" style="padding-top: 6px; color: white; font-size: 19px; font-weight: bold;"></span>
+				</span>
+			</button>
+			<button id="showAddItemsMenu" class="learn-more" onclick="$('#addItemsMenu').show(); $('#showAddItemsMenu').hide();" style="margin-left: 10px;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Add Items">
+				<span class="circle" style="background-color: indigo;">
+					<span class="la la-plus" style="padding-top: 6px; color: white; font-size: 19px; font-weight: bold;"></span>
+				</span>
+			</button>
+			<span id="saveItems" class="la la-save" style="font-size: 40px; margin-left: 10px; cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Save"></span>
+			<span onclick="window.location.href = '../Finance/ForecastLocationSummary'" class="las la-calendar-check" style="font-size: 40px; margin-left: 5px; cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Summary"></span>
+		</div>
+	</div>
+</div>
+<div id="addItemsMenu" class="container-fluid" style="height: 42px; background-color: #f7f7f7; transition-duration: 2s; display: none;">
+	<div class="container">
+        <div class="row d-flex flex-nowrap">
+            <div class="media" style="margin-right: 10px; margin-left: 45px;">
+                <div class="media-body">
+                    @*<label style="color: gray; font-size: 11px; text-transform: uppercase; letter-spacing: .5px;">Department</label>*@
+                    <select class="form-control select2" id="mainAccountSelect" style="width: 300px; font-size: 0.9em;">
+                        <option value=""></option>
+                        @foreach (var item in ViewBag.MainAccounts)
+                        {
+                            <option value="@item.MainAccountId">@item.MainAccountId - @item.MainAccountName</option>
+                        }
+                    </select>
+                    <div id="hover-blue" style="height: 2px; width: 0px; background-color: blue;"></div>
+                    <div id="hover-red" style="height: 2px; width: 0px; background-color: blue;"></div>
+                </div>
+
+            </div>
+            <div style="height: 33px; width:  2px; background-color: gray; margin-top: 5px;"></div>
+            <div class="media" style="margin-right: 10px;">
+                <div class="media-body">
+
+                    <select class="form-control select2" id="vendorSelect" style="width: 300px; font-size: 0.9em;">
+                        <option value=""></option>
+                        <option value="Budget Entry">Budget Entry</option>
+                        @foreach (var item in ViewBag.Vendors)
+                        {
+                            <option value="@item.VendorId">@item.VendorId - @item.VendorName</option>
+                        }
+                    </select>
+                    <div id="hover-blue" style="height: 2px; width: 0px; background-color: blue;"></div>
+                    <div id="hover-red" style="height: 2px; width: 0px; background-color: blue;"></div>
+                </div>
+            </div>
+            <div style="height: 33px; width: 2px; background-color: gray; margin-top: 5px;"></div>
+            <div class="media" style="margin-right: 10px;">
+                <div class="media-body">
+                    <select class="form-control select2" id="referenceCodeSelect" style="width: 225px; font-size: 0.9em;">
+                        <option value=""></option>
+                        <option value="None">None</option>
+                        @foreach (var item in ViewBag.ReferenceCode)
+                        {
+                            <option value="@item.ReferenceCodeName">@item.ReferenceCodeName</option>
+                        }
+                    </select>
+                    <div id="hover-blue" style="height: 2px; width: 0px; background-color: blue;"></div>
+                    <div id="hover-red" style="height: 2px; width: 0px; background-color: blue;"></div>
+                </div>
+            </div>
+            <button id="closeMenu" class="learn-more" onclick="$('#addItemsMenu').hide(); $('#showAddItemsMenu').show();" style="margin-left: 10px;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Close Menu">
+                <span class="circle" style="background-color: darkred;">
+                    <span class="la la-close" style="padding-top: 6px; color: white; font-size: 19px; font-weight: bold;"></span>
+                </span>
+            </button>
+            <button id="addItems" class="learn-more" onclick="$('#addItemsMenu').hide(); $('#showAddItemsMenu').show();" style="margin-left: 10px;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Add Items">
+                <span class="circle" style="background-color: indigo;">
+                    <span class="la la-plus" style="padding-top: 6px; color: white; font-size: 19px; font-weight: bold;"></span>
+                </span>
+            </button>
+        </div>
+	</div>
+</div>
+
+<!-- Begin Alert Container -->
+<div class="container" id="alert-container"></div>
+<!-- End Alert Container -->
+
+<!-- End Navbar -->
+<div class="">
+	<div class="sweet-modal-box alert beginMenu" style="position: fixed; top: 20%; left: 25%;">
+		<div class="sweet-modal-content">
+			Please Use the Menus above to begin...
+		</div>
+	</div>
+	<div id="main-dashboard" class="container-fluid" style="display: none;">
+		<div class="mainTable" style="margin-left: 30px;">
+			<table style="font-weight: bold; position: fixed; top: 150px; display: table;  width: 1500px !important; font-family: 'Montserrat', sans-serif; font-weight: 500;">
+				<tr class="row" style="font-size: 0.75em; line-height: 1.5em;">
+					<th class="col" style="font-weight: 500; padding-left: 2rem; max-width: 70px !important; min-width: 70px !important; width: 70px !important;">Account Category</th>
+					<th class="col" style="font-weight: 500; padding-left: 2rem; max-width: 70px !important; min-width: 70px !important; width: 70px !important;">Main Account</th>
+					<th class="col" style="font-weight: 500; padding-left: 2rem; min-width: 325px !important; max-width: 325px !important; width: 325px !important;">Vendor</th>
+					<th class="text-center" style="font-weight: 500; width: 105px; padding-left: 0.1rem; position: relative; left: -25px;">Reference Code</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">Working Budget</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">Actuals</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">PO Balance</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">Requisitions</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">Total Committed</th>
+					<th class="text-center" style="font-weight: 500; width: 100px;">Forecast</th>
+					<th class="text-left col" id="NoteId" style="font-weight: 500; max-width: 300px; min-width: 300px; width: 400px !important;">Note</th>
+				</tr>
+				<tbody id="editTableBody" style="background-color: #eee !important; height: 650px; width: 1500px !important; overflow-y: scroll; overflow-x: hidden; position: fixed; top: 200px; font-family: 'Montserrat', sans-serif;">
+				</tbody>
+			</table>
+		</div>
+
+
+	</div>
+	
+</div>
+
+<script src="../azia/lib/jquery/jquery.min.js"></script>
+<script src="../assets/js/plugins/sweetalert2.js"></script>
+<script>
+		$(document).ready(function () {
+
+			$('head').append(`<style>.select2-container--default .select2-selection--single { background-color: transparent; border: none; height: 38px; font-weight: 500;font-family: 'Roboto', 'sans-serif';color: #031B4F; cursor: pointer;} .select2-results__options { max-height: 500px !important;} </style>`);
+
+			var distinctDimensions = @Html.Raw(ViewBag.DistinctDimensions);
+			console.log(distinctDimensions);
+
+
+			$('#departmentSelect').select2({
+				placeholder: 'Department',
+				dropdownAutoWidth: true,
+				allowClear: true
+			});
+
+			$('#projectSelect').select2({
+				placeholder: 'Project',
+				dropdownAutoWidth: true,
+				allowClear: true
+			});
+
+			$('#locationSelect').select2({
+				placeholder: 'Location',
+				dropdownAutoWidth: true,
+				allowClear: true
+			});
+
+			$('#mainAccountSelect').select2({
+				placeholder: 'Main Account',
+				dropdownAutoWidth: true,
+				allowClear: true
+			});
+
+			$('#vendorSelect').select2({
+				placeholder: 'Vendor',
+				dropdownAutoWidth: true,
+				allowClear: true
+			});
+
+			$('#referenceCodeSelect').select2({
+				placeholder: 'Reference Code',
+				dropdownAutoWidth: true,
+				allowClear: true
+			});
+
+			$('#departmentSelect').on('select2:select', function (e) {
+
+				$('#projectSelect').val('1'); // Select the option with a value of '1'
+				$('#projectSelect').trigger('change');
+				$('#locationSelect').val('1'); // Select the option with a value of '1'
+				$('#locationSelect').trigger('change');
+
+				var selected = $('#departmentSelect').val();
+				setTimeout(function () {
+
+					var itemsToKeep = "";
+
+					var filteredDistinctDimensions = distinctDimensions.filter(function (a) {
+						return a.DepartmentId == selected;
+					});
+
+					for (var i = 0; i < filteredDistinctDimensions.length; i++) {
+
+						if (i == 0 && filteredDistinctDimensions.length == 1) {
+							itemsToKeep += ":not('([value=" + filteredDistinctDimensions[i]["ProjectId"] + "]')";
+						} else if (i == 0 && filteredDistinctDimensions.length > 1) {
+							itemsToKeep += ":not('[value=" + filteredDistinctDimensions[i]["ProjectId"] + "]";
+						} else if (i > 0 && i != filteredDistinctDimensions.length - 1) {
+							itemsToKeep += ",[value=" + filteredDistinctDimensions[i]["ProjectId"] + "]";
+						} else if (i == filteredDistinctDimensions.length - 1) {
+							itemsToKeep += ",[value=" + filteredDistinctDimensions[i]["ProjectId"] + "]')";
+						}
+					}
+					$('#projectSelect').find('option').attr('willHide', 'false').prop("disabled", false);
+					$('#projectSelect').find(itemsToKeep).attr('willHide', 'true').prop("disabled", true);
+					$('#projectSelect').find('option').eq(0).attr('willHide', 'false').prop("disabled", false);
+
+					$('#projectSelect').select2({
+						placeholder: 'Project',
+						dropdownAutoWidth: true,
+						allowClear: true
+					});
+
+				}, 200);
+
+			});
+
+
+
+			$('#projectSelect').on('select2:select', function (e) {
+				var selected = $('#projectSelect').val();
+
+				var filteredDistinctDimensions = distinctDimensions.filter(function (a) {
+					return a.DepartmentId == $('#departmentSelect').val().toString() && a.ProjectId == selected;
+				});
+
+				
+				$('#locationSelect').trigger('change');
+
+				setTimeout(function () {
+
+
+					var itemsToKeep = "";
+					for (var i = 0; i < filteredDistinctDimensions.length; i++) {
+
+						if (i == 0 && filteredDistinctDimensions.length == 1) {
+							itemsToKeep += `:not('[value="` + filteredDistinctDimensions[i]["LocationId"] + `"]')`;
+						} else if (i == 0 && filteredDistinctDimensions.length > 1) {
+							itemsToKeep += `:not('[value="` + filteredDistinctDimensions[i]["LocationId"] + `"]`;
+						} else if (i > 0 && i != filteredDistinctDimensions.length - 1) {
+							itemsToKeep += `,[value="` + filteredDistinctDimensions[i]["LocationId"] + `"]`;
+						} else if (i == filteredDistinctDimensions.length - 1) {
+							itemsToKeep += `,[value="` + filteredDistinctDimensions[i]["LocationId"] + `"]')`;
+						}
+					}
+
+
+					$('#locationSelect').find('option').attr('willHide', 'false').prop("disabled", false);
+					$('#locationSelect').find(itemsToKeep).attr('willHide', 'true').prop("disabled", true);
+					$('#locationSelect').find('option').eq(0).attr('willHide', 'false').prop("disabled", false);
+					$('#locationSelect').select2({
+						placeholder: 'Location',
+						dropdownAutoWidth: true,
+						allowClear: true
+					});
+				}, 100);
+			});
+
+
+
+			//$('#departmentSummarySelect').on('changed.bs.select', function (e, clickedIndex, newValue, oldValue) {
+			//    var selected = $(e.currentTarget).val();
+			//    $('tbody').eq(1).find('tr').show();
+			//    if (selected != "999") {
+			//        var evalString = `$('tbody').eq(1).find('tr:not([department="` + selected + `"])').hide()`;
+			//        eval(evalString);
+			//    }
+
+			//});
+
+
+
+
+
+			$('#tableFilter').click(function () {
+				$('.absCenter').show();
+				$(window).resize();
+				$('.beginMenu').fadeOut(600);
+				$('#hover-red').css('width', '0px');
+				$('table').eq(1).find('th').eq(4).show();
+				$('table').eq(1).find('th').eq(5).show();
+
+				var departmentid = "departmentid=" + $('#departmentSelect').val();
+				var projectid = "projectid=" + $('#projectSelect').val();
+				var locationid = "locationid=" + $('#locationSelect').val();
+				var url = "../Finance/GetForecastLocation?";
+				var query = url + departmentid + '&' + projectid + '&' + locationid;
+				var check_all_filters = [$('#departmentSelect').val(),$('#projectSelect').val(),$('#locationSelect').val()];
+				var id = "id" + Math.round(Math.random() * 100);
+				var idhashtag = '#' + id;
+
+				if (check_all_filters.indexOf("") != -1 || check_all_filters.indexOf(null) != -1 || check_all_filters.indexOf("null") != -1) {
+
+					for (var i = 0; i < check_all_filters.length; i++) {
+						if (check_all_filters[i] == "" || check_all_filters[i] == null || check_all_filters[i] == "null") {
+							$('#selectMenuRow').find('.media-body').eq(i).find('#hover-red').css('background-color', 'red').css('width', '100%');
+						}
+					}
+
+					$('#alert-container').prepend(`
+						<div id="` + id + `">
+							<div class="alert alert-danger mg-b-0" role="alert" style="text-align: center;">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<strong>Oops</strong> Please make a selection.
+								</div><!-- alert -->
+							<div id="red-alert" style="height: 2px; width: 0px; background-color: darkred; margin: 0px; transition-duration: 5s;"></div>
+						</div>
+					`);
+
+					var stmt = `$('` + idhashtag + `').remove();`
+					var triggerRed = `$('` + idhashtag + `').find('#red-alert').css('width','100%');`
+					eval(triggerRed);
+					setTimeout(function () {
+						eval(stmt);
+                        $('div#hover-red').css('width', '0%');
+                        $(window).resize();
+					}, 5000);
+
+
+				} else {
+					$.get({
+						url: query,
+						success: function (data) {
+
+						   
+							$('.absCenter').fadeOut(2000);
+
+							var html;
+							for (var i = 0; i < data.length; i++) {
+								if (data[i]["entryCategory"] == "GT") {
+									html +=
+										`<tr class="row" style="margin-bottom: 10px; margin-top: 5px; background-color: darkblue; color: white; height: 30px !important; font-size: 0.866rem; font-weight: 600; border-bottom: 1px solid lightgray; padding-top: 0.15rem;">
+											<td class="col" style="padding: 0.3rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important; width: 70px !important"><span style="position: relative; top: -3px;">Total</span></td>
+											<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important;"></td>
+											<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 325px !important; max-width: 325px !important; width: 325px !important;"></td>
+											<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 105px !important; max-width: 105px !important; width: 70px !important;"></td>`;
+									  
+                                    html +=
+                                        `<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["workingBudget"]), 0)).toLocaleString() + `</td>` +
+										`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["actuals"]), 0)).toLocaleString() + `</td>` +
+										`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["hardCommitments"]), 0)).toLocaleString() + `</td>` +
+										`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["requisitions"]), 0)).toLocaleString() + `</td>` +
+										`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["totalCommitted"]), 0)).toLocaleString() + `</td>`;
+
+									html += 
+										`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["forecast"]), 0)).toLocaleString() + `</td>` +
+										`<td id="NoteId" class="text-right" style="width: 300px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;"></td>
+										</tr>`;
+
+								} else if (data[i]["entryCategory"] == "ACT") {
+									html +=
+										`<tr class="row" id="rowMain" style="margin-bottom: 2px; margin-top: 15px; background-color: rgba(73, 101, 191, 0.90); color: white; height: 30px !important; font-size: 0.866rem; font-weight: 600; border-bottom: 1px solid lightgray; padding-top: 0.15rem;">
+											<td class="col" style="padding: 0.3rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important; width: 70px !important"><span style="position: relative; top: -3px; ">` + data[i]["accountCategory"] + `</span></td>` +
+										`<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important;"></td>
+											<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 325px !important; max-width: 325px !important; width: 325px !important;"></td>
+											<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 105px !important; max-width: 105px !important; width: 105px !important;"></td>`;
+
+                                    html +=
+											`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["workingBudget"]), 0)).toLocaleString() + `</td>` +
+											`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["actuals"]), 0)).toLocaleString() + `</td>` +
+											`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["hardCommitments"]), 0)).toLocaleString() + `</td>` +
+											`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["requisitions"]), 0)).toLocaleString() + `</td>` +
+											`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["totalCommitted"]), 0)).toLocaleString() + `</td>`;
+
+									html +=
+										`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["forecast"]), 0)).toLocaleString() + `</td>` +
+										`<td class="text-right" id="NoteId" style="width: 300px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;"></td>
+										</tr>`;
+								} else if (data[i]["entryCategory"] == "ST") {
+									html +=
+										`<tr class="row" id="rowReg" collapsegroup="` + data[i]["collapseGroup"] + `" style="margin-bottom: 5px; background-color: mediumseagreen; color: white; height: 25px !important; font-size: 0.866rem; font-weight: 600; border-bottom: 1px solid lightgray;">
+											<td value="" class="col text-right" style="padding: 0.1rem 0.3rem 0.3rem 0.1rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important; width: 70px !important;"> <i onclick="$('td#a').parent().slideDown(400);" class="la la-plus-square plusExpand" style="display: none; font-size: 15px; padding-top: 0.1rem; cursor: pointer;"></i><i class="minusCollapse la la-minus-square " style="font-size: 15px; padding-top: 0.1rem; cursor: pointer;"></i><i class="material-icons" style="font-size: 15px; padding-top: 0.1rem; visibility: hidden;  cursor: pointer;"></i><span style="position: relative; top: -3px; color: white;"></span></td>
+											<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 0.1rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important;">` + data[i]["mainAccountId"] + ` - ` + data[i]["mainAccountName"] + `</td>` +
+										`<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 325px !important; max-width: 325px !important; width: 325px !important;"></td>
+											<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 105px !important; max-width: 105px !important; width: 105px !important;"></td>`;
+
+                                    html +=
+											`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["workingBudget"]), 0)).toLocaleString() + `</td>` +
+											`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["actuals"]), 0)).toLocaleString() + `</td>` +
+											`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["hardCommitments"]), 0)).toLocaleString() + `</td>` +
+											`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["requisitions"]), 0)).toLocaleString() + `</td>` +
+											`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["totalCommitted"]), 0)).toLocaleString() + `</td>`;
+					
+									html +=
+											`<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;" id="id">` + parseInt(Math.round(parseFloat(data[i]["forecast"]), 0)).toLocaleString() + `</td>` +
+											`<td class="text-right" id="NoteId" style="width: 300px !important; padding: 0rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap;"></td>
+											</tr>`;
+                                } else if (data[i]["entryCategory"] == "LT") {
+                                    var allowDelete = "";
+                                    var lineAmounts = parseInt(Math.round(parseFloat(data[i]["workingBudget"]), 0)) + parseInt(Math.round(parseFloat(data[i]["actuals"]), 0)) + parseInt(Math.round(parseFloat(data[i]["forecast"]), 0)) + parseInt(Math.round(parseFloat(data[i]["totalCommitted"]), 0));
+                                    if (lineAmounts == 0) {
+                                         allowDelete = `<i class="deleteItem fa fa-times" style="color:red; position: relative; left: -25px; opacity: 0.25; z-index: 99999; cursor: pointer;" onclick="$.get({ url :'../Finance/DeleteForecastItem?deleteid=` + data[i]["departmentId"] + '|' + data[i]["projectId"] + '|' + data[i]["locationId"] + '|' + data[i]["mainAccountId"] + '|' + data[i]["vendorId"] + '|' + data[i]["referenceCodeId"] + `', success:function(data){ data == 'OK' ? Swal({ title: 'Item Deleted!', timer: 2000, showConfirmButton: false}) : Swal('Error');  $('#tableFilter').trigger('click');}});"></i>`;
+                                    }
+									html +=
+										`<tr class="row bodyRow" id="rowReg" collapsegroup="` + data[i]["collapseGroup"] + `" style="background-color: white; height: 25px !important; font-size: 0.75rem; font-weight: 600; border-bottom: 1px solid lightgray;" valid="` + data[i]["departmentId"] + '|' + data[i]["projectId"] + '|' + data[i]["locationId"] + '|' + data[i]["mainAccountId"] + '|' + data[i]["vendorId"] + '|' + data[i]["referenceCodeId"] + `">
+											<td id="" value="c" class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important; width: 70px !important; color: white; font-weight: 600;"></td>
+											<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; max-width: 70px !important; min-width: 70px !important; font-weight: 600;">` + allowDelete + `</td>
+											<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 325px !important; max-width: 325px !important; width: 325px !important; overflow: hidden !important; position: relative; left: -75px; font-weight: 600;">` + data[i]["vendorName"] + `</td>
+											<td class="col" style="padding: 0.1rem 0.3rem 0.3rem 2rem; white-space: nowrap; min-width: 105px !important; max-width: 105px !important; width: 105px !important; position: relative; left: -50px; font-weight: 600;">` + data[i]["referenceCodeName"] + `</td>`;
+
+									html +=
+                                        `<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap; font-weight: 600;" id="id">` + parseInt(Math.round(parseFloat(data[i]["workingBudget"]), 0)).toLocaleString() + `</td>
+										<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap; font-weight: 600;" id="id">` + parseInt(Math.round(parseFloat(data[i]["actuals"]), 0)).toLocaleString() + `</td>
+										<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap; font-weight: 600;" id="id">` + parseInt(Math.round(parseFloat(data[i]["hardCommitments"]), 0)).toLocaleString() + `</td>
+										<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap; font-weight: 600;" id="id">` + parseInt(Math.round(parseFloat(data[i]["requisitions"]), 0)).toLocaleString() + `</td>
+										<td class="text-right" style="width: 100px !important; padding: 0.1rem 0rem 0.3rem 2rem; white-space: nowrap; white-space: nowrap; font-weight: 600;" id="id">` + parseInt(Math.round(parseFloat(data[i]["totalCommitted"]), 0)).toLocaleString() + `</td>`;
+
+									html +=
+										`<td class="text-right" style="width: 100px !important; padding: 0.3rem 0rem; white-space: nowrap; font-weight: 600;" id="id"><input id="budgetEntryAmount" note="" type="text" placeholder="` + parseInt(Math.round(parseFloat(data[i]["forecast"]), 0)).toLocaleString() + `" class="text-right forecastBox" style="height: 23px; width: 100px; top: -0.3rem; position: relative; border-style: none; font-size: 1em;"/></td>
+											<td class="text-left" id="NoteId" style="width: 300px !important; padding: 0.3rem 0rem; white-space: nowrap; font-weight: 600;"><input id="Note" class="text-left Note" style="margin-left: 25px; height: 23px; width: 300px; top: -0.3rem; position: relative; border-style: none; font-size: 1em; color: gray;" type="text" value="` + data[i]["note"] + `" /></td>
+										</tr>`;
+								}
+
+							}
+
+							$('#editTableBody').html(html);
+						}
+					});
+
+					setTimeout(function () {
+                        eval($('#tableFunctions')[0].innerText);
+                        $(window).resize();
+					}, 1500);
+				}
+			});
+			$(window).resize();
+		});
+</script>
+
+<script id="tableFunctions">
+
+
+
+
+	$(window).resize();
+	$('input').change(function () {
+		$(this).parent().parent().addClass('rowChanged');
+		$(this).addClass('changed')
+	});
+
+	$('input#budgetEntryAmount').keyup(function () {
+		var id = "id" + Math.round(Math.random() * 100);
+		var idhashtag = '#' + id;
+		var time = new Date();
+		var minutes;
+		if (time.getMinutes().toString().length == 1) {
+			minutes = "0" + time.getMinutes();
+		} else {
+			minutes = time.getMinutes();
+		}
+		var timestamp = time.getHours() > 12 ? time.getHours() - 12 + ":" + minutes + " PM" : time.getHours() + ":" + minutes + " AM";
+
+		if (parseInt($(this).val()).toString().length != $(this).val().toString().length) {
+			$('.demo-static-toast').prepend(`
+				<div style="z-index: 999999999;" class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="`+ id + `">
+					<div class="toast-header">
+							<h6 class="tx-inverse tx-14 mg-b-0 mg-r-auto">Notification</h6>
+							<small>` + timestamp + `</small>
+							<button type="button" class="ml-2 mb-1 close tx-normal" data-dismiss="toast" aria-label="Close" onclick="$('` + idhashtag + `').remove()" >
+							<span aria-hidden="true">&times;</span>
+							</button>
+					</div>
+					<div id="hover-blue-toast" style="height: 2px; width: 0px; background-color: blue; margin: 0px; transition-duration: 5s;"></div>
+					<div class="toast-body">
+						Please only use integers.  No commas or decimals.
+					</div>
+				</div>
+			`);
+
+			var stmt = `$('` + idhashtag + `').remove();`
+			var triggerBlue = `$('` + idhashtag + `').find('#hover-blue-toast').css('width','100%');`
+			eval(triggerBlue);
+			setTimeout(function () {
+				eval(stmt);
+			}, 5000);
+			$(this).val($(this).val().replace(/[^,0-9]/g, "").toLocaleString());
+		}
+	});
+
+	$('#saveItems').click(function () {
+
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "You will overwrite the previous value",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Save'
+
+		}).then((result) => {
+			if (result.value) {
+
+				var k = 0;
+				$('.rowChanged').each(function () {
+
+					var query;
+					if ($(this).children().find('input').eq(0).val() != "") {
+						query = $(this).attr('valid') + "|" + parseInt(Math.round($(this).children().find('input').eq(0).val().replace(',', '').replace(',', '').replace(',', '')).toString()).toString();
+					} else {
+						query = $(this).attr('valid') + "|" + parseInt(Math.round($(this).children().find('input').attr('placeholder').replace(',', '').replace(',', '').replace(',', '')).toString()).toString();
+					}
+
+					var note = $(this).find('input').eq(1).val() == "" ? "..." : $(this).find('input').eq(1).val();
+
+					var id = "id" + Math.round(Math.random() * 100);
+					var idhashtag = '#' + id;
+					var time = new Date();
+					var minutes;
+					if (time.getMinutes().toString().length == 1) {
+						minutes = "0" + time.getMinutes();
+					} else {
+						minutes = time.getMinutes();
+					}
+					var item = $('.rowChanged').length < 2 ? " item saved!" : " items saved!";
+					var timestamp = time.getHours() > 12 ? time.getHours() - 12 + ":" + minutes + " PM" : time.getHours() + ":" + minutes + " AM";
+					if (k == 0) {
+						k++;
+						$('.demo-static-toast').prepend(`
+							<div style="z-index: 999999999;" class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="`+ id + `">
+								<div class="toast-header">
+									<h6 class="tx-inverse tx-14 mg-b-0 mg-r-auto">Notification</h6>
+									<small>` + timestamp + `</small>
+									<button type="button" class="ml-2 mb-1 close tx-normal" data-dismiss="toast" aria-label="Close" onclick="$('` + idhashtag + `').remove()" >
+									<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div id="hover-blue-toast" style="height: 2px; width: 0px; background-color: blue; margin: 0px; transition-duration: 5s;"></div>
+								<div class="toast-body">`
+							+ $('.rowChanged').length + item +
+							`</div>
+							</div>
+						`);
+
+						var stmt = `$('` + idhashtag + `').remove();`
+						var triggerBlue = `$('` + idhashtag + `').find('#hover-blue-toast').css('width','100%');`
+						eval(triggerBlue);
+						setTimeout(function () {
+							eval(stmt);
+						}, 5000);
+
+					}
+					$.ajax({
+						contentType: 'application/json',
+						data: JSON.stringify({ "Query": query.toString(), "Note": note.toString() }),
+						dataType: 'json',
+						processData: false,
+						type: 'POST',
+						url: '../Finance/UpdateNextYearForecastItem'
+					});
+				});
+				$('.absCenter').show();
+				setTimeout(function () {
+					$('#tableFilter').trigger('click');
+					$('.absCenter').fadeOut(1000);
+				}, 3000);
+			}
+		});
+	});
+
+	$(window).resize(function(){
+		var spacing = ( window.innerWidth - 1600 );     
+		var margin = spacing/2 + 'px';
+		if(spacing >= 0){
+			$('.mainTable').css('margin-left', margin);
+		} else {
+			$('.mainTable').css('margin-left', '5px');
+		}
+	});
+
+
+
+
+	setTimeout(
+		function () {
+		$('.minusCollapse').click(function () {
+			$(this).hide();
+			$(this).siblings().show();
+			var id = $(this).parent().parent().attr('collapsegroup');
+			$('tr').each(function (a) {
+				if ($('tr').eq(a).attr('collapsegroup') == id && $('tr').eq(a).hasClass('bodyRow')) {
+					$('tr').eq(a).hide();
+				}
+			});
+		});
+
+		$('.plusExpand').click(function () {
+			$(this).hide();
+			$(this).siblings().show();
+			var id = $(this).parent().parent().attr('collapsegroup');
+			$('tr').each(function (a) {
+				if ($('tr').eq(a).attr('collapsegroup') == id && $('tr').eq(a).hasClass('bodyRow')) {
+					$('tr').eq(a).show();
+				}
+			});
+		});
+	}, 3000);
+
+	$('.fa-copy').click(function () {
+		$(this).prev().val($(this).prev().attr('placeholder'));
+
+	});
+
+</script>
+<script>
+	$(document).ready(function () {
+		$(window).resize(function(){
+			var spacing = ( window.innerWidth - 1600 );     
+			var margin = spacing/2 + 'px';
+			if(spacing >= 0){
+				$('.mainTable').css('margin-left', margin);
+			} else {
+				$('.mainTable').css('margin-left', '5px');
+			}
+		});
+		$('.media-body').mouseenter(function () {
+			$(this).find('#hover-blue').css('width', '95%');
+		});
+
+		$('.media-body').mouseleave(function () {
+			$(this).find('#hover-blue').css('width', '0%');
+		});
+
+		$(function () {
+			'use strict'
+
+			$('[data-toggle="tooltip"]').tooltip();
+
+			// colored tooltip
+			$('[data-toggle="tooltip-primary"]').tooltip({
+				template: '<div class="tooltip tooltip-primary" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+			});
+
+			$('[data-toggle="tooltip-secondary"]').tooltip({
+				template: '<div class="tooltip tooltip-secondary" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+			});
+
+		});
+
+	});
+
+</script>
+<script>
+	$(document).ready(function () {
+		$('#addItems').click(function () {
+
+			if ($('#projectSelect').val() != "" & $('#locationSelect').val() != "" && $('#departmentSelect').val() != "" && $('#vendorSelect').val() != "" && $('#vendorSelect').val() != null && $('#vendorSelect').val() != null && $('#mainAccountSelect').val() != "" && $('#referenceCodeSelect').val() != "") {
+
+				var message = function (k_message) {
+				var id = "id" + Math.round(Math.random() * 100);
+				var idhashtag = '#' + id;
+				var time = new Date();
+				var minutes;
+				if (time.getMinutes().toString().length == 1) {
+					minutes = "0" + time.getMinutes();
+				} else {
+					minutes = time.getMinutes();
+				}
+				var timestamp = time.getHours() > 12 ? time.getHours() - 12 + ":" + minutes + " PM" : time.getHours() + ":" + minutes + " AM";
+				$('.demo-static-toast').prepend(`
+					<div style="z-index: 999999999;" class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="`+ id + `">
+						<div class="toast-header">
+							<h6 class="tx-inverse tx-14 mg-b-0 mg-r-auto">Notification</h6>
+							<small>` + timestamp + `</small>
+							<button type="button" class="ml-2 mb-1 close tx-normal" data-dismiss="toast" aria-label="Close" onclick="$('` + idhashtag + `').remove()" >
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div id="hover-blue-toast" style="height: 2px; width: 0px; background-color: blue; margin: 0px; transition-duration: 5s;"></div>
+						<div class="toast-body">`
+							+ `1 item `+ k_message + `!` +
+						`</div>
+					</div>
+				`);
+
+				var stmt = `$('` + idhashtag + `').remove();`
+				var triggerBlue = `$('` + idhashtag + `').find('#hover-blue-toast').css('width','100%');`
+				eval(triggerBlue);
+				setTimeout(function () {
+					eval(stmt);
+				}, 5000);
+			};
+                var queryString = "../Finance/PostNewNextYearForecastData" + "?project=" + $('#projectSelect').val().toString() + "&location=" + $('#locationSelect').val().toString() + "&department=" + $('#departmentSelect').val().toString() + "&vendor=" + $('#vendorSelect').val().toString() + "&mainaccount=" + $('#mainAccountSelect').val().toString() + "&referencecode=" + $('#referenceCodeSelect').val().toString();
+
+                $.get({
+                    url: queryString,
+                    success: function (data) {
+                        if (data == "failure") {
+                            $('#alert-container').prepend(`
+								<div id="` + id + `">
+									<div class="alert alert-danger mg-b-0" role="alert" style="text-align: center;">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<strong>Oops: </strong> Item already exists!
+										</div><!-- alert -->
+									<div id="red-alert" style="height: 2px; width: 0px; background-color: darkred; margin: 0px; transition-duration: 5s;"></div>
+								</div>
+							`);
+
+                            var stmt = `$('` + idhashtag + `').remove();`
+                            var triggerRed = `$('` + idhashtag + `').find('#red-alert').css('width','100%');`
+                            eval(triggerRed);
+                            setTimeout(function () {
+                                eval(stmt);
+                                $('div#hover-red').css('width', '0%');
+                            }, 5000);
+                        } else if (data == "showing") {
+                            message("unhidden");
+                            $('#addItemsMenu').slideUp(1000);
+
+                        } else if (data == "success") {
+                            message("created");
+							$('#addItemsMenu').slideUp(1000);
+                        }
+
+                        if (data != "failure") {
+                            Swal.fire({
+                                title: 'Save Changes?',
+                                text: "Caution: Clicking cancel will erase any unsaved changes.",
+                                type: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Save other changes'
+
+                            }).then((result) => {
+                                if (result.value) {
+                                    $('#saveItems').trigger('click');
+                                } else {
+                                    $('#tableFilter').trigger('click');
+                                }
+                            });
+                        }
+                    }
+                });
+  
+
+			} else {
+
+				var id = "id" + Math.round(Math.random() * 100);
+				var idhashtag = '#' + id;
+				var time = new Date();
+				var minutes;
+				if (time.getMinutes().toString().length == 1) {
+					minutes = "0" + time.getMinutes();
+				} else {
+					minutes = time.getMinutes();
+				}
+				var timestamp = time.getHours() > 12 ? time.getHours() - 12 + ":" + minutes + " PM" : time.getHours() + ":" + minutes + " AM";
+				$('#alert-container').prepend(`
+					<div id="` + id + `">
+						<div class="alert alert-danger mg-b-0" role="alert" style="text-align: center;">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<strong>Oops</strong> Please make a selection.
+							</div><!-- alert -->
+						<div id="red-alert" style="height: 2px; width: 0px; background-color: darkred; margin: 0px; transition-duration: 5s;"></div>
+					</div>
+				`);
+
+				var stmt = `$('` + idhashtag + `').remove();`
+				var triggerRed = `$('` + idhashtag + `').find('#red-alert').css('width','100%');`
+				eval(triggerRed);
+				setTimeout(function () {
+					eval(stmt);
+					$('div#hover-red').css('width', '0%');
+				}, 5000);
+			}
+        });
+	});
+</script>
+
+
+
+

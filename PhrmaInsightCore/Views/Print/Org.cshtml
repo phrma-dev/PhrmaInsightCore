@@ -1,0 +1,87 @@
+﻿@{ Layout = null;}
+<html>
+    <head>
+        <title>PhRMA Insight</title>
+        <link href="~/azia/css/azia.min.css" rel="stylesheet" />
+        <link href="~/azia/lib/bootstrap/css/bootstrap.min.css" />
+        <style>
+            @@page {
+                size: 8.5in 11in;
+            }
+            @@media print {
+              .page-break {page-break-before: always;}
+            }
+        </style>
+    </head>
+    <body>
+        <div id="html">
+            <div id="phrmaload" style="position: fixed; height: 100%; width: 100%; top: 50%; left:  50%;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <label style="color:  black; position: relative; top: 30px; left: -43px;">Loading...</label>
+            </div>
+        </div>
+        <script src="../azia/lib/jquery/jquery.min.js"></script>
+        <script src="~/azia/lib/bootstrap/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $.get({
+                    url: '../Print/GetUsers',
+                    success: function (data) {
+                        var html = ``;
+                        $.each(data, function (k) {
+                            if (k % 5 == 0) {
+                                if (k == 0) {
+                                    html += `<div class="row"><img style="margin-top: 0px; margin-left: 30px; margin-bottom: 20px;" src="../../img/phrmatoplogo.jpg"/></div>`;
+                                } else {
+                                    html += `<div class="row page-break"><img style="margin-left: 30px; margin-bottom: 20px;" src="../../img/phrmatoplogo.jpg"/></div>`;
+                                }
+                            }
+                            if (k % 5 == 4) {
+                                html += `<div class="row" style="margin-top: 20px; padding-bottom: 20px;">`;
+                                html += `<div style="width: 200px; margin-left: 30px;">`;
+                                html += `<img style="height: 200px; width: 200px;" src="` + data[k]["alertmediaid"] + `" />`;          
+                                html += `</div>`;
+                                html += `<div class="col" style="font-size: 18px;">`;
+                                html += `<div style="font-size: 24px; margin-top: 15px;">` + data[k]["giveN_NAME"] + " " + data[k]["surname"] + `</div>`;
+                                html += `<div style="margin-top: 10px;">` + data[k]["department"] + `</div>`;
+                                html += `<div>` + data[k]["title"] + `</div>`;
+                                html += `<div>` + data[k]["officE_LOCATION"] + `</div>`;
+                                html += `<div>` + data[k]["useR_PRINCIPAL_NAME"] + `</div>`;
+                                html += `</div>`;
+                                html += `</div>`;
+                            } else {
+                               
+                                html += `<div class="row" style="margin-top: 20px; padding-bottom: 20px;">`;
+                                html += `<div style="width: 200px; margin-left: 30px;">`;
+                                html += `<img style="height: 200px; width: 200px;" src="` + data[k]["alertmediaid"] + `" />`;          
+                                html += `</div>`;
+                                html += `<div class="col" style="font-size: 18px;">`;
+                                html += `<div style="font-size: 24px; margin-top: 15px;">` + data[k]["giveN_NAME"] + " " + data[k]["surname"] + `</div>`;
+                                html += `<div style="margin-top: 10px;">` + data[k]["department"] + `</div>`;
+                                html += `<div>` + data[k]["title"] + `</div>`;
+                                html += `<div>` + data[k]["officE_LOCATION"] + `</div>`;
+                                html += `<div>` + data[k]["useR_PRINCIPAL_NAME"] + `</div>`;
+                                html += `</div>`;
+                                html += `</div>`;
+                                html += `<div style="height: 3px !important; width: 100%; background: linear-gradient(to right, lightgray, gray);"></div>`;
+                            }
+
+                        });
+                        $('#html').html(html);
+                        setTimeout(function () {
+                            window.print();
+
+                        }, 2500);
+                    }
+                });
+
+            });
+        </script>
+    </body>
+</html>
+
+
+
+

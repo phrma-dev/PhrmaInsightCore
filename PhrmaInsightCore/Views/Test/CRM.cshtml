@@ -1,0 +1,140 @@
+﻿@{
+	Layout = "_LayoutCRM";
+}
+
+	<section id="main-section">
+		<div id="main-content">
+			<div id="section-committee">
+				<div class="panel-top">
+					<ul>
+						<li class="action-add-committee">
+							<h5><i class="fa fa-briefcase"></i>Add Committee</h5>
+						</li>
+						<li class="action-find-committee">
+							<h5><input placeholder="Find Committee" id="search" type="search" /><i class="fa fa-search"></i>Search</h5>
+							
+						</li>
+					</ul>
+				</div>
+				<div class="panel-add-committee">
+					<ul>
+						<li class="li-committee-code">
+							<label>Code<sup class="required">*</sup></label>
+							<input class="committee-code" type="text" />
+						</li>
+						<li class="li-committee-name">
+							<label>Name<sup class="required">*</sup></label>
+							<input class="committee-name" type="text" />
+						</li>
+						<li class="li-committee-description">
+							<label>Description</label>
+							<textarea class="committee-description"></textarea>
+						</li>
+						<li>
+							<button class="action-save-committee">Save</button>
+						</li>
+					</ul>
+
+				</div>
+				<div class="panel-find-committee">
+					<table>
+						<thead>
+							<tr>
+								<td>View</td>
+								<td>Name</td>
+							</tr>
+						</thead>
+						<tbody class="find-committee-tbody">
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+		
+		<div id="band-top"></div>
+		<div id="band-left"></div>
+		<div id="band-right"></div>
+		<div id="band-bottom"></div>
+		<svg id="svg-top" height="15" width="300">
+			<path d="m0,0 l15,15 l200,0 l15,-15 " fill="#0d1623"></path>
+		</svg>
+		<svg id="svg-bottom" height="15" width="300">
+			<path d="m0,15 l15,-15 l200,0 l15,15 " fill="#0d1623"></path>
+		</svg>
+		<svg id="svg-left" height="300" width="15">
+			<path d="m0,0 l15,15 l0,200 l-15,15 " fill="#0d1623"></path>
+		</svg>
+		<svg id="svg-right" height="300" width="15">
+			<path d="m15,0 l-15,15 l0,200 l15,15 " fill="#0d1623"></path>
+		</svg>
+	</section>
+<script>
+	$(document).ready(function () {
+		$('#menu-expand').click(function () {
+			$('#first').toggleClass('forward');
+			$('#last').toggleClass('back');
+			$('#mid').toggle();
+		});
+		function clear() {
+			$('.panel-top').siblings().hide();
+			$('h5:not("#search")').show();
+		}
+			
+		$('.action-add-committee').click(function () {
+			clear();
+			$('.panel-add-committee').toggle();
+		});
+		$('.action-find-committee').click(function () {
+			clear();
+			$('.panel-find-committee').show();
+			
+		});
+
+		$.get({
+			url: '../Kastle/GetCommittees',
+			success: function (data) {
+				var html = ``;
+				$('.find-committee-tbody').html("");
+				$.each(data, function (k) {
+					html += `<tr title="` + data[k]["title"] + `"><td>`;
+					html += `<i class="fa fa-edit"></i>`;
+					html += `</td><td>`;
+					html += data[k]["title"];
+					html += `</td></tr>`;
+				});
+				setTimeout(function () {
+					$('#search').mouseleave(function () {
+						var value = $('#search').val();
+						if (value == "") {
+							$('tr').show();
+						}
+					});
+					$('#search').keyup(function () {
+						var title = "";
+						var value = $('#search').val();
+						if (value == "") {
+							$('tr').show();
+						} else {
+							$.each($('tr'), function (k) {
+								if (k > 0) {
+									title = $('tr').eq(k).attr('title');
+									title.indexOf(value) != -1 ? $(this).show() : $(this).hide();
+
+								}
+							});
+						}
+
+					});
+				}, 2000);
+
+				$('.find-committee-tbody').html(html);
+
+			}
+		});
+
+
+	});
+</script>
+
+  
